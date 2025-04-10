@@ -4,84 +4,84 @@ import { IconType } from 'react-icons/lib';
 
 import { atom } from 'jotai';
 import {
-  PiAirplaneTilt,
-  PiApplePodcastsLogo,
-  PiBellSimpleRinging,
-  PiBinoculars,
-  PiBriefcase,
-  PiCalendar,
-  PiCalendarPlus,
-  PiCards,
-  PiChartBar,
-  PiChartLineUp,
-  PiChartPieSlice,
-  PiChatCenteredDots,
-  PiClipboardText,
-  PiCodesandboxLogo,
-  PiCreditCard,
-  PiCurrencyCircleDollar,
-  PiCurrencyDollar,
-  PiEnvelopeSimpleOpen,
-  PiFeather,
-  PiFileImage,
-  PiFolder,
-  PiFolderLock,
-  PiFolderUser,
-  PiGridFour,
-  PiHammer,
-  PiHeadset,
-  PiHouse,
-  PiHouseLine,
-  PiLightning,
-  PiLockKey,
-  PiMagicWand,
-  PiMapPinLine,
-  PiNewspaperClipping,
-  PiNoteBlank,
-  PiNotePencil,
-  PiPackage,
-  PiPokerChip,
-  PiPresentationChart,
-  PiRocketLaunch,
-  PiScales,
-  PiShapes,
-  PiShieldCheck,
-  PiShieldCheckered,
-  PiShootingStar,
-  PiShoppingCart,
-  PiSparkle,
-  PiSquaresFour,
-  PiStairs,
-  PiSteps,
-  PiTable,
-  PiUser,
-  PiUserCircle,
-  PiUserGear,
-  PiUserPlus,
+PiAirplaneTilt,
+PiApplePodcastsLogo,
+PiBellSimpleRinging,
+PiBinoculars,
+PiBriefcase,
+PiCalendar,
+PiCalendarPlus,
+PiCards,
+PiChartBar,
+PiChartLineUp,
+PiChartPieSlice,
+PiChatCenteredDots,
+PiClipboardText,
+PiCodesandboxLogo,
+PiCreditCard,
+PiCurrencyCircleDollar,
+PiCurrencyDollar,
+PiEnvelopeSimpleOpen,
+PiFeather,
+PiFileImage,
+PiFolder,
+PiFolderLock,
+PiFolderUser,
+PiGridFour,
+PiHammer,
+PiHeadset,
+PiHouse,
+PiHouseLine,
+PiLightning,
+PiLockKey,
+PiMagicWand,
+PiMapPinLine,
+PiNewspaperClipping,
+PiNoteBlank,
+PiNotePencil,
+PiPackage,
+PiPokerChip,
+PiPresentationChart,
+PiRocketLaunch,
+PiScales,
+PiShapes,
+PiShieldCheck,
+PiShieldCheckered,
+PiShootingStar,
+PiShoppingCart,
+PiSparkle,
+PiSquaresFour,
+PiStairs,
+PiSteps,
+PiTable,
+PiUser,
+PiUserCircle,
+PiUserGear,
+PiUserPlus,
 } from 'react-icons/pi';
 
 export interface SubMenuItemType {
-  name: string;
-  description?: string;
-  href: string;
-  badge?: string;
+name: string;
+description?: string;
+href: string;
+badge?: string;
 }
 
 export interface ItemType {
-  name: string;
-  icon: IconType;
-  href?: string;
-  description?: string;
-  badge?: string;
-  subMenuItems?: SubMenuItemType[];
+name: string;
+icon: IconType;
+href?: string;
+description?: string;
+badge?: string;
+subMenuItems?: SubMenuItemType[];
 }
 
 export interface MenuItemsType {
-  id: string;
-  name: string;
-  title: string;
-  icon: IconType;
-  menuItems: ItemType[];
+id: string;
+name: string;
+title: string;
+icon: IconType;
+menuItems: ItemType[];
 }
 
 export const berylliumMenuItems: MenuItemsType[] = [
@@ -92,87 +92,95 @@ export const berylliumMenuItems: MenuItemsType[] = [
     icon: PiHouse,
     menuItems: [
       {
-        name: 'File Manager',
+        name: 'Start Guide',
         href: '/',
         icon: PiFolder,
+        subMenuItems: [
+          {
+            name: 'Extras',
+            href: routes.appointment.dashboard,
+          },
+        ],
       },
       {
-        name: 'Appointment',
+        name: 'Extras',
         href: routes.appointment.dashboard,
         icon: PiCalendar,
       },
       {
-        name: 'Executive',
+        name: 'Modules',
         href: routes.executive.dashboard,
         icon: PiBriefcase,
-      },
-      {
-        name: 'Project',
-        href: routes.project.dashboard,
-        icon: PiClipboardText,
-      },
-      {
-        name: 'CRM',
-        href: routes.crm.dashboard,
-        icon: PiFolderUser,
-      },
-      {
-        name: 'Affiliate',
-        href: routes.affiliate.dashboard,
-        icon: PiChartPieSlice,
-      },
-      {
-        name: 'Store Analytics',
-        href: routes.storeAnalytics.dashboard,
-        icon: PiPresentationChart,
-        badge: 'NEW',
-      },
-      {
-        name: 'Bidding',
-        href: routes.bidding.dashboard,
-        icon: PiScales,
-        badge: 'NEW',
-      },
-      {
-        name: 'Social Media',
-        href: routes.socialMedia.dashboard,
-        icon: PiSparkle,
-      },
-      {
-        name: 'Job Board',
-        href: routes.jobBoard.dashboard,
-        icon: PiShapes,
-      },
-      {
-        name: 'Financial',
-        href: routes.financial.dashboard,
-        icon: PiCurrencyCircleDollar,
-      },
-      {
-        name: 'Logistics',
-        href: routes.logistics.dashboard,
-        icon: PiPackage,
-      },
-      {
-        name: 'E-Commerce',
-        href: routes.eCommerce.dashboard,
-        icon: PiShoppingCart,
-      },
-      {
-        name: 'Analytics',
-        href: routes.analytics,
-        icon: PiChartBar,
-      },
-      {
-        name: 'Support',
-        href: routes.support.dashboard,
-        icon: PiHeadset,
-      },
-      {
-        name: 'Podcast',
-        href: routes.podcast.dashboard,
-        icon: PiApplePodcastsLogo,
-        badge: 'NEW',
+        subMenuItems: [
+          {
+            name: 'Project',
+            href: routes.project.dashboard,
+            // icon: PiClipboardText,
+          },
+          {
+            name: 'CRM',
+            href: routes.crm.dashboard,
+            // icon: PiFolderUser,
+          },
+          {
+            name: 'Affiliate',
+            href: routes.affiliate.dashboard,
+            // icon: PiChartPieSlice,
+          },
+          {
+            name: 'Store Analytics',
+            href: routes.storeAnalytics.dashboard,
+            // icon: PiPresentationChart,
+            badge: 'NEW',
+          },
+          {
+            name: 'Bidding',
+            href: routes.bidding.dashboard,
+            // icon: PiScales,
+            badge: 'NEW',
+          },
+          {
+            name: 'Social Media',
+            href: routes.socialMedia.dashboard,
+            // icon: PiSparkle,
+          },
+          {
+            name: 'Job Board',
+            href: routes.jobBoard.dashboard,
+            // icon: PiShapes,
+          },
+          {
+            name: 'Financial',
+            href: routes.financial.dashboard,
+            // icon: PiCurrencyCircleDollar,
+          },
+          {
+            name: 'Logistics',
+            href: routes.logistics.dashboard,
+            // icon: PiPackage,
+          },
+          {
+            name: 'E-Commerce',
+            href: routes.eCommerce.dashboard,
+            // icon: PiShoppingCart,
+          },
+          {
+            name: 'Analytics',
+            href: routes.analytics,
+            // icon: PiChartBar,
+          },
+          {
+            name: 'Support',
+            href: routes.support.dashboard,
+            // icon: PiHeadset,
+          },
+          {
+            name: 'Podcast',
+            href: routes.podcast.dashboard,
+            // icon: PiApplePodcastsLogo,
+            badge: 'NEW',
+          },
+        ],
       },
     ],
   },
@@ -183,72 +191,88 @@ export const berylliumMenuItems: MenuItemsType[] = [
     icon: PiLightning,
     menuItems: [
       {
-        name: 'E-Commerce',
+        name: 'HaloPay',
         description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
         icon: PiShoppingCart,
         subMenuItems: [
           {
-            name: 'Products',
+            name: 'Halo Insights',
             href: routes.eCommerce.products,
             badge: '',
           },
           {
-            name: 'Product Details',
+            name: 'Halo Advisor',
             href: routes.eCommerce.productDetails(DUMMY_ID),
             badge: '',
           },
           {
-            name: 'Create Product',
-            href: routes.eCommerce.createProduct,
+            name: 'List',
+            href: routes.invoice.home,
           },
           {
-            name: 'Edit Product',
-            href: routes.eCommerce.ediProduct(DUMMY_ID),
+            name: 'Details',
+            href: routes.invoice.details(DUMMY_ID),
           },
           {
-            name: 'Categories',
-            href: routes.eCommerce.categories,
+            name: 'Create',
+            href: routes.invoice.create,
           },
           {
-            name: 'Create Category',
-            href: routes.eCommerce.createCategory,
+            name: 'Edit',
+            href: routes.invoice.edit(DUMMY_ID),
           },
-          {
-            name: 'Edit Category',
-            href: routes.eCommerce.editCategory(DUMMY_ID),
-          },
-          {
-            name: 'Orders',
-            href: routes.eCommerce.orders,
-          },
-          {
-            name: 'Order Details',
-            href: routes.eCommerce.orderDetails(DUMMY_ID),
-          },
-          {
-            name: 'Create Order',
-            href: routes.eCommerce.createOrder,
-          },
-          {
-            name: 'Edit Order',
-            href: routes.eCommerce.editOrder(DUMMY_ID),
-          },
-          {
-            name: 'Reviews',
-            href: routes.eCommerce.reviews,
-          },
-          {
-            name: 'Shop',
-            href: routes.eCommerce.shop,
-          },
-          {
-            name: 'Cart',
-            href: routes.eCommerce.cart,
-          },
-          {
-            name: 'Checkout & Payment',
-            href: routes.eCommerce.checkout,
-          },
+          // {
+          //   name: 'Create Product',
+          //   href: routes.eCommerce.createProduct,
+          // },
+          // {
+          //   name: 'Edit Product',
+          //   href: routes.eCommerce.ediProduct(DUMMY_ID),
+          // },
+          // {
+          //   name: 'Categories',
+          //   href: routes.eCommerce.categories,
+          // },
+          // {
+          //   name: 'Create Category',
+          //   href: routes.eCommerce.createCategory,
+          // },
+          // {
+          //   name: 'Edit Category',
+          //   href: routes.eCommerce.editCategory(DUMMY_ID),
+          // },
+          // {
+          //   name: 'Orders',
+          //   href: routes.eCommerce.orders,
+          // },
+          // {
+          //   name: 'Order Details',
+          //   href: routes.eCommerce.orderDetails(DUMMY_ID),
+          // },
+          // {
+          //   name: 'Create Order',
+          //   href: routes.eCommerce.createOrder,
+          // },
+          // {
+          //   name: 'Edit Order',
+          //   href: routes.eCommerce.editOrder(DUMMY_ID),
+          // },
+          // {
+          //   name: 'Reviews',
+          //   href: routes.eCommerce.reviews,
+          // },
+          // {
+          //   name: 'Shop',
+          //   href: routes.eCommerce.shop,
+          // },
+          // {
+          //   name: 'Cart',
+          //   href: routes.eCommerce.cart,
+          // },
+          // {
+          //   name: 'Checkout & Payment',
+          //   href: routes.eCommerce.checkout,
+          // },
         ],
       },
       {
@@ -405,17 +429,17 @@ export const berylliumMenuItems: MenuItemsType[] = [
   },
   {
     id: '4',
-    name: 'Widgets',
+    name: 'Data Points',
     title: 'Widgets',
     icon: PiPackage,
     menuItems: [
       {
-        name: 'Cards',
+        name: 'Basics',
         href: routes.widgets.cards,
         icon: PiSquaresFour,
       },
       {
-        name: 'Icons',
+        name: 'Advanced',
         href: routes.widgets.icons,
         icon: PiFeather,
       },
