@@ -1,0 +1,44 @@
+services:
+  halobe:
+    container_name: halobe
+    build:
+      context: ./haloBE
+      dockerfile: Dockerfile
+    image: halobe:latest
+    ports:
+      - "4000:3000"
+    restart: always
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017/capro
+    networks:
+      - halo-network
+
+  halofe:
+    container_name: halofe
+    build:
+      context: ./haloFE
+      dockerfile: Dockerfile
+    image: halofe:latest
+    ports:
+      - "3000:3000"
+    restart: always
+    networks:
+      - halo-network
+
+  mongodb:
+    image: mongo:4.2.1-bionic
+    ports:
+      - "27017:27017"
+    volumes:
+      - dbdata:/data/db
+    networks:
+      - halo-network
+
+volumes:
+  dbdata:
+
+networks:
+  halo-network:
+    driver: bridge

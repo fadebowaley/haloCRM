@@ -1,0 +1,32 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
+      "env": ["NEXTAUTH_SECRET", "NEXTAUTH_URL", "NEXT_PUBLIC_GOOGLE_MAP_API_KEY"]
+    },
+    "lint": {},
+    "start": {
+      "dependsOn": ["^start"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "clean": {
+      "dependsOn": ["^clean"]
+    },
+    "cache:clean": {
+      "dependsOn": ["^cache:clean"]
+    },
+    "gen-icons": {
+      "cache": false
+    },
+    "type:check": {
+      "dependsOn": ["^type:check"]
+    }
+  },
+  "ui": "stream"
+}
