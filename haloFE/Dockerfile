@@ -1,5 +1,5 @@
-# Use a stable node base
-FROM node:18-alpine
+# Use Node.js 20.x (ensure the correct version is used)
+FROM node:20.16.0-alpine
 
 # Set environment for safer pnpm use
 ENV PNPM_HOME=/tmp/.pnpm-store
@@ -10,29 +10,24 @@ RUN mkdir -p /app && chown -R node:node /app
 # Set working directory
 WORKDIR /app
 
-# Switch to root just to install pnpm globally
+# Switch to root to install pnpm globally
 USER root
 
-# Install pnpm globally
-RUN npm install -g pnpm
+# Install pnpm with specific directory for global packages
+RUN npm config set prefix /usr/local && npm install -g pnpm --unsafe-perm
 
-# Switch to node user
+# Switch back to node user
 USER node
 
-# Copy only package files first (to leverage Docker cache)
+# Copy necessary files and install dependencies using pnpm
 COPY --chown=node:node package.json pnpm-lock.yaml ./
-
-# Install dependencies with safer config
 RUN pnpm install --frozen-lockfile --shamefully-hoist
 
 # Now copy rest of the app
 COPY --chown=node:node . .
 
-# Build the project
-RUN pnpm build
+# Run the app using pnpm (use pnpm dev for development)
+CMD ["pnpm", "dev"]
 
-# Expose port
+# Expose port for frontend
 EXPOSE 3000
-
-# Start app
-CMD ["pnpm", "start"]

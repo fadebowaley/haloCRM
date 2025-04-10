@@ -1,17 +1,21 @@
-FROM node:alpine
+# Use a stable node base
+FROM node:18-alpine
 
-RUN mkdir -p /usr/src/node-app && chown -R node:node /usr/src/node-app
+# Set working directory
+WORKDIR /app
 
-WORKDIR /usr/src/node-app
+# Switch to root to install dependencies
+USER root
 
-COPY package.json yarn.lock ./
+# Copy necessary files and install dependencies using yarn
+COPY --chown=node:node package.json yarn.lock ./
+RUN yarn install
 
-USER node
-
-RUN yarn install --pure-lockfile
-
+# Now copy rest of the app
 COPY --chown=node:node . .
 
-EXPOSE 3000
+# Run the app using yarn (use yarn dev for development)
+CMD ["yarn", "dev"]
 
-CMD ["yarn", "start"]
+# Expose port for backend
+EXPOSE 3001
