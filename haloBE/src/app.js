@@ -81,9 +81,25 @@ app.use(mongoSanitize());
 // gzip compression
 app.use(compression());
 
+const corsOptions = {
+  origin: 'http://127.0.0.1:3000', // Allow requests only from the frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
+  credentials: true, // Allow sending cookies and credentials
+};
+
+/***
+Access-Control-Allow-Origin: http://localhost:3000
+Access-Control-Allow-Methods: GET, POST, PUT, DELETE
+Access-Control-Allow-Headers: Content-Type, Authorization
+Access-Control-Allow-Credentials: true
+*/
+
 // enable cors
-app.use(cors());
-app.options('*', cors());
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+
 
 // jwt authentication
 app.use(passport.initialize());

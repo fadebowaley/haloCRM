@@ -52,7 +52,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   transpilePackages: ['core'],
-  allowedDevOrigins: ['http://127.0.0.1:30001'],
+  allowedDevOrigins: ['http://127.0.0.1:3000'],
 };
 
 export default nextConfig;

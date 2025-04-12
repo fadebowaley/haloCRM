@@ -4,6 +4,13 @@ import GoogleProvider from 'next-auth/providers/google';
 import { env } from '@/env.mjs';
 import isEqual from 'lodash/isEqual';
 import { pagesOptions } from './pages-options';
+import * as api from '@/app/lib/api/auth';
+import { routes } from '@/config/routes';
+
+
+
+
+
 
 export const authOptions: NextAuthOptions = {
   // debug: true,
@@ -14,59 +21,101 @@ export const authOptions: NextAuthOptions = {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
+
   callbacks: {
+    
+    async jwt({ token, user }) {
+      if (user) {
+        token.user = user;
+        token.accessToken = user.tokens?.access?.token;
+        token.refreshToken = user.tokens?.refresh?.token;
+      }
+      return token;
+    },
+
     async session({ session, token }) {
       return {
         ...session,
         user: {
           ...session.user,
-          id: token.idToken as string,
+          id: token.user?.id,
+          accessToken: token.accessToken,
+          refreshToken: token.refreshToken,
         },
       };
     },
-    async jwt({ token, user }) {
-      if (user) {
-        // return user as JWT
-        token.user = user;
-      }
-      return token;
-    },
+
+   
     async redirect({ url, baseUrl }) {
-      // const parsedUrl = new URL(url, baseUrl);
-      // if (parsedUrl.searchParams.has('callbackUrl')) {
-      //   return `${baseUrl}${parsedUrl.searchParams.get('callbackUrl')}`;
-      // }
-      // if (parsedUrl.origin === baseUrl) {
-      //   return url;
-      // }
-      return baseUrl;
+      const parsedUrl = new URL(url, baseUrl);
+      const callbackPath = parsedUrl.searchParams.get('callbackUrl');
+      // Force homepage if callbackUrl is '/' or missing
+      if (!callbackPath || callbackPath === '/' || callbackPath === '%2F') {
+        return `${baseUrl}/`;
+      }
+      return `${baseUrl}${callbackPath}`;
     },
   },
+
   providers: [
     CredentialsProvider({
-      id: 'credentials',
       name: 'Credentials',
-      credentials: {},
-      async authorize(credentials: any) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid
-        const user = {
-          email: 'admin@admin.com',
-          password: 'admin',
-        };
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
 
-        if (
-          isEqual(user, {
-            email: credentials?.email,
-            password: credentials?.password,
-          })
-        ) {
-          return user as any;
+      // async authorize(credentials) {
+      //   try {
+      //     if (!credentials?.email || !credentials?.password) {
+      //       throw new Error('Missing email or password');
+      //     }
+
+      //     // ✅ Reuse your existing login logic
+      //     const data = await api.login(credentials.email, credentials.password);
+
+      //     // ✅ Make sure both tokens and user info exist
+      //     if (!data?.tokens || !data?.user) {
+      //       throw new Error('Invalid response from server');
+      //     }
+
+      //     return {
+      //       id: data.userData.user.id,
+      //       email: data.userData.user.email,
+      //       name: data.userData.user.name,
+      //       tokens: data.userData.tokens, // Include tokens for JWT
+      //     };
+      //   } catch (error: any) {
+      //     console.error('Login failed in authorize():', error);
+      //     throw new Error(error?.response?.data?.message || 'Login failed');
+      //   }
+      // },
+
+      async authorize(credentials) {
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error('Missing email or password');
+          }
+
+          const data = await api.login(credentials.email, credentials.password);
+
+          if (!data?.tokens || !data?.user) {
+            throw new Error('Invalid response from server');
+          }
+
+          return {
+            id: data.user.id,
+            email: data.user.email,
+            name: `${data.user.firstname} ${data.user.lastname}`,
+            tokens: data.tokens,
+          };
+        } catch (error: any) {
+          console.error('Login failed in authorize():', error);
+          throw new Error(error?.response?.data?.message || 'Login failed');
         }
-        return null;
       },
     }),
+
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID || '',
       clientSecret: env.GOOGLE_CLIENT_SECRET || '',

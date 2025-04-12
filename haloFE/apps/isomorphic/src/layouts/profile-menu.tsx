@@ -28,7 +28,7 @@ export default function ProfileMenu({
         >
           <Avatar
             src="/avatar.webp"
-            name="John Doe"
+            name="Ademola Adebowale"
             className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
           />
           {!!username && (
