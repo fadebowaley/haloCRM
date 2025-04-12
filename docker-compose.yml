@@ -1,28 +1,27 @@
+
 services:
   halobe:
     container_name: halobe
     build:
-      context: ./haloBE
+      context: ./haloBE  # Correct build context for backend
       dockerfile: Dockerfile
     image: halobe:latest
     ports:
-      - "4000:3000"
+      - "4000:4000"  # Backend port
     restart: always
-    depends_on:
-      - mongodb
-    environment:
-      - MONGODB_URL=mongodb://mongodb:27017/capro
     networks:
       - halo-network
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/capro
 
   halofe:
     container_name: halofe
     build:
-      context: ./haloFE
+      context: ./haloFE  # Correct build context for frontend
       dockerfile: Dockerfile
     image: halofe:latest
     ports:
-      - "3000:3000"
+      - "3000:3000"  # Frontend port
     restart: always
     networks:
       - halo-network

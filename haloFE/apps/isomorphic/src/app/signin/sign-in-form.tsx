@@ -9,22 +9,32 @@ import { Checkbox, Password, Button, Input, Text } from 'rizzui';
 import { Form } from '@core/ui/form';
 import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/validators/login.schema';
+import { useAuth } from '@/app/lib/hooks/useAuth'; // custom hook to call backend API
+
 
 const initialValues: LoginSchema = {
-  email: 'admin@admin.com',
-  password: 'admin',
+  email: '',
+  password: '',
   rememberMe: true,
 };
 
-export default function SignInForm() {
-  //TODO: why we need to reset it here
-  const [reset, setReset] = useState({});
 
-  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
-    console.log(data);
-    signIn('credentials', {
-      ...data,
+export default function SignInForm() {
+  const { login, loading } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+    const [reset, setReset] = useState({});
+
+
+  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
+    setError(null); // reset error
+    const res = await login({
+      email: data.email,
+      password: data.password,
     });
+
+    if (!res.success) {
+      setError(res.message || 'Invalid credentials');
+    }
   };
 
   return (

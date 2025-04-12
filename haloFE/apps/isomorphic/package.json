@@ -45,6 +45,7 @@
     "@tanstack/react-table": "^8.21.2",
     "@uploadthing/react": "^7.3.0",
     "ahooks": "^3.8.4",
+    "axios": "^1.8.4",
     "clsx": "^2.1.1",
     "core": "workspace:*",
     "date-arithmetic": "^4.1.0",

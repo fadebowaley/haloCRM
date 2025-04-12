@@ -10,12 +10,12 @@ enum MODE {
 }
 
 export const siteConfig = {
-  title: 'Isomorphic - React Typescript Admin Dashboard Template',
-  description: `Isomorphic the ultimate React TypeScript Admin Template. Streamline your admin dashboard development with our feature-rich, responsive, and highly customizable solution. Boost productivity and create stunning admin interfaces effortlessly.`,
+  title: 'Halo - CRM for Data Insight and Artificial Intelligence',
+  description: `Halo is a powerful CRM app designed for data insight and artificial intelligence, featuring a wide range of tools to enhance productivity and streamline your workflow.`,
   logo: logoImg,
   icon: logoIconImg,
   mode: MODE.LIGHT,
-  layout: LAYOUT_OPTIONS.HYDROGEN,
+  layout: LAYOUT_OPTIONS.BERYLLIUM,
   // TODO: favicon
 };
 
