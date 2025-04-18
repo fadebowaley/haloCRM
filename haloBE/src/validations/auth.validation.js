@@ -8,6 +8,7 @@ const register = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     isOwner: Joi.boolean().required(),
+    isAgreed: Joi.boolean().required(),
     // isSuper: Joi.boolean().required(),
   }),
 };
@@ -39,7 +40,7 @@ const forgotPassword = {
 
 const resetPassword = {
   query: Joi.object().keys({
-    token: Joi.string().required(),
+  token: Joi.string().required(),
   }),
   body: Joi.object().keys({
     password: Joi.string().required().custom(password),
@@ -52,6 +53,21 @@ const verifyEmail = {
   }),
 };
 
+const verifyOtp = {
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    otp: Joi.string().required(),
+  }),
+};
+
+const resendOtp = {
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+  }),
+};
+
+
+
 module.exports = {
   register,
   login,
@@ -60,4 +76,7 @@ module.exports = {
   forgotPassword,
   resetPassword,
   verifyEmail,
+  verifyOtp,
+  resendOtp
+
 };

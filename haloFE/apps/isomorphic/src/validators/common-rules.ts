@@ -49,3 +49,11 @@ export const validateConfirmPassword = z
     message: messages.passwordOneLowercase,
   })
   .regex(new RegExp('.*\\d.*'), { message: messages.passwordOneNumeric });
+
+
+export const authErrorSchema = z.object({
+  name: z.string().optional(),
+  message: z.string().optional(),
+  code: z.string().optional(),
+});
+

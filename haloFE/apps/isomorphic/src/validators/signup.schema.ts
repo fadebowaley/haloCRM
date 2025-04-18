@@ -8,11 +8,12 @@ import {
 
 // form zod validation schema
 export const signUpSchema = z.object({
-  firstName: z.string().min(1, { message: messages.firstNameRequired }),
-  lastName: z.string().optional(),
+  firstname: z.string().min(1, { message: messages.firstNameRequired }),
+  lastname: z.string().min(1, { message: messages.firstNameRequired }),
   email: validateEmail,
   password: validatePassword,
   confirmPassword: validateConfirmPassword,
+  isOwner: z.boolean(),
   isAgreed: z.boolean(),
 });
 

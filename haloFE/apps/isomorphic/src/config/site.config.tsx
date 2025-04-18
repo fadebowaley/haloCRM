@@ -11,7 +11,9 @@ enum MODE {
 
 export const siteConfig = {
   title: 'Halo - CRM for Data Insight and Artificial Intelligence',
-  description: `Halo is a powerful CRM app designed for data insight and artificial intelligence, featuring a wide range of tools to enhance productivity and streamline your workflow.`,
+  description: `Halo is a powerful CRM app designed for data insight 
+  and artificial intelligence, featuring a wide range of tools to enhance 
+  productivity and streamline your workflow.`,
   logo: logoImg,
   icon: logoIconImg,
   mode: MODE.LIGHT,
@@ -25,13 +27,13 @@ export const metaObject = (
   description: string = siteConfig.description
 ): Metadata => {
   return {
-    title: title ? `${title} - Isomorphic Furyroad` : siteConfig.title,
+    title: title ? `${title} - Halo CRM` : siteConfig.title,
     description,
     openGraph: openGraph ?? {
-      title: title ? `${title} - Isomorphic Furyroad` : title,
+      title: title ? `${title} - Halo CRM` : title,
       description,
       url: 'https://isomorphic-furyroad.vercel.app',
-      siteName: 'Isomorphic Furyroad', // https://developers.google.com/search/docs/appearance/site-names
+      siteName: 'Halo CRM', // https://developers.google.com/search/docs/appearance/site-names
       images: {
         url: 'https://s3.amazonaws.com/redqteam.com/isomorphic-furyroad/itemdep/isobanner.png',
         width: 1200,

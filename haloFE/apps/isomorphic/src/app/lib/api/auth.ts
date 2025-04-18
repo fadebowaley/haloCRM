@@ -1,20 +1,30 @@
 import { api } from '../axios';
 
-
 export const login = async (email: string, password: string) => {
-  console.log('Attempting to log in with email:', email); // Debug log for email
   const { data } = await api.post('/auth/login', { email, password });
-  console.log('Login response data:', data); // Debug log for response data
   return data;
 };
 
+
 export const register = async (payload: {
-  name: string;
+  lastname: string;
+  firstname: string;
   email: string;
   password: string;
+  isOwner: boolean;
+  isAgreed: boolean;
 }) => {
-  const { data } = await api.post('/auth/register', payload);
-  return data;
+  try {
+    const { data } = await api.post('/auth/register', payload);
+    return data;
+  } catch (error: any) {
+    console.error(
+      'Register API Error:',
+      error.message,
+      error?.response?.data || error
+    );
+    throw error;
+  }
 };
 
 export const forgotPassword = async (email: string) => {
@@ -22,15 +32,23 @@ export const forgotPassword = async (email: string) => {
   return data;
 };
 
+
 export const resetPassword = async (token: string, newPassword: string) => {
-  const { data } = await api.post('/auth/reset-password', {
-    token,
+  const { data } = await api.post(`/auth/reset-password?token=${token}`, {
     password: newPassword,
   });
   return data;
 };
 
+
 export const verifyOtp = async (otp: string, email: string) => {
   const { data } = await api.post('/auth/verify-otp', { otp, email });
   return data;
 };
+
+export const resendOtp = async (email: string) => {
+  const { data } = await api.post('/auth/resend-otp', { email });
+  return data;
+};
+
+

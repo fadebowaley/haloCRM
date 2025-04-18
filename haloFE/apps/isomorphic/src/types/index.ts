@@ -123,3 +123,6 @@ export interface FlightingCardProps {
   best?: boolean;
   quickest?: boolean;
 }
+
+
+

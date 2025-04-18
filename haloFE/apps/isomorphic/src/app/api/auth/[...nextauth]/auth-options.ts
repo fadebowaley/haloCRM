@@ -9,9 +9,6 @@ import { routes } from '@/config/routes';
 
 
 
-
-
-
 export const authOptions: NextAuthOptions = {
   // debug: true,
   pages: {
@@ -23,7 +20,6 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
-    
     async jwt({ token, user }) {
       if (user) {
         token.user = user;
@@ -45,7 +41,6 @@ export const authOptions: NextAuthOptions = {
       };
     },
 
-   
     async redirect({ url, baseUrl }) {
       const parsedUrl = new URL(url, baseUrl);
       const callbackPath = parsedUrl.searchParams.get('callbackUrl');
@@ -91,6 +86,34 @@ export const authOptions: NextAuthOptions = {
       //   }
       // },
 
+      // async authorize(credentials) {
+      //   try {
+      //     if (!credentials?.email || !credentials?.password) {
+      //       throw new Error('Missing email or password');
+      //     }
+
+      //     const data = await api.login(credentials.email, credentials.password);
+
+      //     if (!data?.tokens || !data?.user) {
+      //       throw new Error('Invalid response from server');
+      //     }
+
+      //     return {
+      //       id: data.user.id,
+      //       email: data.user.email,
+      //       name: `${data.user.firstname} ${data.user.lastname}`,
+      //       tokens: data.tokens,
+      //     };
+      //   } catch (error: any) {
+      //     console.error('Login failed in authorize():', error);
+      //     //throw new Error(error?.response?.data?.message || 'Login failed');
+      //     throw new Error(
+      //       `[OtpNotVerified] ${error?.response?.data?.message || 'Login failed'}`
+      //     );
+
+      //   }
+
+      // },
       async authorize(credentials) {
         try {
           if (!credentials?.email || !credentials?.password) {
@@ -111,7 +134,22 @@ export const authOptions: NextAuthOptions = {
           };
         } catch (error: any) {
           console.error('Login failed in authorize():', error);
-          throw new Error(error?.response?.data?.message || 'Login failed');
+
+          const status = error?.response?.status;
+          const message = error?.response?.data?.message || 'Login failed';
+
+          // ✅ Custom error handling
+          if (status === 401 && message.includes('OTP')) {
+            throw new Error(`[OtpNotVerified] ${message}`);
+          }
+
+          // ❌ Wrong credentials
+          if (status === 401) {
+            throw new Error('Invalid email or password');
+          }
+
+          // 🔁 Default error
+          throw new Error(message);
         }
       },
     }),

@@ -19,6 +19,7 @@ const userSchema = mongoose.Schema(
 
     roles: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Role', default: [] }],
     isOwner: { type: Boolean, default: false },
+    isAgreed: { type: Boolean, default: false },
     isSuper: { type: Boolean, default: false },
     firstname: { type: String, required: true, trim: true },
     lastname: { type: String, required: true, trim: true },
@@ -43,8 +44,20 @@ const userSchema = mongoose.Schema(
       validate: {
         validator: (value) => /\d/.test(value) && /[a-zA-Z]/.test(value),
         message: 'Password must contain at least one letter and one number',
-      },
+      }
     },
+      otp: {
+        type: String,
+        default:null,
+      },
+      otpExpires: {
+        type: Date,
+        default:null
+      },
+      otpVerified: {
+        type: Boolean,
+        default: false,
+      },
 
     isEmailVerified: {
       type: Boolean,
@@ -147,12 +160,28 @@ userSchema.methods.isPasswordMatch = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
+
 userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 8);
   }
   next();
 });
+
+
+
+//Saving user password
+userSchema.statics.resetPassword = async function (userId, newPassword) {
+  const user = await this.findById(userId); // Fetch the user by ID
+  if (!user) {
+    throw new Error('User not found');
+  }
+  user.password = newPassword; // Assign the new plain-text password
+  // Save the user, but skip validations for all other fields
+  await user.save({ validateBeforeSave: false });
+};
+
+
 
 /**
  * @typedef User

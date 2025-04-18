@@ -22,7 +22,7 @@ const initialValues: LoginSchema = {
 export default function SignInForm() {
   const { login, loading } = useAuth();
   const [error, setError] = useState<string | null>(null);
-    const [reset, setReset] = useState({});
+  const [reset, setReset] = useState({});
 
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
@@ -75,7 +75,7 @@ export default function SignInForm() {
                 className="[&>label>span]:font-medium"
               />
               <Link
-                href={routes.auth.forgotPassword1}
+                href={routes.auth.forgotPassword2}
                 className="h-auto p-0 text-sm font-semibold text-blue underline transition-colors hover:text-gray-900 hover:no-underline"
               >
                 Forget Password?
@@ -91,7 +91,7 @@ export default function SignInForm() {
       <Text className="mt-6 text-center leading-loose text-gray-500 lg:mt-8 lg:text-start">
         Don’t have an account?{' '}
         <Link
-          href={routes.auth.signUp1}
+          href={routes.auth.signUp2}
           className="font-semibold text-gray-700 transition-colors hover:text-blue"
         >
           Sign Up

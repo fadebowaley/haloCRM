@@ -2,22 +2,35 @@
 
 import Link from 'next/link';
 import { SubmitHandler } from 'react-hook-form';
+import { useState } from 'react';
 import { Input, Button, Password, Checkbox, Text } from 'rizzui';
 import { useMedia } from '@core/hooks/use-media';
 import { Form } from '@core/ui/form';
 import { routes } from '@/config/routes';
 import { loginSchema, LoginSchema } from '@/validators/login.schema';
+import { useAuth } from '@/app/lib/hooks/useAuth'; // custom hook to call backend API
 
 const initialValues: LoginSchema = {
-  email: 'admin@admin.com',
-  password: 'admin',
+  email: '',
+  password: '',
   rememberMe: true,
 };
 
 export default function SignInForm() {
   const isMedium = useMedia('(max-width: 1200px)', false);
-  const onSubmit: SubmitHandler<LoginSchema> = (data) => {
-    console.log('Sign in data', data);
+  const { login, isLoading } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
+    setError(null);
+    const res = await login({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (!res.success) {
+      setError(res.error || 'Invalid credentials');
+    }
   };
 
   return (
@@ -59,23 +72,32 @@ export default function SignInForm() {
                 className="[&>label>span]:font-medium"
               />
               <Link
-                href={routes.auth.forgotPassword2}
+                href={routes.auth.forgotPassword}
                 className="h-auto p-0 text-sm font-semibold text-blue underline transition-colors hover:text-gray-900 hover:no-underline"
               >
                 Forget Password?
               </Link>
             </div>
+
+            {/* Display error if exists */}
+            {error && (
+              <Text className="text-center text-sm text-red-600">{error}</Text>
+            )}
+
             <Button
               className="border-primary-light w-full border-2 text-base font-bold"
               type="submit"
               size={isMedium ? 'lg' : 'xl'}
               rounded="pill"
+              disabled={isLoading}
+              isLoading={isLoading}
             >
-              Sign in
+              {isLoading ? 'Signing in...' : 'Sign in'}
             </Button>
           </div>
         )}
       </Form>
+
       <Text className="mt-5 text-center text-[15px] leading-loose text-gray-500 lg:text-start xl:mt-7 xl:text-base">
         Don’t have an account?{' '}
         <Link

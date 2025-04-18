@@ -1,6 +1,6 @@
 import AuthWrapperTwo from '@/app/shared/auth-layout/auth-wrapper-two';
 import { Text } from 'rizzui/typography';
-import OtpForm from '@/app/auth/(otp)/otp-2/otp-form';
+import OtpForm from '@/app/auth/(otp)/otp/otp-form';
 
 export default function OtpPage() {
   return (
