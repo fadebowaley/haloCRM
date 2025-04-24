@@ -1,6 +1,25 @@
 const httpStatus = require('http-status');
 const { Role } = require('../models');
 const ApiError = require('../utils/ApiError');
+const roleTemplates = require('../utils/role');
+
+
+
+/**
+ * Create a new role
+ * @param {Object} JSON
+ * @returns {Promise<Role>}
+ */
+
+const getRoleTemplatesByIndustry = async () => {
+  try {
+    return roleTemplates;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message || 'Error creating roles');
+  }
+};
+
+
 
 /**
  * Create a new role
@@ -166,4 +185,5 @@ module.exports = {
   assignPermissions,
   bulkCreateRoles,
   deleteAllRoles,
+  getRoleTemplatesByIndustry,
 };

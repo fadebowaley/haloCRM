@@ -33,6 +33,8 @@ router.route('/').delete(auth('delete:roles'), roleController.deleteAllRoles);
 // Create Bulk Roles by Template
 router.route('/bulk').post(auth('create:roles'), validate(roleValidation.bulkCreateRoles), roleController.bulkCreateRoles);
 
+router.get('/templates', roleController.getRoleTemplates);
+
 module.exports = router;
 
 /**

@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate, tenantPlugin } = require('./plugins');
 
-const ACTIONS = ['view', 'create', 'update', 'delete', 'manage', 'assign', 'approve', 'export'];
+const ACTIONS = ['view', 'create', 'update', 'delete', 'manage', 'assign', 'approve', 'export', 'import'];
 
 const permissionSchema = mongoose.Schema(
   {
-    tenantId: {
-      type: String,
-      index: true,
-    },
 
     name: {
       type: String,
@@ -81,41 +77,6 @@ permissionSchema.pre('save', function (next) {
   }
   next();
 });
-
-/*
-// Static: Check if a permission name already exists
-permissionSchema.statics.isPermissionTaken = async function (name, method, path, excludePermissionId) {
-  try {
-    const permission = await this.findOne({
-      name,
-      method,
-      path,
-      _id: { $ne: excludePermissionId },
-    });
-    if (permission) {
-      throw new ApiError(httpStatus.BAD_REQUEST, `Permission with name "${name}", method "${method}", and path "${path}" already exists.`);
-    }
-    return false;
-  } catch (error) {
-    if (error instanceof ApiError) {
-      throw error;
-    }
-    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Error checking if permission is taken');
-  }
-};
-
-permissionSchema.statics.createPermission = async function (permissionBody) {
-  const { name, method, path } = permissionBody;
-
-  if (await this.isPermissionTaken(name, method, path)) {
-    throw new Error(`Permission "${name}" with method "${method}" and path "${path}" already exists.`);
-  }
-
-  const permission = new this(permissionBody);
-  await permission.save();
-  return permission;
-};
-*/
 
 permissionSchema.statics.isPermissionTaken = async function (name, method, path, excludePermissionId) {
   const permission = await this.findOne({

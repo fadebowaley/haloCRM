@@ -356,272 +356,151 @@ router.delete('/:userId', auth('manageUsers'), validate(userValidation.deleteUse
 
 /**
  * @swagger
- * /users/{userId}:
- *   delete:
- *     summary: Delete user
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: userId
- *         required: true
- *         schema:
- *           type: string
- *         description: User ID
- *     responses:
- *       "204":
- *         description: User deleted successfully
- *       "401":
- *         description: Not authenticated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       "403":
- *         description: Not authorized
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       "404":
- *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- */
+paths:
+  /bulk-create:
+    post:
+      summary: Bulk create users
+      description: Allows the creation of multiple users in a single request. The request body should contain an array of user objects to be created.
+      tags:
+        - Users
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: body
+          in: body
+          description: Array of user objects to be created
+          required: true
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                  description: The first name of the user
+                  example: "John"
+                lastname:
+                  type: string
+                  description: The last name of the user
+                  example: "Doe"
+                email:
+                  type: string
+                  description: The email address of the user (must be unique)
+                  example: "john.doe@example.com"
+                password:
+                  type: string
+                  description: The password for the user (must contain at least one letter and one number)
+                  example: "Password123"
+                isOwner:
+                  type: boolean
+                  description: Flag to indicate if the user is an owner or not
+                  example: false
+                createdBy:
+                  type: string
+                  description: The ID of the user creating this user (only needed if the user is not an owner)
+                  example: "creatorUserId123"
+      responses:
+        200:
+          description: Successful response with the list of created users
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Bulk user creation completed"
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userId:
+                      type: string
+                      description: Unique user identifier
+                      example: "1234567890"
+                    email:
+                      type: string
+                      description: The email of the user
+                      example: "john.doe@example.com"
+                    isOwner:
+                      type: boolean
+                      description: Whether the user is an owner or not
+                      example: false
+                    tenantId:
+                      type: string
+                      description: The tenant ID assigned to the user
+                      example: "tenant123"
+                    firstname:
+                      type: string
+                      description: The first name of the user
+                      example: "John"
+                    lastname:
+                      type: string
+                      description: The last name of the user
+                      example: "Doe"
+        400:
+          description: Bad request, validation error, or missing required fields
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Validation error: email is required"
+        401:
+          description: Unauthorized access, token is invalid or missing
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Unauthorized"
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "Internal server error"
+definitions:
+  Error:
+    type: object
+    properties:
+      error:
+        type: string
+        description: Description of the error
+        example: "Internal server error"
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: "JWT token"
+*/
+router.post('/bulk-create', auth('manageUsers'), validate(userValidation.bulkCreate), userController.bulkCreate);
+
+router.post(
+  '/restore',
+  auth('manageUsers'),
+  validate(userValidation.restoreUsers), // Add validation if you decide to use it
+  userController.restoreUsers
+);
+
+router.post(
+  '/restore/:userId', // Expecting userId as URL parameter
+  auth('manageUsers'),
+  validate(userValidation.restoreUser), // Validation for userId
+  userController.restoreUser // Controller function to restore the user
+);
+
+router.post(
+  '/soft-delete/:userId', // Soft delete route with userId in URL params
+  auth('manageUsers'), // Authentication middleware
+  userController.softDeleteUser // Controller function to handle the soft delete
+);
+
+
+
+
+
 
 module.exports = router;
-
-/**
- * @swagger
- * tags:
- *   name: Users
- *   description: User management and retrieval
- */
-
-/**
- * @swagger
- * /users:
- *   post:
- *     summary: Create a user
- *     description: Only admins can create other users.
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *               - email
- *               - password
- *               - role
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *               role:
- *                  type: string
- *                  enum: [user, admin]
- *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *               role: user
- *     responses:
- *       "201":
- *         description: Created
- *         content:
- *           application/json:
- *             schema:
- *                $ref: '#/components/schemas/User'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- *
- *   get:
- *     summary: Get all users
- *     description: Only admins can retrieve all users.
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: query
- *         name: name
- *         schema:
- *           type: string
- *         description: User name
- *       - in: query
- *         name: role
- *         schema:
- *           type: string
- *         description: User role
- *       - in: query
- *         name: sortBy
- *         schema:
- *           type: string
- *         description: sort by query in the form of field:desc/asc (ex. name:asc)
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           minimum: 1
- *         default: 10
- *         description: Maximum number of users
- *       - in: query
- *         name: page
- *         schema:
- *           type: integer
- *           minimum: 1
- *           default: 1
- *         description: Page number
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 results:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/User'
- *                 page:
- *                   type: integer
- *                   example: 1
- *                 limit:
- *                   type: integer
- *                   example: 10
- *                 totalPages:
- *                   type: integer
- *                   example: 1
- *                 totalResults:
- *                   type: integer
- *                   example: 1
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- */
-
-/**
- * @swagger
- * /users/{id}:
- *   get:
- *     summary: Get a user
- *     description: Logged in users can fetch only their own user information. Only admins can fetch other users.
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: User id
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *                $ref: '#/components/schemas/User'
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- *       "404":
- *         $ref: '#/components/responses/NotFound'
- *
- *   patch:
- *     summary: Update a user
- *     description: Logged in users can only update their own information. Only admins can update other users.
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: User id
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *                 format: email
- *                 description: must be unique
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 description: At least one number and one letter
- *             example:
- *               name: fake name
- *               email: fake@example.com
- *               password: password1
- *     responses:
- *       "200":
- *         description: OK
- *         content:
- *           application/json:
- *             schema:
- *                $ref: '#/components/schemas/User'
- *       "400":
- *         $ref: '#/components/responses/DuplicateEmail'
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- *       "404":
- *         $ref: '#/components/responses/NotFound'
- *
- *   delete:
- *     summary: Delete a user
- *     description: Logged in users can delete only themselves. Only admins can delete other users.
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: User id
- *     responses:
- *       "200":
- *         description: No content
- *       "401":
- *         $ref: '#/components/responses/Unauthorized'
- *       "403":
- *         $ref: '#/components/responses/Forbidden'
- *       "404":
- *         $ref: '#/components/responses/NotFound'
- */
