@@ -22,6 +22,28 @@ const ownerCreate = {
     })
 };
 
+const bulkCreate = {
+  body: Joi.array()
+    .items(
+      Joi.object().keys({
+        firstname: Joi.string().required(),
+        lastname: Joi.string().required(),
+        email: Joi.string().required().email(),
+        password: Joi.string().required().custom(password),
+        isOwner: Joi.boolean().valid(false).default(false),
+        createdBy: Joi.string().optional(), // ID of the user creating this user
+      })
+    )
+    .required(),
+};
+
+
+const bulkDelete = {
+  body: Joi.object().keys({
+    tenantId: Joi.string().required(), // Ensure tenantId is required
+  }),
+};
+
 
 
 const getUsers = {
@@ -66,6 +88,25 @@ const deleteUser = {
   }),
 };
 
+const restoreUsers = {
+  body: Joi.object().keys({
+    tenantId: Joi.string().required().trim(),
+  }),
+};
+
+const restoreUser = {
+  params: Joi.object().keys({
+    userId: Joi.string().required().trim(),
+  }),
+};
+
+
+const softDeleteUser = {
+  params: Joi.object().keys({
+    userId: Joi.string().required().trim(),
+  }),
+};
+
 module.exports = {
   createUser,
   getUsers,
@@ -73,4 +114,9 @@ module.exports = {
   updateUser,
   deleteUser,
   ownerCreate,
+  bulkCreate,
+  bulkDelete,
+  restoreUser,
+  restoreUsers,
+  softDeleteUser,
 };

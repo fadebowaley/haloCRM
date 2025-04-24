@@ -24,11 +24,7 @@ const bulkCreateRoles = catchAsync(async (req, res) => {
 // Controller: deleteAllRoles
 const deleteAllRoles = catchAsync(async (req, res) => {
   const tenantId = req.user.tenantId;
-
-  // Call the service to delete all roles under the tenant
   const result = await roleService.deleteAllRoles(tenantId);
-
-  // Return a success message with the result
   res.status(httpStatus.OK).json({
     message: result.message,
     deletedCount: result.deletedCount
@@ -74,6 +70,11 @@ const assignPermissions = catchAsync(async (req, res) => {
 });
 
 
+const getRoleTemplates = catchAsync(async (req, res) => {
+  const templates = await roleService.getRoleTemplatesByIndustry();
+  res.status(200).json({ industryTemplates: templates });
+});
+
 
 module.exports = {
   createRole,
@@ -84,4 +85,5 @@ module.exports = {
   bulkCreateRoles,
   deleteAllRoles,
   assignPermissions,
+  getRoleTemplates
 };

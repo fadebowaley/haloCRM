@@ -27,6 +27,119 @@ const ownerCreate = async (userBody) => {
 };
 
 
+const bulkCreate = async (usersBody) => {
+  const createdUsers = []; // To hold successfully created users
+  const errors = []; // To hold errors (e.g., duplicate emails)
+
+  for (let userData of usersBody) {
+    // Check if email already exists
+    const existingUser = await User.findOne({ email: userData.email });
+    if (existingUser) {
+      // Skip this user and add to errors report
+      errors.push({
+        email: userData.email,
+        error: 'User Email is already registered',
+      });
+      continue; // Skip this user and move to the next
+    }
+
+    try {
+      // Create the user using the User model's static method
+      const createdUser = await User.createBulk([userData]);
+      createdUsers.push(createdUser[0]); // Push the created user into the success report
+    } catch (error) {
+      // Handle other errors that may occur during creation (e.g., validation errors)
+      errors.push({
+        email: userData.email,
+        error: error.message || 'Unknown error occurred',
+      });
+    }
+  }
+  // Return the result with created users and errors
+  return {
+    createdUsers,
+    errors,
+  };
+};
+
+
+const bulkSoftDeleteByTenantId = async (tenantId) => {
+  // Initialize an array to store success and error results
+  const successReport = [];
+  const errorReport = [];
+
+  // Fetch users by tenantId, excluding those already soft-deleted
+  const usersToDelete = await User.find({ tenantId, deletedAt: { $exists: false } });
+
+  // Iterate through each user and attempt the soft delete
+  for (const user of usersToDelete) {
+    try {
+      // Perform soft delete by setting the `deletedAt` field
+      const result = await User.updateOne({ _id: user._id }, { $set: { deletedAt: new Date() } });
+
+      if (result.modifiedCount > 0) {
+        // If the user was successfully soft deleted, add to the success report
+        successReport.push({ userId: user.userId, email: user.email });
+      } else {
+        // If no user was deleted, add to the error report
+        errorReport.push({ userId: user.userId, email: user.email, error: 'Failed to delete' });
+      }
+    } catch (error) {
+      // Catch any errors and add them to the error report
+      errorReport.push({ userId: user.userId, email: user.email, error: error.message });
+    }
+  }
+
+  return { successReport, errorReport };
+};
+
+const restoreUsersByTenantId = async (tenantId) => {
+  try {
+    // Find soft-deleted users with the provided tenantId
+    const usersToRestore = await User.find({ tenantId, deletedAt: { $ne: null } });
+    const restoredUsers = [];
+    const failedUsers = [];
+
+    for (let user of usersToRestore) {
+      try {
+        // Restore the user
+        user.deletedAt = null; // Nullify the deletedAt field to restore the user
+        await user.save();
+        restoredUsers.push(user);
+      } catch (error) {
+        // Capture the error if restoring a user fails
+        failedUsers.push({ userId: user.userId, error: error.message });
+      }
+    }
+
+    return { restoredUsers, failedUsers };
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `Error during restore: ${error.message}`);
+  }
+};
+
+const restoreUserByUserId = async (userId) => {
+  try {
+    // Find the soft-deleted user by userId
+    const user = await User.findOne({ userId, deletedAt: { $ne: null } });
+
+    if (!user) {
+      // If user is not found or is not soft-deleted, throw an error
+      return { error: 'User not found or already restored' };
+    }
+
+    // Restore the user by nullifying the deletedAt field
+    user.deletedAt = null;
+
+    // Save the user back to the database
+    await user.save();
+
+    return { restoredUser: user };
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `Error during restore: ${error.message}`);
+  }
+};
+
 
 /**
  * Query for users
@@ -72,20 +185,6 @@ const getUserByEmail = async (email) => {
  * @returns {Promise<User>}
  */
 
-/*
-const updateUserById = async (userId, updateBody) => {
-  const user = await getUserById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
-  if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
-  }
-  Object.assign(user, updateBody);
-  await user.save();
-  return user;
-};
-*/
 
 const updateUserById = async (userId, updateBody) => {
   const user = await User.findByIdAndUpdate(userId, updateBody, {
@@ -117,6 +216,35 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+const softDeleteUserById = async (userId) => {
+  try {
+    // Fetch the user by userId, ensuring they haven't already been soft-deleted
+    const user = await User.findOne({ userId });
+
+    if (!user) {
+      // If the user doesn't exist, throw an error
+      return { error: 'User not found' };
+    }
+
+    // Check if the user is already soft-deleted
+    if (user.deletedAt) {
+      return { error: 'User is already soft-deleted' };
+    }
+
+    // Perform the soft delete by setting the deletedAt field to the current date
+    user.deletedAt = new Date();
+
+    // Save the updated user
+    await user.save();
+
+    return { deletedUser: user };
+  } catch (error) {
+    // Handle errors that might occur
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `Error during soft delete: ${error.message}`);
+  }
+};
+
+
 module.exports = {
   createUser,
   queryUsers,
@@ -125,4 +253,9 @@ module.exports = {
   updateUserById,
   deleteUserById,
   ownerCreate,
+  bulkCreate,
+  bulkSoftDeleteByTenantId,
+  restoreUserByUserId,
+  restoreUsersByTenantId,
+  softDeleteUserById,
 };

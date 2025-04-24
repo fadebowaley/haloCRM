@@ -44,25 +44,26 @@ const userSchema = mongoose.Schema(
       validate: {
         validator: (value) => /\d/.test(value) && /[a-zA-Z]/.test(value),
         message: 'Password must contain at least one letter and one number',
-      }
+      },
     },
-      otp: {
-        type: String,
-        default:null,
-      },
-      otpExpires: {
-        type: Date,
-        default:null
-      },
-      otpVerified: {
-        type: Boolean,
-        default: false,
-      },
+    otp: {
+      type: String,
+      default: null,
+    },
+    otpExpires: {
+      type: Date,
+      default: null,
+    },
+    otpVerified: {
+      type: Boolean,
+      default: false,
+    },
 
     isEmailVerified: {
       type: Boolean,
       default: false,
     },
+    deletedAt: { type: Date, default: null },
   },
   {
     timestamps: true,
@@ -181,6 +182,52 @@ userSchema.statics.resetPassword = async function (userId, newPassword) {
   await user.save({ validateBeforeSave: false });
 };
 
+
+userSchema.statics.createBulk = async function (usersBody) {
+  const success = [];
+  const errors = [];
+
+  // Iterate through each user
+  for (const userBody of usersBody) {
+    try {
+      // Check if email already exists for this user
+      if (await this.isEmailTaken(userBody.email)) {
+        // Add to errors if email is already taken
+        errors.push({
+          email: userBody.email,
+          error: 'Email is already registered',
+        });
+        continue; // Skip this user and move to the next one
+      }
+
+      // Generate unique userId and tenantId for the user
+      userBody.userId = this.generateUserId();
+      userBody.tenantId = await this.generateTenantId(userBody.isOwner, userBody.createdBy);
+
+      // Create a new user instance
+      const user = new this(userBody);
+
+      // Save the user to the database
+      await user.save();
+
+      // Add to success list
+      success.push({
+        userId: user.userId,
+        email: user.email,
+        message: 'User created successfully',
+      });
+    } catch (error) {
+      // Add to errors if there's an issue during user creation
+      errors.push({
+        email: userBody.email,
+        error: error.message,
+      });
+    }
+  }
+
+  // Return a report containing success and error lists
+  return { success, errors };
+};
 
 
 /**

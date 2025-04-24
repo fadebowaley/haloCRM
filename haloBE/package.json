@@ -24,7 +24,10 @@
     "docker:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up",
     "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
     "docker:test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up",
-    "prepare": "husky install"
+    "prepare": "husky install",
+     "permissions": "node bin/cli-permission-generator.js --seed",
+  "permissions:dry": "node bin/cli-permission-generator.js --dry-run",
+  "permissions:clean": "node bin/cli-permission-generator.js --seed --remove-obsolete"
   },
   "keywords": [
     "node",
