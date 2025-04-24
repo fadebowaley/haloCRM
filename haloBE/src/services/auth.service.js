@@ -6,7 +6,6 @@ const Token = require('../models/token.model');
 const ApiError = require('../utils/ApiError');
 const { tokenTypes } = require('../config/tokens');
 const { sendOtpEmail } = require('./email.service');
-const { sendSms, getSmsStatus } = require('./sms.service');
 const { User } = require('../models');
 const logger = require('../config/logger');
 
@@ -52,13 +51,7 @@ const loginUserWithEmailAndPassword = async (email, password) => {
   return user;
 };
 
-/**
- * Logout by invalidating refresh token
- * Example:
- * await logout('myRefreshToken123')
- * // Finds and removes the refresh token from database
- * // Throws error if token not found
- */
+
 const logout = async (refreshToken) => {
   const refreshTokenDoc = await Token.findOne({ token: refreshToken, type: tokenTypes.REFRESH, blacklisted: false });
   if (!refreshTokenDoc) {
@@ -74,6 +67,7 @@ const logout = async (refreshToken) => {
  * // Returns { access: newAccessToken, refresh: newRefreshToken }
  * // Throws error if refresh token is invalid
  */
+
 const refreshAuth = async (refreshToken) => {
   try {
     const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);

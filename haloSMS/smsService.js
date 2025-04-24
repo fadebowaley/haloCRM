@@ -3,7 +3,7 @@ const { sendSms } = require("./sendSms");
 const { writeReport } = require("./reportLogger");
 
 // Config
-const BATCH_SIZE = 10; // you can tune this
+const BATCH_SIZE = 5; // you can tune this
 const DELAY_BETWEEN_BATCHES_MS = 5000;
 const RETRY_LIMIT = 3;
 

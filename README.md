@@ -1,66 +1,141 @@
-# HaloApps
+# README.md
 
-Welcome to **HaloApps**, a suite of applications designed to provide seamless backend and frontend solutions. The project consists of two main components: `haloBE` (Backend) and `haloFE` (Frontend). This repository provides a foundation for developers to build and scale modern applications with ease.
+## halioCRM
 
-## Features
+**A powerful CRM for distributed data collection, payment aggregation, and AI-powered insights.**
 
-- **haloBE**: A robust backend service, designed to handle business logic, data management, and API integrations.
-- **haloFE**: A responsive frontend application, providing an intuitive interface for end-users.
+### 🚀 What is halioCRM?
+halioCRM is a modular CRM system designed for organizations with multiple data-collection centers or networks. It simplifies the complexities of structured or unstructured node relationships (hierarchical, parallel, hybrid), supports real-time aggregation, and enables embedded payments, compliance, and AI analysis.
 
-## Getting Started
+### ✨ Key Features
+- Collect data from various sources like attendance, prices, sales, weather, and more.
+- Automatically aggregate inputs across node structures.
+- Embedded multi-level payment and revenue tracking.
+- Compliance-ready dashboards and analytics.
+- AI-powered insights based on collected data.
 
-To get started with HaloApps, clone the repository and follow the setup instructions for both the backend and frontend.
+### 🧱 Tech Stack
+- **Backend**: Node.js
+- **Frontend**: Next.js
+- **Database**: MongoDB
+- **Cache**: Redis
+- **Containerization**: Docker
 
-### Installation
+### 🔧 Setup Instructions
+```bash
+git clone https://github.com/fadebowaley/haloCRM.git
+cd halioCRM
+cp .env.example .env
+npm install
+docker-compose up -d
+```
 
-1. **Clone the Repository**
-   ```bash
-   git clone <your-repo-url>
-   cd halo
-   ```
+### ▶️ Usage
+Access the app via `http://localhost:3000`
 
-2. **Backend Setup (haloBE)**
-   - Install dependencies:
-     ```bash
-     cd haloBE
-     yarn install
-     ```
-   - Run the backend server:
-     ```bash
-     yarn dev
-     ```
+To send a sample data entry:
+```bash
+curl -X POST http://localhost:3000/api/data -d '{"category": "attendance", "value": 300, "nodeId": "A123"}' -H "Content-Type: application/json"
+```
 
-3. **Frontend Setup (haloFE)**
-   - Install dependencies:
-     ```bash
-     cd haloFE
-     pnpm install
-     ```
-   - Run the frontend application:
-     ```bash
-     pnpm run dev
-     ```
+---
+# LICENSE (MIT)
 
-## Contributing
+MIT License
 
-We welcome contributions from developers of all levels! If you want to contribute, please fork the repository, create a feature branch, and submit a pull request with a detailed description of your changes.
+Copyright (c) 2025 Ademola Francis Adebowale
 
-### How to Contribute
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software... [MIT license text continues]
 
-1. Fork the repository.
-2. Clone your forked repository.
-3. Create a new branch:
-   ```bash
-   git checkout -b feature/yourFeature
-   ```
-4. Commit your changes.
-5. Push your changes to your fork.
-6. Open a pull request.
+---
+# VISION.md
 
-## Maintainer
+## 🌍 Vision for halioCRM
 
-This project is maintained by **Ademl Adebowale**. For more information, visit [www.fadebowaley.xyz](http://www.fadebowaley.xyz) or contact via email at [fadebowaley@gmail.com](mailto:fadebowaley@gmail.com).
+halioCRM envisions a future where structured and unstructured businesses can capture, process, and act on data regardless of their size or network complexity. Our goal is to be the **central nervous system** for any data-driven business structure—from faith-based networks to decentralized field operations.
 
-## License
+### Ideal Users:
+- Multi-location small to medium businesses
+- NGOs and field data collection teams
+- Educational networks and research teams
+- Enterprise resellers and distributors
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+### Long-Term Goal:
+To build a modular SaaS platform with category-specific data modules (attendance, sales, weather, etc.), each powered by embedded AI and analytics.
+
+---
+# CONTRIBUTING.md
+
+## 🤝 How to Contribute
+
+We love contributions from the community! Here’s how to get started:
+
+### 📦 Clone the Repository
+```bash
+git clone https://github.com/fadebowaley/haloCRM.git
+```
+
+### 🌿 Branch Naming
+- Feature: `feature/module-name`
+- Bugfix: `bugfix/issue-description`
+
+### 🔍 Code Style & Linting
+- Use **Prettier** for formatting
+- Use **ESLint** for linting JavaScript/TypeScript code
+
+### ✅ Testing
+Run unit tests with:
+```bash
+npm test
+```
+
+### 📝 Commit Style
+Follow [Conventional Commits](https://www.conventionalcommits.org/)
+
+### 🔄 Pull Requests
+- All changes must go through a pull request
+- PRs must pass all CI checks
+
+---
+# .github/workflows/ci.yml
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Lint
+        run: npm run lint
+
+      - name: Run Tests
+        run: npm test
