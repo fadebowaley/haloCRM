@@ -13,7 +13,7 @@ logger.info(`Sendar API Key: ${config.sms.sms_api_key}`);
  * @param {string} walletType
  * @returns {Promise<object>}
  */
-async function sendSms(senderId, messages, walletType = '2') {
+async function sendSms(senderId, messages, walletType = '1') {
   try {
     // Prepare the payload for sending SMS
     const payload = {

@@ -158,12 +158,12 @@ function IntroBannerBlock() {
             as="h2"
             className="mb-5 pt-3.5 text-[26px] font-semibold leading-snug text-white md:text-3xl md:!leading-normal xl:mb-7 xl:text-4xl xl:text-[28px] xl:leading-snug 2xl:text-5xl 2xl:leading-snug"
           >
-            Start turning your ideas into reality.
+            Build Smarter. Grow Faster.
           </Title>
           <Text className="mb-5 text-base leading-loose xl:mb-7 2xl:pe-20">
-            Sign up now and start taking advantage to a wealth of information
-            that will help you improve your business and stay ahead of the
-            competition.
+            Halo empowers you to unify data, drive insights, and grow with clarity.
+            Whether you're tracking payments, performance, or people — we help
+            you see the Big picture.
           </Text>
 
           <JoinedMember />
@@ -241,7 +241,7 @@ function JoinedMember() {
         ))}
       </div>
       <div className="relative inline-flex items-center justify-center px-3 text-xs font-semibold">
-        Join 30,000+ users
+        Trusted by over 30,000 users. Start now.
       </div>
       <ArrowShape className="h-11 w-10 text-white" />
     </div>

@@ -11,8 +11,10 @@ const roleTemplates = require('../utils/role');
  * @returns {Promise<Role>}
  */
 
+
 const getRoleTemplatesByIndustry = async () => {
   try {
+    console.log('look-up system',roleTemplates);
     return roleTemplates;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message || 'Error creating roles');
