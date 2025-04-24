@@ -82,7 +82,7 @@ app.use(mongoSanitize());
 app.use(compression());
 
 const corsOptions = {
-  origin: 'http://127.0.0.1:3000', // Allow requests only from the frontend
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'], // Allow these headers
   credentials: true, // Allow sending cookies and credentials

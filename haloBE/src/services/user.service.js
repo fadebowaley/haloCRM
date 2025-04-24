@@ -17,6 +17,8 @@ const createUser = async (userBody) => {
 };
 
 
+
+
 const ownerCreate = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User Email is already registered');
@@ -70,6 +72,7 @@ const getUserByEmail = async (email) => {
  * @returns {Promise<User>}
  */
 
+/*
 const updateUserById = async (userId, updateBody) => {
   const user = await getUserById(userId);
   if (!user) {
@@ -82,6 +85,22 @@ const updateUserById = async (userId, updateBody) => {
   await user.save();
   return user;
 };
+*/
+
+const updateUserById = async (userId, updateBody) => {
+  const user = await User.findByIdAndUpdate(userId, updateBody, {
+    new: true,
+    runValidators: true,
+    context: 'query',
+  });
+
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  return user;
+};
+
 
 /**
  * Delete user by id

@@ -1,112 +1,141 @@
-import { useSession, signIn, signOut as nextAuthSignOut } from 'next-auth/react';
+import {
+  useSession,
+  signIn,
+  signOut as nextAuthSignOut,
+} from 'next-auth/react';
 import * as api from '@/app/lib/api/auth';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
+import { routes } from '@/config/routes';
+import { MdToken } from 'react-icons/md';
 
-// Define the LoginPayload type
+// ---------------------
+// ✅ Payload Types
+// ---------------------
 type LoginPayload = {
   email: string;
   password: string;
   redirectTo?: string;
 };
 
+type RegisterPayload = {
+  email: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+  isAgreed: boolean;
+  isOwner: boolean;
+};
+
+type ApiResponse = {
+  success: boolean;
+  data?: any;
+  error?: string;
+};
+
+// ---------------------
+// ✅ useAuth Hook
+// ---------------------
 export const useAuth = () => {
-  // Session handling from NextAuth
   const { data: session, status } = useSession();
   const router = useRouter();
-
-  // Loading state for async actions (login, register, etc.)
   const [loading, setLoading] = useState(false);
 
-  // Login function to authenticate user
-  // const login = async ({ email, password, redirectTo }: LoginPayload) => {
-  //   setLoading(true); // Set loading to true when the login process begins
+  // ---------------------
+  // 🔐 Login
+  // ---------------------
 
-  //   try {
-  //     console.log('Attempting login for email:', email);
-  //     // Call the login API
-  //     const userData = await api.login(email, password);
-  //     console.log('Login successful, received user data:', userData.tokens.access.token);
-  //     // Store token in localStorage for authentication persistence
-  //     localStorage.setItem('token', userData.userData.tokens.access.token);
+const login = async ({
+  email,
+  password,
+  redirectTo,
+}: LoginPayload): Promise<ApiResponse> => {
+  setLoading(true);
+  try {
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+      callbackUrl: redirectTo || '/',
+    });
 
-  //     // Optionally redirect after login
-  //     if (redirectTo) {
-  //       router.push(redirectTo);
-  //     }
-
-  //     toast.success('Login successful!');
-  //     return { success: true, data: userData };
-  //   } catch (err: any) {
-  //     console.error('Login error:', err);
-
-  //     // Handle error and show feedback to user
-  //     toast.error(err?.response?.data?.message || 'Login failed');
-  //     return {
-  //       success: false,
-  //       error: err?.response?.data?.message || 'Login failed',
-  //     };
-  //   } finally {
-  //     setLoading(false); // Reset loading state after API call
-  //   }
-  // };
-
-  const login = async ({ email, password, redirectTo }: LoginPayload) => {
-    setLoading(true);
-
-    try {
-      console.log('Attempting login for email:', email);
-      const result = await signIn('credentials', {
-        redirect: false,
-        email,
-        password,
-        callbackUrl: redirectTo || '/',
-      });
-
-      if (result?.error) {
-        throw new Error(result.error);
-      }
-
-      toast.success('Login successful!');
-
-      if (result?.url) {
-        router.push(result.url);
-      }
-
-      return { success: true };
-    } catch (err: any) {
-      console.error('Login error:', err);
-      toast.error(err.message || 'Login failed');
-
-      return {
-        success: false,
-        error: err.message || 'Login failed',
-      };
-    } finally {
-      setLoading(false);
+    // 🔒 Handle OTP not verified error
+    if (result?.error?.includes('[OtpNotVerified]')) {
+      router.push(`${routes.auth.otp2}?email=${encodeURIComponent(email)}`);
+      toast.error('Please verify your OTP first');
+      return { success: false };
     }
-  };
 
+    // ✅ Login successful
+    if (result?.ok && result?.url) {
+      toast.success('Login successful!');
+      router.push(result.url);
+      return { success: true };
+    }
 
-  // Logout function to clear user session and token
+    // ❌ Other failure (e.g., wrong password, no redirect)
+    if (result?.error) {
+      toast.error(result.error);
+      return { success: false, error: result.error };
+    }
+
+    // 🛑 Unknown fallback
+    toast.error('Login failed due to unknown error.');
+    return { success: false };
+  } catch (err: any) {
+    console.error('Login error:', err);
+    toast.error(err.message || 'Login failed');
+    return { success: false, error: err.message || 'Login failed' };
+  } finally {
+    setLoading(false);
+  }
+};
+
+  // ---------------------
+  // 🚪 Logout
+  // ---------------------
   const logout = () => {
-    localStorage.removeItem('token'); // Remove token from localStorage
-    nextAuthSignOut({ redirect: false }); // Sign out using NextAuth (if Google login was used)
+    localStorage.removeItem('token');
+    nextAuthSignOut({ redirect: false });
     toast.success('Logged out successfully');
   };
 
-  // Register function to handle user registration
-  const register = async (payload: {
-    name: string;
-    email: string;
-    password: string;
-  }) => {
+  // ---------------------
+  // 🧾 Register
+  // ---------------------
+
+  // const register = async (payload: RegisterPayload): Promise<ApiResponse> => {
+  //   setLoading(true);
+  //   try {
+  //     const data = await api.register(payload);
+  //     toast.success('Registration successful,');
+  //     // 🔁 Redirect to login after success
+  //     router.push(routes.signIn);
+  //     return { success: true, data };
+  //   } catch (err: any) {
+  //     console.error('Registration error:', err); // Debugging line
+  //     toast.error(err?.response?.data?.message || 'Registration failed');
+  //     return {
+  //       success: false,
+  //       error: err?.response?.data?.message || 'Registration failed',
+  //     };
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const register = async (payload: RegisterPayload): Promise<ApiResponse> => {
     setLoading(true);
     try {
-      // Call the registration API
       const data = await api.register(payload);
-      toast.success('Registration successful');
+      toast.success('Registration successful. Please verify your email.');
+
+      // 🔁 Redirect to OTP verification page instead of login
+      router.push(
+        `${routes.auth.otp2}?email=${encodeURIComponent(payload.email)}`
+      );
+
       return { success: true, data };
     } catch (err: any) {
       console.error('Registration error:', err);
@@ -120,13 +149,15 @@ export const useAuth = () => {
     }
   };
 
-  // Forgot password function
-  const forgotPassword = async (email: string) => {
+  // ---------------------
+  // ❓ Forgot Password
+  // ---------------------
+  const forgotPassword = async (email: string): Promise<ApiResponse> => {
     setLoading(true);
     try {
-      const result = await api.forgotPassword(email);
-      toast.success('Password reset link sent');
-      return { success: true, data: result };
+      const data = await api.forgotPassword(email);
+      //toast.success('Password reset link sent');
+      return { success: true, data };
     } catch (err: any) {
       console.error('Forgot password error:', err);
       toast.error(
@@ -142,13 +173,20 @@ export const useAuth = () => {
     }
   };
 
-  // Reset password function
-  const resetPassword = async (token: string, newPassword: string) => {
+  // ---------------------
+  // 🔁 Reset Password
+  // ---------------------
+  const resetPassword = async (
+    token: string,
+    newPassword: string
+  ): Promise<ApiResponse> => {
     setLoading(true);
     try {
-      const result = await api.resetPassword(token, newPassword);
+      console.log('were are about reseting password . . .', token);
+      const data = await api.resetPassword(token, newPassword);
       toast.success('Password reset successful');
-      return { success: true, data: result };
+      console.log('our response from the server --- >', data);
+      return { success: true, data };
     } catch (err: any) {
       console.error('Reset password error:', err);
       toast.error(err?.response?.data?.message || 'Error resetting password');
@@ -161,13 +199,18 @@ export const useAuth = () => {
     }
   };
 
-  // OTP verification function
-  const verifyOtp = async (otp: string, email: string) => {
+  // ---------------------
+  // 🔐 OTP Verification
+  // ---------------------
+  const verifyOtp = async (
+    otp: string,
+    email: string
+  ): Promise<ApiResponse> => {
     setLoading(true);
     try {
-      const result = await api.verifyOtp(otp, email);
+      const data = await api.verifyOtp(otp, email);
       toast.success('OTP verification successful');
-      return { success: true, data: result };
+      return { success: true, data };
     } catch (err: any) {
       console.error('OTP verification error:', err);
       toast.error(err?.response?.data?.message || 'OTP verification failed');
@@ -180,17 +223,34 @@ export const useAuth = () => {
     }
   };
 
-  // Return all necessary data and functions from the useAuth hook
-  return {
-    session,
-    user: session?.user,
-    isAuthenticated: status === 'authenticated',
-    isLoading: status === 'loading' || loading, // Combine both loading states (API + session)
-    login,
-    logout,
-    register,
-    forgotPassword,
-    resetPassword,
-    verifyOtp,
+  const resendOtp = async (email: string): Promise<ApiResponse> => {
+    setLoading(true);
+    try {
+      const data = await api.resendOtp(email);
+      toast.success('OTP resent successfully');
+      return { success: true, data };
+    } catch (err: any) {
+      console.error('Resend OTP error:', err);
+      toast.error(err?.response?.data?.message || 'Failed to resend OTP');
+      return {
+        success: false,
+        error: err?.response?.data?.message || 'Failed to resend OTP',
+      };
+    } finally {
+      setLoading(false);
+    }
   };
+return {
+  session,
+  user: session?.user,
+  isAuthenticated: status === 'authenticated',
+  isLoading: status === 'loading' || loading,
+  login,
+  logout,
+  register,
+  forgotPassword,
+  resetPassword,
+  verifyOtp,
+  resendOtp,
+};
 };

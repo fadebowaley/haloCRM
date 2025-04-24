@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 const pageHeader = {
-  title: 'Support Inbox',
+  title: 'Messaging Inbox',
   breadcrumb: [
     {
       href: routes.eCommerce.dashboard,
@@ -19,7 +19,7 @@ const pageHeader = {
     },
     {
       href: routes.support.dashboard,
-      name: 'Support',
+      name: 'Messaging',
     },
     {
       name: 'Inbox',

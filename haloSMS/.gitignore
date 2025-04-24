@@ -1,0 +1,13 @@
+# Dependencies
+node_modules
+
+# yarn error logs
+yarn-error.log
+# miscellanous report 
+sms_report.csv
+# Environment varibales
+.env*
+!.env*.example
+
+# Code coverage
+coverage

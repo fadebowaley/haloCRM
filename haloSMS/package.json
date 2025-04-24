@@ -1,0 +1,15 @@
+{
+  "name": "bulk-sms-scheduler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.0.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "node-cron": "^3.0.0"
+  }
+}

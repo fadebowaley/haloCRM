@@ -35,7 +35,7 @@ const sendEmail = async (to, subject, text) => {
 const sendResetPasswordEmail = async (to, token) => {
   const subject = 'Reset password';
   // replace this url with the link to the reset password page of your front-end app
-  const resetPasswordUrl = `http://link-to-app/reset-password?token=${token}`;
+  const resetPasswordUrl = `${config.clientUrl}/reset-password?token=${token}`;
   const text = `Dear user,
 To reset your password, click on this link: ${resetPasswordUrl}
 If you did not request any password resets, then ignore this email.`;
@@ -60,10 +60,25 @@ If you did not create an account, then ignore this email.`;
 };
 
 
+/**
+ * Send OTP email
+ * @param {string} to - Email of the user
+ * @param {string} otp - The generated OTP
+ */
+const sendOtpEmail = async (to, otp) => {
+  const subject = 'Your OTP Code';
+  const text = `Dear user,
+Your OTP code is: ${otp}
+It will expire in 10 minutes.
+If you did not initiate this request, please ignore this email.`;
+  await sendEmail(to, subject, text);
+};
+
 
 module.exports = {
   transport,
   sendEmail,
+  sendOtpEmail,
   sendResetPasswordEmail,
   sendVerificationEmail,
   //send Welcome message
