@@ -11,10 +11,7 @@ const swaggerDef = {
   info: {
     title: 'HaloCRM API Documentation',
     version,
-    description: `
-# Introduction
-HaloCRM is a comprehensive Customer Relationship Management system that provides a robust API for managing various aspects of your business operations.
-
+    description: `# IntroductionHaloCRM is a comprehensive Customer Relationship Management system that provides a robust API for managing various aspects of your business operations.
 ## Key Features
 - User and Role Management
 - Program and Collection Management

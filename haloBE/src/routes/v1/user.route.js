@@ -354,129 +354,9 @@ router.patch('/:userId', auth('manageUsers'), validate(userValidation.updateUser
 // Delete user
 router.delete('/:userId', auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
 
-/**
- * @swagger
-paths:
-  /bulk-create:
-    post:
-      summary: Bulk create users
-      description: Allows the creation of multiple users in a single request. The request body should contain an array of user objects to be created.
-      tags:
-        - Users
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: body
-          in: body
-          description: Array of user objects to be created
-          required: true
-          schema:
-            type: array
-            items:
-              type: object
-              properties:
-                firstname:
-                  type: string
-                  description: The first name of the user
-                  example: "John"
-                lastname:
-                  type: string
-                  description: The last name of the user
-                  example: "Doe"
-                email:
-                  type: string
-                  description: The email address of the user (must be unique)
-                  example: "john.doe@example.com"
-                password:
-                  type: string
-                  description: The password for the user (must contain at least one letter and one number)
-                  example: "Password123"
-                isOwner:
-                  type: boolean
-                  description: Flag to indicate if the user is an owner or not
-                  example: false
-                createdBy:
-                  type: string
-                  description: The ID of the user creating this user (only needed if the user is not an owner)
-                  example: "creatorUserId123"
-      responses:
-        200:
-          description: Successful response with the list of created users
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: "Bulk user creation completed"
-              data:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    userId:
-                      type: string
-                      description: Unique user identifier
-                      example: "1234567890"
-                    email:
-                      type: string
-                      description: The email of the user
-                      example: "john.doe@example.com"
-                    isOwner:
-                      type: boolean
-                      description: Whether the user is an owner or not
-                      example: false
-                    tenantId:
-                      type: string
-                      description: The tenant ID assigned to the user
-                      example: "tenant123"
-                    firstname:
-                      type: string
-                      description: The first name of the user
-                      example: "John"
-                    lastname:
-                      type: string
-                      description: The last name of the user
-                      example: "Doe"
-        400:
-          description: Bad request, validation error, or missing required fields
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                example: "Validation error: email is required"
-        401:
-          description: Unauthorized access, token is invalid or missing
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                example: "Unauthorized"
-        500:
-          description: Server error
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                example: "Internal server error"
-definitions:
-  Error:
-    type: object
-    properties:
-      error:
-        type: string
-        description: Description of the error
-        example: "Internal server error"
-securityDefinitions:
-  BearerAuth:
-    type: apiKey
-    in: header
-    name: Authorization
-    description: "JWT token"
-*/
 router.post('/bulk-create', auth('manageUsers'), validate(userValidation.bulkCreate), userController.bulkCreate);
+
+
 
 router.post(
   '/restore',
@@ -488,17 +368,16 @@ router.post(
 router.post(
   '/restore/:userId', // Expecting userId as URL parameter
   auth('manageUsers'),
-  validate(userValidation.restoreUser), // Validation for userId
+  validate(userValidation.restorzeUser), // Validation for userId
   userController.restoreUser // Controller function to restore the user
 );
 
+
 router.post(
-  '/soft-delete/:userId', // Soft delete route with userId in URL params
-  auth('manageUsers'), // Authentication middleware
-  userController.softDeleteUser // Controller function to handle the soft delete
+  '/soft-delete/:userId',
+  auth('manageUsers'),
+  userController.softDeleteUser
 );
-
-
 
 
 

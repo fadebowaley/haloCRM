@@ -31,7 +31,6 @@ const bulkCreate = {
         email: Joi.string().required().email(),
         password: Joi.string().required().custom(password),
         isOwner: Joi.boolean().valid(false).default(false),
-        createdBy: Joi.string().optional(), // ID of the user creating this user
       })
     )
     .required(),

@@ -1,6 +1,4 @@
-//roleTemplates.js;
 module.exports = [
-  
   {
     industry: 'Churches/Religious Organizations',
     roles: [

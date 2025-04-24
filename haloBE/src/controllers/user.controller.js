@@ -14,10 +14,10 @@ const ownerCreate = catchAsync(async (req, res) => {
 
 // Function to bulk create users
 const bulkCreate = catchAsync(async (req, res) => {
-  req.body.createdBy = req.user._id; // Enforce ownership context for each user
-
+  const createdBy = req.user._id;
+  const tenantId = req.user.tenantId;
   // Call the bulkCreate method from the user service
-  const { createdUsers, errors } = await userService.bulkCreate(req.body);
+  const { success: createdUsers, errors, summary } = await userService.bulkCreate(req.body, createdBy, tenantId);
 
   // Return the response
   if (createdUsers.length > 0 || errors.length > 0) {
@@ -25,11 +25,15 @@ const bulkCreate = catchAsync(async (req, res) => {
       message: 'Bulk user creation completed',
       createdUsers,
       errors,
+      summary
     });
   }
   // If no users were created or errors exist
   res.status(httpStatus.BAD_REQUEST).send({ message: 'No users were created or all had errors', errors });
 });
+
+
+
 
 
 // Function to soft delete users by tenantId and isOwner flag
@@ -150,7 +154,7 @@ const deleteUser = catchAsync(async (req, res) => {
 
 const softDeleteUser = catchAsync(async (req, res) => {
   const { userId } = req.params; // Get the userId from URL parameters
-  // Call the soft delete function in the userService
+  console.log('user-look', userId)
   const { deletedUser, error } = await userService.softDeleteUserById(userId);
   if (error) {
     throw new ApiError(httpStatus.NOT_FOUND, error);
