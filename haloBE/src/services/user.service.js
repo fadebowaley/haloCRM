@@ -13,53 +13,55 @@ const createUser = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
-  return User.create(userBody);
+  return User.createUser(userBody);
 };
-
-
 
 
 const ownerCreate = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User Email is already registered');
   }
-  return User.create(userBody);
+  return User.createUser(userBody);
 };
 
 
-const bulkCreate = async (usersBody) => {
-  const createdUsers = []; // To hold successfully created users
-  const errors = []; // To hold errors (e.g., duplicate emails)
+// const bulkCreate = async (usersBody) => {
+//   const createdUsers = []; // To hold successfully created users
+//   const errors = []; // To hold errors (e.g., duplicate emails)
 
-  for (let userData of usersBody) {
-    // Check if email already exists
-    const existingUser = await User.findOne({ email: userData.email });
-    if (existingUser) {
-      // Skip this user and add to errors report
-      errors.push({
-        email: userData.email,
-        error: 'User Email is already registered',
-      });
-      continue; // Skip this user and move to the next
-    }
+//   for (let userData of usersBody) {
+//     // Check if email already exists
+//     const existingUser = await User.findOne({ email: userData.email });
+//     if (existingUser) {
+//       // Skip this user and add to errors report
+//       errors.push({
+//         email: userData.email,
+//         error: 'User Email is already registered',
+//       });
+//       continue; // Skip this user and move to the next
+//     }
 
-    try {
-      // Create the user using the User model's static method
-      const createdUser = await User.createBulk([userData]);
-      createdUsers.push(createdUser[0]); // Push the created user into the success report
-    } catch (error) {
-      // Handle other errors that may occur during creation (e.g., validation errors)
-      errors.push({
-        email: userData.email,
-        error: error.message || 'Unknown error occurred',
-      });
-    }
-  }
-  // Return the result with created users and errors
-  return {
-    createdUsers,
-    errors,
-  };
+//     try {
+//       // Create the user using the User model's static method
+//       const createdUser = await User.createBulk([userData]);
+//       createdUsers.push(createdUser[0]); // Push the created user into the success report
+//     } catch (error) {
+//       // Handle other errors that may occur during creation (e.g., validation errors)
+//       errors.push({
+//         email: userData.email,
+//         error: error.message || 'Unknown error occurred',
+//       });
+//     }
+//   }
+//   // Return the result with created users and errors
+//   return {
+//     createdUsers,
+//     errors,
+//   };
+// };
+
+const bulkCreate = async (usersBody, createdBy, tenantId) => {
+  return await User.createBulk(usersBody, createdBy, tenantId);
 };
 
 
@@ -96,7 +98,7 @@ const bulkSoftDeleteByTenantId = async (tenantId) => {
 const restoreUsersByTenantId = async (tenantId) => {
   try {
     // Find soft-deleted users with the provided tenantId
-    const usersToRestore = await User.find({ tenantId, deletedAt: { $ne: null } });
+    const usersToRestore = await User.find({tenantId: tenantId, deletedAt: { $ne: null } });
     const restoredUsers = [];
     const failedUsers = [];
 
@@ -121,7 +123,7 @@ const restoreUsersByTenantId = async (tenantId) => {
 const restoreUserByUserId = async (userId) => {
   try {
     // Find the soft-deleted user by userId
-    const user = await User.findOne({ userId, deletedAt: { $ne: null } });
+    const user = await User.findOne({ _id: userId, deletedAt: { $ne: null } });
 
     if (!user) {
       // If user is not found or is not soft-deleted, throw an error
@@ -216,10 +218,11 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+
 const softDeleteUserById = async (userId) => {
   try {
     // Fetch the user by userId, ensuring they haven't already been soft-deleted
-    const user = await User.findOne({ userId });
+    const user = await User.findById(userId);
 
     if (!user) {
       // If the user doesn't exist, throw an error

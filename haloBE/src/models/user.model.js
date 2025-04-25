@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const { nanoid } = require('nanoid');
 const { toJSON, paginate, tenantPlugin } = require('./plugins');
 
 const userSchema = mongoose.Schema(
@@ -23,7 +24,11 @@ const userSchema = mongoose.Schema(
     isSuper: { type: Boolean, default: false },
     firstname: { type: String, required: true, trim: true },
     lastname: { type: String, required: true, trim: true },
-
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
     email: {
       type: String,
       required: true,
@@ -82,7 +87,7 @@ userSchema.plugin(tenantPlugin);
  * @returns {string}
  */
 userSchema.statics.generateUserId = function () {
-  return Math.random().toString().slice(2, 12); // Generates a random 10-digit string
+  return nanoid(10);
 };
 
 /**
@@ -95,13 +100,11 @@ userSchema.statics.generateUserId = function () {
  */
 userSchema.statics.generateTenantId = async function (isOwner, createdBy) {
   if (isOwner) {
-    return Math.random().toString().slice(2, 12); // Generate a new tenant ID
+    return nanoid(10);
   }
   if (!createdBy) {
     throw new Error('Non-owners must have a creator (createdBy field)');
   }
-
-  // Retrieve creator's tenantId
   const creator = await this.findById(createdBy);
   if (!creator) {
     throw new Error('Creator not found');
@@ -134,20 +137,12 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
  * @param {Object} userBody - The user data
  * @returns {Promise<User>}
  */
-userSchema.statics.create = async function (userBody) {
-  // Generate a unique userId
+
+userSchema.statics.createUser = async function (userBody) {
   userBody.userId = this.generateUserId();
-
-  // Generate a tenantId based on ownership
   userBody.tenantId = await this.generateTenantId(userBody.isOwner, userBody.createdBy);
-
-  // Create a new user instance with the provided data
   const user = new this(userBody);
-
-  // Save the user to the database
   await user.save();
-
-  // Return the created user
   return user;
 };
 
@@ -161,15 +156,12 @@ userSchema.methods.isPasswordMatch = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-
 userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 8);
   }
   next();
 });
-
-
 
 //Saving user password
 userSchema.statics.resetPassword = async function (userId, newPassword) {
@@ -182,42 +174,36 @@ userSchema.statics.resetPassword = async function (userId, newPassword) {
   await user.save({ validateBeforeSave: false });
 };
 
-
-userSchema.statics.createBulk = async function (usersBody) {
+userSchema.statics.createBulk = async function (usersBody, createdBy, tenantId) {
   const success = [];
   const errors = [];
 
-  // Iterate through each user
+  if (!createdBy || !mongoose.Types.ObjectId.isValid(createdBy)) {
+    throw new Error('A valid creator ID (createdBy) must be provided');
+  }
   for (const userBody of usersBody) {
+
     try {
-      // Check if email already exists for this user
       if (await this.isEmailTaken(userBody.email)) {
-        // Add to errors if email is already taken
         errors.push({
           email: userBody.email,
           error: 'Email is already registered',
         });
-        continue; // Skip this user and move to the next one
+        continue;
       }
 
-      // Generate unique userId and tenantId for the user
       userBody.userId = this.generateUserId();
-      userBody.tenantId = await this.generateTenantId(userBody.isOwner, userBody.createdBy);
+      userBody.tenantId = tenantId;
+      userBody.createdBy = createdBy;
 
-      // Create a new user instance
       const user = new this(userBody);
-
-      // Save the user to the database
       await user.save();
-
-      // Add to success list
       success.push({
         userId: user.userId,
         email: user.email,
         message: 'User created successfully',
       });
     } catch (error) {
-      // Add to errors if there's an issue during user creation
       errors.push({
         email: userBody.email,
         error: error.message,
@@ -225,13 +211,16 @@ userSchema.statics.createBulk = async function (usersBody) {
     }
   }
 
-  // Return a report containing success and error lists
-  return { success, errors };
+    const summary = {
+      total: usersBody.length,
+      created: success.length,
+      failed: errors.length,
+    };
+  return { success, errors, summary };
 };
 
 
-/**
- * @typedef User
- */
+
+
 const User = mongoose.model('User', userSchema);
 module.exports = User;

@@ -41,13 +41,6 @@ module.exports = router;
 
 /**
  * @swagger
- * tags:
- *   name: Roles
- *   description: Role management endpoints
- */
-
-/**
- * @swagger
  * components:
  *   schemas:
  *     Role:
