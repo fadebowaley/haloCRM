@@ -575,7 +575,7 @@ export const berylliumSidebarMenuItems = [
       },
       {
         name: 'Vintage Forgot password',
-        href: routes.auth.forgotPassword2,
+        href: routes.auth.forgotPassword,
       },
       {
         name: 'Trendy Forgot password',

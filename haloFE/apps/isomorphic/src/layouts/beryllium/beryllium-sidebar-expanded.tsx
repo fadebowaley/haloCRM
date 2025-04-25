@@ -14,6 +14,8 @@ import { usePathname } from 'next/navigation';
 import { Fragment } from 'react';
 import { PiCaretDownBold } from 'react-icons/pi';
 import { Collapse } from 'rizzui';
+import { useEffect, useState } from 'react';
+
 
 function LinkMenuItem({ item }: { item: ItemType }) {
   const { colorPresetName } = useColorPresetName();
@@ -129,6 +131,13 @@ function CollapsibleMenuItem({ item }: { item: ItemType }) {
 export default function BerylliumLeftSidebarExpandable() {
   const { expandedLeft } = useBerylliumSidebars();
   const selectedMenu = useAtomValue(berylliumMenuItemAtom);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  if (!isHydrated) return null;
 
   return (
     <div
