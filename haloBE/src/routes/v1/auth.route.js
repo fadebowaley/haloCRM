@@ -1,3 +1,4 @@
+
 // Import required dependencies
 const express = require('express');
 const validate = require('../../middlewares/validate');
@@ -48,7 +49,10 @@ router.post('/register', validate(authValidation.register), authController.regis
  *                 example: Password123
  *               isOwner:
  *                 type: boolean
- *                 example: false
+ *                 example: true
+ *               isAgreed:
+ *                 type: boolean
+ *                 example: true    
  *     responses:
  *       "201":
  *         description: User successfully registered
@@ -283,8 +287,6 @@ router.post('/send-verification-email', auth(), authController.sendVerificationE
 // Verify email
 router.post('/verify-email', validate(authValidation.verifyEmail), authController.verifyEmail);
 
-
-
 /**
  * @swagger
  * /auth/verify-email:
@@ -308,94 +310,10 @@ router.post('/verify-email', validate(authValidation.verifyEmail), authControlle
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *
- *
  */
 
-/**
- * @swagger
- * tags:
- *   name: Auth
- *   description: Authentication endpoints
- */
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     AuthTokens:
- *       type: object
- *       properties:
- *         access:
- *           type: object
- *           properties:
- *             token:
- *               type: string
- *               example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *             expires:
- *               type: string
- *               format: date-time
- *               example: 2024-04-09T12:00:00Z
- *         refresh:
- *           type: object
- *           properties:
- *             token:
- *               type: string
- *               example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
- *             expires:
- *               type: string
- *               format: date-time
- *               example: 2024-04-16T12:00:00Z
- *     Error:
- *       type: object
- *       properties:
- *         code:
- *           type: integer
- *           example: 400
- *         message:
- *           type: string
- *           example: Invalid email or password
- *     User:
- *       type: object
- *       properties:
- *         id:
- *           type: string
- *           example: 65f2c6e5d4f5a5b8e4a12345
- *         firstname:
- *           type: string
- *           example: John
- *         lastname:
- *           type: string
- *           example: Doe
- *         email:
- *           type: string
- *           format: email
- *           example: john.doe@example.com
- *         isEmailVerified:
- *           type: boolean
- *           example: false
- *         isOwner:
- *           type: boolean
- *           example: false
- *         isSuper:
- *           type: boolean
- *           example: false
- *         roles:
- *           type: array
- *           items:
- *             type: string
- *           example: ["65f2c6e5d4f5a5b8e4a12345"]
- *   responses:
- *     DuplicateEmail:
- *       description: Email already exists
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Error'
- *           example:
- *             code: 400
- *             message: Email already taken
- */
+// Verify OTP for user
+router.post('/verify-otp', validate(authValidation.verifyOtp), authController.verifyOtp);
 
 /**
  * @swagger
@@ -410,40 +328,53 @@ router.post('/verify-email', validate(authValidation.verifyEmail), authControlle
  *           schema:
  *             type: object
  *             required:
- *               - email
  *               - otp
+ *             properties:
+ *               otp:
+ *                 type: string
+ *                 example: 123456
+ *     responses:
+ *       "204":
+ *         description: OTP verified successfully
+ *       "400":
+ *         description: Invalid OTP
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+
+// Resend OTP for user
+router.post('/resend-otp', validate(authValidation.resendOtp), authController.resendOtp);
+
+/**
+ * @swagger
+ * /auth/resend-otp:
+ *   post:
+ *     summary: Resend OTP for user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
  *             properties:
  *               email:
  *                 type: string
  *                 format: email
  *                 example: john.doe@example.com
- *               otp:
- *                 type: string
- *                 example: '123456'
  *     responses:
- *       "200":
- *         description: OTP verification successful
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: OTP verified successfully
+ *       "204":
+ *         description: OTP resent successfully
  *       "400":
- *         description: Invalid OTP or email
+ *         description: Email not found
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
- *             example:
- *               code: 400
- *               message: Invalid OTP or email
  */
-
-router.post('/verify-otp', validate(authValidation.verifyOtp), authController.verifyOtp);
-router.post('/resend-otp', validate(authValidation.resendOtp), authController.resendOtp);
-
 
 module.exports = router;
