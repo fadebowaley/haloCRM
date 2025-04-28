@@ -11,6 +11,7 @@ const collectionSchema = mongoose.Schema(
     name: { type: String, required: true },
     description: { type: String },
     amount: { type: Number, required: true }, // User-input amount
+    deletedAt: { type: Date, default: null },
     assignedParameters: [
       {
         parameter: { type: mongoose.Schema.Types.ObjectId, ref: 'Parameter' },

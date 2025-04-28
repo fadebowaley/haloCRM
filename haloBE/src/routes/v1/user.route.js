@@ -77,12 +77,7 @@ const router = express.Router();
  */
 
 // Create a new user (owner only)
-router.post(
-  '/',
-  auth('manageUsers'),
-  validate(userValidation.ownerCreate),
-  userController.ownerCreate
-);
+router.post('/', auth('create:user'), validate(userValidation.ownerCreate), userController.ownerCreate);
 
 /**
  * @swagger
@@ -150,7 +145,7 @@ router.post(
  */
 
 // Get all users
-router.get('/', auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+router.get('/', auth('view:user'), validate(userValidation.getUsers), userController.getUsers);
 
 /**
  * @swagger
@@ -228,7 +223,7 @@ router.get('/', auth('getUsers'), validate(userValidation.getUsers), userControl
  */
 
 // Get user by ID
-router.get('/:userId', auth('getUsers'), validate(userValidation.getUser), userController.getUser);
+router.get('/:userId', auth('view:user::userId'), validate(userValidation.getUser), userController.getUser);
 
 /**
  * @swagger
@@ -273,7 +268,7 @@ router.get('/:userId', auth('getUsers'), validate(userValidation.getUser), userC
  */
 
 // Update user
-router.patch('/:userId', auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser);
+router.patch('/:userId', auth('update:user::userId'), validate(userValidation.updateUser), userController.updateUser);
 
 /**
  * @swagger
@@ -352,32 +347,27 @@ router.patch('/:userId', auth('manageUsers'), validate(userValidation.updateUser
  */
 
 // Delete user
-router.delete('/:userId', auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
+router.delete('/:userId', auth('delete:user::userId'), validate(userValidation.deleteUser), userController.deleteUser);
 
-router.post('/bulk-create', auth('manageUsers'), validate(userValidation.bulkCreate), userController.bulkCreate);
-
-
+router.post('/bulk-create', auth('create:user:bulk-create'), validate(userValidation.bulkCreate), userController.bulkCreate);
 
 router.post(
   '/restore',
-  auth('manageUsers'),
+  auth('create:user:restore'),
   validate(userValidation.restoreUsers), // Add validation if you decide to use it
   userController.restoreUsers
 );
 
 router.post(
   '/restore/:userId', // Expecting userId as URL parameter
-  auth('manageUsers'),
-  validate(userValidation.restorzeUser), // Validation for userId
+  auth('create:user::userId'),
+  validate(userValidation.restoreUser), // Validation for userId
   userController.restoreUser // Controller function to restore the user
 );
 
 
-router.post(
-  '/soft-delete/:userId',
-  auth('manageUsers'),
-  userController.softDeleteUser
-);
+
+router.post('/soft-delete/:userId', auth('create:user::userId'), userController.softDeleteUser);
 
 
 

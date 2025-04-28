@@ -52,7 +52,7 @@ async function mockSendSms(
   number,
   message,
   smsType = "plain",
-  walletType = "2"
+  walletType = "1"
 ) {
   console.log(`🧪 MOCK: Sending SMS to ${number}: "${message}"`);
 
