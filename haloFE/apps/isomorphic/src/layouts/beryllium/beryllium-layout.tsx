@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Header from '@/layouts/beryllium/beryllium-header';
 import BerylliumLeftSidebarFixed from '@/layouts/beryllium/beryllium-left-sidebar-fixed';
 import cn from '@core/utils/class-names';
@@ -13,6 +14,18 @@ export default function BerylliumLayout({
 }) {
   const { expandedLeft } = useBerylliumSidebars();
 
+  const [isHydrated, setIsHydrated] = useState(false);
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  // Optional: Prevent mismatched className during SSR
+  const paddingClass = isHydrated
+    ? expandedLeft
+      ? 'xl:ps-[414px]'
+      : 'xl:ps-[110px]'
+    : 'xl:ps-[110px]'; // fallback to match SSR
+
   return (
     <main className={cn('flex min-h-screen flex-grow')}>
       <BerylliumLeftSidebarFixed />
@@ -22,7 +35,7 @@ export default function BerylliumLayout({
         <div
           className={cn(
             'flex flex-grow flex-col gap-4 px-4 pb-6 duration-200 md:px-5 lg:pb-8 xl:pe-8',
-            expandedLeft ? 'xl:ps-[414px]' : 'xl:ps-[110px]'
+            paddingClass
           )}
         >
           <div className="grow xl:mt-4">{children}</div>

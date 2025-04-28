@@ -10,51 +10,93 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: Users
- *   description: User management endpoints
+ *   description: User management and retrieval
  */
 
 /**
  * @swagger
  * components:
  *   schemas:
- *     UserResponse:
+ *     User:
  *       type: object
+ *       required:
+ *         - firstname
+ *         - lastname
+ *         - email
+ *         - password
  *       properties:
  *         id:
  *           type: string
- *           example: 65f2c6e5d4f5a5b8e4a12345
+ *           description: The auto-generated ID of the user
+ *         userId:
+ *           type: string
+ *           description: The unique user ID
+ *         tenantId:
+ *           type: string
+ *           description: The tenant ID associated with the user
  *         firstname:
  *           type: string
- *           example: John
+ *           description: The user's first name
  *         lastname:
  *           type: string
- *           example: Doe
+ *           description: The user's last name
  *         email:
  *           type: string
  *           format: email
- *           example: john.doe@example.com
- *         isEmailVerified:
- *           type: boolean
- *           example: false
+ *           description: The user's email address
  *         isOwner:
  *           type: boolean
- *           example: false
+ *           description: Whether the user is an owner
  *         isSuper:
  *           type: boolean
- *           example: false
+ *           description: Whether the user has super admin privileges
+ *         isAgreed:
+ *           type: boolean
+ *           description: Whether the user has agreed to terms
+ *         isEmailVerified:
+ *           type: boolean
+ *           description: Whether the email is verified
  *         roles:
  *           type: array
  *           items:
  *             type: string
- *           example: ["65f2c6e5d4f5a5b8e4a12345"]
+ *           description: Array of role IDs
  *         createdAt:
  *           type: string
  *           format: date-time
- *           example: 2024-03-13T12:00:00Z
+ *           description: The date the user was created
  *         updatedAt:
  *           type: string
  *           format: date-time
- *           example: 2024-03-13T12:00:00Z
+ *           description: The date the user was last updated
+ *         deletedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: The date the user was soft deleted
+ *       example:
+ *         id: 65f2c6e5d4f5a5b8e4a12345
+ *         userId: "abc123def45"
+ *         tenantId: "tenant123"
+ *         firstname: "John"
+ *         lastname: "Doe"
+ *         email: "john.doe@example.com"
+ *         isOwner: false
+ *         isSuper: false
+ *         isAgreed: true
+ *         isEmailVerified: false
+ *         roles: ["65f2c6e5d4f5a5b8e4a12346"]
+ *         createdAt: "2024-03-13T12:00:00Z"
+ *         updatedAt: "2024-03-13T12:00:00Z"
+ *         deletedAt: null
+ *     UserResponse:
+ *       allOf:
+ *         - $ref: '#/components/schemas/User'
+ *         - type: object
+ *           properties:
+ *             id:
+ *               type: string
+ *               example: 65f2c6e5d4f5a5b8e4a12345
  *     PaginatedUsers:
  *       type: object
  *       properties:
@@ -74,7 +116,19 @@ const router = express.Router();
  *         totalResults:
  *           type: integer
  *           example: 50
+ *     Error:
+ *       type: object
+ *       properties:
+ *         code:
+ *           type: integer
+ *           format: int32
+ *         message:
+ *           type: string
+ *       required:
+ *         - code
+ *         - message
  */
+
 
 // Create a new user (owner only)
 router.post('/', auth('create:user'), validate(userValidation.ownerCreate), userController.ownerCreate);
@@ -84,6 +138,7 @@ router.post('/', auth('create:user'), validate(userValidation.ownerCreate), user
  * /users:
  *   post:
  *     summary: Create a new user (owner only)
+ *     description: Only owners can create new users.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -92,57 +147,37 @@ router.post('/', auth('create:user'), validate(userValidation.ownerCreate), user
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             $ref: '#/components/schemas/User'
  *             required:
  *               - firstname
  *               - lastname
  *               - email
  *               - password
  *             properties:
- *               firstname:
- *                 type: string
- *                 example: John
- *               lastname:
- *                 type: string
- *                 example: Doe
- *               email:
- *                 type: string
- *                 format: email
- *                 example: john.doe@example.com
  *               password:
  *                 type: string
  *                 format: password
  *                 minLength: 8
- *                 example: Password123
- *               isOwner:
- *                 type: boolean
- *                 example: false
+ *                 description: Must contain at least one letter and one number
  *     responses:
  *       "201":
- *         description: User created successfully
+ *         description: Created
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/UserResponse'
  *       "400":
- *         description: Invalid input
+ *         description: Bad Request
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Error'
  *       "401":
- *         description: Not authenticated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Unauthorized
  *       "403":
- *         description: Not authorized
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Forbidden
  */
+
 
 // Get all users
 router.get('/', auth('view:user'), validate(userValidation.getUsers), userController.getUsers);
@@ -152,6 +187,7 @@ router.get('/', auth('view:user'), validate(userValidation.getUsers), userContro
  * /users:
  *   get:
  *     summary: Get all users
+ *     description: Retrieve a paginated list of users with filtering options.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -178,10 +214,15 @@ router.get('/', auth('view:user'), validate(userValidation.getUsers), userContro
  *           type: string
  *         description: Filter by user ID
  *       - in: query
- *         name: q
+ *         name: isOwner
  *         schema:
- *           type: string
- *         description: Search query (searches in firstname, lastname, email, and userId)
+ *           type: boolean
+ *         description: Filter by owner status
+ *       - in: query
+ *         name: isSuper
+ *         schema:
+ *           type: boolean
+ *         description: Filter by super admin status
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -203,33 +244,29 @@ router.get('/', auth('view:user'), validate(userValidation.getUsers), userContro
  *         description: Page number
  *     responses:
  *       "200":
- *         description: List of users
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/PaginatedUsers'
  *       "401":
- *         description: Not authenticated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Unauthorized
  *       "403":
- *         description: Not authorized
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Forbidden
+ *       "500":
+ *         description: Internal Server Error
  */
 
 // Get user by ID
 router.get('/:userId', auth('view:user::userId'), validate(userValidation.getUser), userController.getUser);
 
+
 /**
  * @swagger
  * /users/{userId}:
  *   get:
- *     summary: Get user by ID
+ *     summary: Get a user by ID
+ *     description: Retrieve a single user by their ID.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -242,39 +279,30 @@ router.get('/:userId', auth('view:user::userId'), validate(userValidation.getUse
  *         description: User ID
  *     responses:
  *       "200":
- *         description: User details
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/UserResponse'
  *       "401":
- *         description: Not authenticated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Unauthorized
  *       "403":
- *         description: Not authorized
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Forbidden
  *       "404":
- *         description: User not found
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Not Found
  */
+
 
 // Update user
 router.patch('/:userId', auth('update:user::userId'), validate(userValidation.updateUser), userController.updateUser);
+
 
 /**
  * @swagger
  * /users/{userId}:
  *   patch:
- *     summary: Update user
+ *     summary: Update a user
+ *     description: Update user information.
  *     tags: [Users]
  *     security:
  *       - bearerAuth: []
@@ -295,55 +323,145 @@ router.patch('/:userId', auth('update:user::userId'), validate(userValidation.up
  *               email:
  *                 type: string
  *                 format: email
- *                 example: john.doe@example.com
  *               password:
  *                 type: string
  *                 format: password
  *                 minLength: 8
- *                 example: NewPassword123
  *               firstname:
  *                 type: string
- *                 example: John
  *               lastname:
  *                 type: string
- *                 example: Doe
  *               isSuper:
  *                 type: boolean
- *                 example: false
  *               isOwner:
  *                 type: boolean
- *                 example: false
  *     responses:
  *       "200":
- *         description: User updated successfully
+ *         description: OK
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/UserResponse'
  *       "400":
- *         description: Invalid input
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Bad Request
  *       "401":
- *         description: Not authenticated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Unauthorized
  *       "403":
- *         description: Not authorized
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
+ *         description: Forbidden
  *       "404":
- *         description: User not found
+ *         description: Not Found
+ */
+
+
+/**
+ * @swagger
+ * /users/{userId}:
+ *   delete:
+ *     summary: Delete a user
+ *     description: Permanently delete a user.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     responses:
+ *       "204":
+ *         description: No Content
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ *       "404":
+ *         description: Not Found
+ */
+
+/**
+ * @swagger
+ * /users/bulk-create:
+ *   post:
+ *     summary: Bulk create users
+ *     description: Create multiple users at once.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               $ref: '#/components/schemas/User'
+ *     responses:
+ *       "201":
+ *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Error'
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/UserResponse'
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       email:
+ *                         type: string
+ *                       error:
+ *                         type: string
+ *       "400":
+ *         description: Bad Request
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ */
+
+/**
+ * @swagger
+ * /users/restore:
+ *   post:
+ *     summary: Restore multiple users
+ *     description: Restore soft-deleted users by tenant ID.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - tenantId
+ *             properties:
+ *               tenantId:
+ *                 type: string
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 restoredCount:
+ *                   type: integer
+ *       "400":
+ *         description: Bad Request
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
  */
 
 // Delete user
@@ -354,22 +472,82 @@ router.post('/bulk-create', auth('create:user:bulk-create'), validate(userValida
 router.post(
   '/restore',
   auth('create:user:restore'),
-  validate(userValidation.restoreUsers), // Add validation if you decide to use it
+  validate(userValidation.restoreUsers), 
   userController.restoreUsers
 );
 
-router.post(
-  '/restore/:userId', // Expecting userId as URL parameter
+/**
+ * @swagger
+ * /users/restore/{userId}:
+ *   post:
+ *     summary: Restore a single user
+ *     description: Restore a soft-deleted user by ID.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserResponse'
+ *       "400":
+ *         description: Bad Request
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ *       "404":
+ *         description: Not Found
+ */
+router.post('/restore/:userId', // Expecting userId as URL parameter
   auth('create:user::userId'),
   validate(userValidation.restoreUser), // Validation for userId
   userController.restoreUser // Controller function to restore the user
 );
 
-
+/**
+ * @swagger
+ * /users/soft-delete/{userId}:
+ *   post:
+ *     summary: Soft delete a user
+ *     description: Mark a user as deleted without permanent removal.
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: User ID
+ *     responses:
+ *       "200":
+ *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/UserResponse'
+ *       "400":
+ *         description: Bad Request
+ *       "401":
+ *         description: Unauthorized
+ *       "403":
+ *         description: Forbidden
+ *       "404":
+ *         description: Not Found
+ */
 
 router.post('/soft-delete/:userId', auth('create:user::userId'), userController.softDeleteUser);
-
-
 
 
 module.exports = router;

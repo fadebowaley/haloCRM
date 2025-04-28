@@ -23,8 +23,8 @@ export default function FormSummary({
 }: FormSummaryProps) {
   const { step } = useStepperOne();
   return (
-    <div className={cn('text-base text-white', className)}>
-      <div className="flex">
+    <div className={cn('text-base text-black', className)}>
+      <div className="flex text-xl">
         <span className="me-2 mt-2.5 h-0.5 w-11 bg-white/[.35]" /> Step{' '}
         {step + 1} of {stepOneTotalSteps - 1}
       </div>

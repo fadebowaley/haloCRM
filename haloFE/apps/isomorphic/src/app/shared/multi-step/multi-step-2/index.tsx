@@ -114,7 +114,7 @@ export default function MultiStepFormTwo() {
   const Component = MAP_STEP_TO_COMPONENT[step];
 
   return (
-    <div className="mx-auto max-w-2xl rounded-[20px] bg-white p-5 shadow-roundedCard dark:bg-gray-0 md:p-8 lg:p-12">
+    <div className="mx-auto max-w-lg rounded-[20px] bg-white px-20 py-14 shadow-roundedCard dark:bg-gray-0 md:p-8 lg:p-12">
       <Component />
       <Navigator />
     </div>
