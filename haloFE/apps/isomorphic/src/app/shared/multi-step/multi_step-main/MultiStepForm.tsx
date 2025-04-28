@@ -54,7 +54,7 @@ export default function MultiStepForm() {
           />
         );
       case 5:
-        return <StepFive onFinish={true}/>;
+        return <StepFive />;
       default:
         return <StepOne onNext={nextStep} />;
     }
