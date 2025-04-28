@@ -1,0 +1,1702 @@
+[
+  {
+    "name": "create:admin",
+    "action": "create",
+    "resource": "admin",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:admin",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:admin",
+    "action": "view",
+    "resource": "admin",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:admin",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:admin::adminId",
+    "action": "view",
+    "resource": "admin",
+    "path": "/:adminId",
+    "method": "GET",
+    "description": "view permission on view:admin::adminId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:admin::adminId",
+    "action": "update",
+    "resource": "admin",
+    "path": "/:adminId",
+    "method": "PATCH",
+    "description": "update permission on update:admin::adminId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:admin::adminId",
+    "action": "delete",
+    "resource": "admin",
+    "path": "/:adminId",
+    "method": "DELETE",
+    "description": "delete permission on delete:admin::adminId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:admin::tenantId",
+    "action": "view",
+    "resource": "admin",
+    "path": "/tenant/:tenantId",
+    "method": "GET",
+    "description": "view permission on view:admin::tenantId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:admin::adminId",
+    "action": "update",
+    "resource": "admin",
+    "path": "/assign-role/:adminId",
+    "method": "PATCH",
+    "description": "update permission on update:admin::adminId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:admin:all",
+    "action": "delete",
+    "resource": "admin",
+    "path": "/tenant/:tenantId/all",
+    "method": "DELETE",
+    "description": "delete permission on delete:admin:all",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:app",
+    "action": "create",
+    "resource": "app",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:app",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:app",
+    "action": "view",
+    "resource": "app",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:app",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:app:bulk-create",
+    "action": "create",
+    "resource": "app",
+    "path": "/bulk-create",
+    "method": "POST",
+    "description": "create permission on create:app:bulk-create",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:app::appId",
+    "action": "view",
+    "resource": "app",
+    "path": "/:appId",
+    "method": "GET",
+    "description": "view permission on view:app::appId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:app::appId",
+    "action": "update",
+    "resource": "app",
+    "path": "/:appId",
+    "method": "PATCH",
+    "description": "update permission on update:app::appId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:app::appId",
+    "action": "delete",
+    "resource": "app",
+    "path": "/:appId",
+    "method": "DELETE",
+    "description": "delete permission on delete:app::appId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:app::appId",
+    "action": "update",
+    "resource": "app",
+    "path": "/assign/:appId",
+    "method": "PATCH",
+    "description": "update permission on update:app::appId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:app::userId",
+    "action": "view",
+    "resource": "app",
+    "path": "/tenant-or-user/:tenantId/:userId",
+    "method": "GET",
+    "description": "view permission on view:app::userId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:app::appId",
+    "action": "update",
+    "resource": "app",
+    "path": "/toggle-status/:appId",
+    "method": "PATCH",
+    "description": "update permission on update:app::appId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:app::tenantId",
+    "action": "delete",
+    "resource": "app",
+    "path": "/tenant/:tenantId",
+    "method": "DELETE",
+    "description": "delete permission on delete:app::tenantId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:register",
+    "action": "create",
+    "resource": "auth",
+    "path": "/register",
+    "method": "POST",
+    "description": "create permission on create:auth:register",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:login",
+    "action": "create",
+    "resource": "auth",
+    "path": "/login",
+    "method": "POST",
+    "description": "create permission on create:auth:login",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:logout",
+    "action": "create",
+    "resource": "auth",
+    "path": "/logout",
+    "method": "POST",
+    "description": "create permission on create:auth:logout",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:refresh-tokens",
+    "action": "create",
+    "resource": "auth",
+    "path": "/refresh-tokens",
+    "method": "POST",
+    "description": "create permission on create:auth:refresh-tokens",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:forgot-password",
+    "action": "create",
+    "resource": "auth",
+    "path": "/forgot-password",
+    "method": "POST",
+    "description": "create permission on create:auth:forgot-password",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:reset-password",
+    "action": "create",
+    "resource": "auth",
+    "path": "/reset-password",
+    "method": "POST",
+    "description": "create permission on create:auth:reset-password",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:send-verification-email",
+    "action": "create",
+    "resource": "auth",
+    "path": "/send-verification-email",
+    "method": "POST",
+    "description": "create permission on create:auth:send-verification-email",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:verify-email",
+    "action": "create",
+    "resource": "auth",
+    "path": "/verify-email",
+    "method": "POST",
+    "description": "create permission on create:auth:verify-email",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:verify-otp",
+    "action": "create",
+    "resource": "auth",
+    "path": "/verify-otp",
+    "method": "POST",
+    "description": "create permission on create:auth:verify-otp",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:auth:resend-otp",
+    "action": "create",
+    "resource": "auth",
+    "path": "/resend-otp",
+    "method": "POST",
+    "description": "create permission on create:auth:resend-otp",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:capture",
+    "action": "create",
+    "resource": "capture",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:capture",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:capture",
+    "action": "view",
+    "resource": "capture",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:capture",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:capture:bulk-create",
+    "action": "create",
+    "resource": "capture",
+    "path": "/bulk-create",
+    "method": "POST",
+    "description": "create permission on create:capture:bulk-create",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:capture::captureId",
+    "action": "view",
+    "resource": "capture",
+    "path": "/:captureId",
+    "method": "GET",
+    "description": "view permission on view:capture::captureId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:capture::captureId",
+    "action": "update",
+    "resource": "capture",
+    "path": "/:captureId",
+    "method": "PATCH",
+    "description": "update permission on update:capture::captureId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:capture::captureId",
+    "action": "delete",
+    "resource": "capture",
+    "path": "/:captureId",
+    "method": "DELETE",
+    "description": "delete permission on delete:capture::captureId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:capture::datapointId",
+    "action": "view",
+    "resource": "capture",
+    "path": "/datapoint/:datapointId",
+    "method": "GET",
+    "description": "view permission on view:capture::datapointId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:capture::tenantId",
+    "action": "delete",
+    "resource": "capture",
+    "path": "/tenant/:tenantId",
+    "method": "DELETE",
+    "description": "delete permission on delete:capture::tenantId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:capture::datapointId",
+    "action": "view",
+    "resource": "capture",
+    "path": "/export/datapoint/:datapointId",
+    "method": "GET",
+    "description": "view permission on view:capture::datapointId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:collection",
+    "action": "create",
+    "resource": "collection",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:collection",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:collection",
+    "action": "view",
+    "resource": "collection",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:collection",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:collection::collectionId",
+    "action": "view",
+    "resource": "collection",
+    "path": "/:collectionId",
+    "method": "GET",
+    "description": "view permission on view:collection::collectionId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:collection::collectionId",
+    "action": "update",
+    "resource": "collection",
+    "path": "/:collectionId",
+    "method": "PATCH",
+    "description": "update permission on update:collection::collectionId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:collection::collectionId",
+    "action": "delete",
+    "resource": "collection",
+    "path": "/:collectionId",
+    "method": "DELETE",
+    "description": "delete permission on delete:collection::collectionId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:data",
+    "action": "create",
+    "resource": "data",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:data",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:data::dataId",
+    "action": "view",
+    "resource": "data",
+    "path": "/:dataId",
+    "method": "GET",
+    "description": "view permission on view:data::dataId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:data::dataId",
+    "action": "update",
+    "resource": "data",
+    "path": "/:dataId",
+    "method": "PATCH",
+    "description": "update permission on update:data::dataId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:data::dataId",
+    "action": "delete",
+    "resource": "data",
+    "path": "/:dataId",
+    "method": "DELETE",
+    "description": "delete permission on delete:data::dataId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:data",
+    "action": "view",
+    "resource": "data",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:data",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:data:import",
+    "action": "create",
+    "resource": "data",
+    "path": "/import",
+    "method": "POST",
+    "description": "create permission on create:data:import",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:data:export",
+    "action": "view",
+    "resource": "data",
+    "path": "/export",
+    "method": "GET",
+    "description": "view permission on view:data:export",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:data:public",
+    "action": "update",
+    "resource": "data",
+    "path": "/:dataId/public",
+    "method": "PATCH",
+    "description": "update permission on update:data:public",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:data:private",
+    "action": "update",
+    "resource": "data",
+    "path": "/:dataId/private",
+    "method": "PATCH",
+    "description": "update permission on update:data:private",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:department",
+    "action": "create",
+    "resource": "department",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:department",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:department",
+    "action": "view",
+    "resource": "department",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:department",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:department::departmentId",
+    "action": "view",
+    "resource": "department",
+    "path": "/:departmentId",
+    "method": "GET",
+    "description": "view permission on view:department::departmentId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:department::departmentId",
+    "action": "update",
+    "resource": "department",
+    "path": "/:departmentId",
+    "method": "PATCH",
+    "description": "update permission on update:department::departmentId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:department::departmentId",
+    "action": "delete",
+    "resource": "department",
+    "path": "/:departmentId",
+    "method": "DELETE",
+    "description": "delete permission on delete:department::departmentId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:department:import",
+    "action": "create",
+    "resource": "department",
+    "path": "/import",
+    "method": "POST",
+    "description": "create permission on create:department:import",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:department:export",
+    "action": "view",
+    "resource": "department",
+    "path": "/export",
+    "method": "GET",
+    "description": "view permission on view:department:export",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:docs",
+    "action": "view",
+    "resource": "docs",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:docs",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:event",
+    "action": "create",
+    "resource": "event",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:event",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:event",
+    "action": "view",
+    "resource": "event",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:event",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:event::eventId",
+    "action": "view",
+    "resource": "event",
+    "path": "/:eventId",
+    "method": "GET",
+    "description": "view permission on view:event::eventId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:event::eventId",
+    "action": "update",
+    "resource": "event",
+    "path": "/:eventId",
+    "method": "PATCH",
+    "description": "update permission on update:event::eventId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:event::eventId",
+    "action": "delete",
+    "resource": "event",
+    "path": "/:eventId",
+    "method": "DELETE",
+    "description": "delete permission on delete:event::eventId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:event:import",
+    "action": "create",
+    "resource": "event",
+    "path": "/import",
+    "method": "POST",
+    "description": "create permission on create:event:import",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:event:deleteAll",
+    "action": "delete",
+    "resource": "event",
+    "path": "/deleteAll",
+    "method": "DELETE",
+    "description": "delete permission on delete:event:deleteAll",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:event:dateRange",
+    "action": "view",
+    "resource": "event",
+    "path": "/dateRange",
+    "method": "GET",
+    "description": "view permission on view:event:dateRange",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:event::programId",
+    "action": "view",
+    "resource": "event",
+    "path": "/program/:programId",
+    "method": "GET",
+    "description": "view permission on view:event::programId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:eventConfig",
+    "action": "create",
+    "resource": "eventConfig",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:eventConfig",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:eventConfig",
+    "action": "view",
+    "resource": "eventConfig",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:eventConfig",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:eventConfig::eventConfigId",
+    "action": "view",
+    "resource": "eventConfig",
+    "path": "/:eventConfigId",
+    "method": "GET",
+    "description": "view permission on view:eventConfig::eventConfigId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:eventConfig::eventConfigId",
+    "action": "update",
+    "resource": "eventConfig",
+    "path": "/:eventConfigId",
+    "method": "PATCH",
+    "description": "update permission on update:eventConfig::eventConfigId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:eventConfig::eventConfigId",
+    "action": "delete",
+    "resource": "eventConfig",
+    "path": "/:eventConfigId",
+    "method": "DELETE",
+    "description": "delete permission on delete:eventConfig::eventConfigId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:eventConfig:deleteAll",
+    "action": "delete",
+    "resource": "eventConfig",
+    "path": "/deleteAll",
+    "method": "DELETE",
+    "description": "delete permission on delete:eventConfig:deleteAll",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:eventConfig::eventId",
+    "action": "view",
+    "resource": "eventConfig",
+    "path": "/event/:eventId",
+    "method": "GET",
+    "description": "view permission on view:eventConfig::eventId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:level",
+    "action": "create",
+    "resource": "level",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:level",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:level",
+    "action": "view",
+    "resource": "level",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:level",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:level::levelId",
+    "action": "view",
+    "resource": "level",
+    "path": "/:levelId",
+    "method": "GET",
+    "description": "view permission on view:level::levelId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:level::levelId",
+    "action": "update",
+    "resource": "level",
+    "path": "/:levelId",
+    "method": "PATCH",
+    "description": "update permission on update:level::levelId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:level::levelId",
+    "action": "delete",
+    "resource": "level",
+    "path": "/:levelId",
+    "method": "DELETE",
+    "description": "delete permission on delete:level::levelId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:level:hierarchy",
+    "action": "view",
+    "resource": "level",
+    "path": "/hierarchy",
+    "method": "GET",
+    "description": "view permission on view:level:hierarchy",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:level:parent",
+    "action": "view",
+    "resource": "level",
+    "path": "/:levelId/parent",
+    "method": "GET",
+    "description": "view permission on view:level:parent",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:level:children",
+    "action": "view",
+    "resource": "level",
+    "path": "/:levelId/children",
+    "method": "GET",
+    "description": "view permission on view:level:children",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:level:activate",
+    "action": "update",
+    "resource": "level",
+    "path": "/:levelId/activate",
+    "method": "PATCH",
+    "description": "update permission on update:level:activate",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:level:deactivate",
+    "action": "update",
+    "resource": "level",
+    "path": "/:levelId/deactivate",
+    "method": "PATCH",
+    "description": "update permission on update:level:deactivate",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:level:move",
+    "action": "update",
+    "resource": "level",
+    "path": "/:levelId/move",
+    "method": "PATCH",
+    "description": "update permission on update:level:move",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:node",
+    "action": "create",
+    "resource": "node",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:node",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:node",
+    "action": "view",
+    "resource": "node",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:node",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:node::nodeId",
+    "action": "view",
+    "resource": "node",
+    "path": "/:nodeId",
+    "method": "GET",
+    "description": "view permission on view:node::nodeId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:node::nodeId",
+    "action": "update",
+    "resource": "node",
+    "path": "/:nodeId",
+    "method": "PATCH",
+    "description": "update permission on update:node::nodeId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:node::nodeId",
+    "action": "delete",
+    "resource": "node",
+    "path": "/:nodeId",
+    "method": "DELETE",
+    "description": "delete permission on delete:node::nodeId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:node:type",
+    "action": "view",
+    "resource": "node",
+    "path": "/type",
+    "method": "GET",
+    "description": "view permission on view:node:type",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:node:parent",
+    "action": "view",
+    "resource": "node",
+    "path": "/:nodeId/parent",
+    "method": "GET",
+    "description": "view permission on view:node:parent",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:node:children",
+    "action": "view",
+    "resource": "node",
+    "path": "/:nodeId/children",
+    "method": "GET",
+    "description": "view permission on view:node:children",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:node:move",
+    "action": "update",
+    "resource": "node",
+    "path": "/:nodeId/move",
+    "method": "PATCH",
+    "description": "update permission on update:node:move",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:node:path",
+    "action": "view",
+    "resource": "node",
+    "path": "/:nodeId/path",
+    "method": "GET",
+    "description": "view permission on view:node:path",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:node:activate",
+    "action": "update",
+    "resource": "node",
+    "path": "/:nodeId/activate",
+    "method": "PATCH",
+    "description": "update permission on update:node:activate",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:node:deactivate",
+    "action": "update",
+    "resource": "node",
+    "path": "/:nodeId/deactivate",
+    "method": "PATCH",
+    "description": "update permission on update:node:deactivate",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:payment",
+    "action": "create",
+    "resource": "payment",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:payment",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:payment",
+    "action": "view",
+    "resource": "payment",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:payment",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:payment::paymentId",
+    "action": "view",
+    "resource": "payment",
+    "path": "/:paymentId",
+    "method": "GET",
+    "description": "view permission on view:payment::paymentId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:payment::paymentId",
+    "action": "update",
+    "resource": "payment",
+    "path": "/:paymentId",
+    "method": "PATCH",
+    "description": "update permission on update:payment::paymentId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:payment::paymentId",
+    "action": "delete",
+    "resource": "payment",
+    "path": "/:paymentId",
+    "method": "DELETE",
+    "description": "delete permission on delete:payment::paymentId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:payment::reference",
+    "action": "view",
+    "resource": "payment",
+    "path": "/reference/:reference",
+    "method": "GET",
+    "description": "view permission on view:payment::reference",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:payment:status",
+    "action": "view",
+    "resource": "payment",
+    "path": "/status",
+    "method": "GET",
+    "description": "view permission on view:payment:status",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:payment::userId",
+    "action": "view",
+    "resource": "payment",
+    "path": "/user/:userId",
+    "method": "GET",
+    "description": "view permission on view:payment::userId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:payment:process",
+    "action": "update",
+    "resource": "payment",
+    "path": "/:paymentId/process",
+    "method": "PATCH",
+    "description": "update permission on update:payment:process",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:payment:complete",
+    "action": "update",
+    "resource": "payment",
+    "path": "/:paymentId/complete",
+    "method": "PATCH",
+    "description": "update permission on update:payment:complete",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:payment:cancel",
+    "action": "update",
+    "resource": "payment",
+    "path": "/:paymentId/cancel",
+    "method": "PATCH",
+    "description": "update permission on update:payment:cancel",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:payment:refund",
+    "action": "update",
+    "resource": "payment",
+    "path": "/:paymentId/refund",
+    "method": "PATCH",
+    "description": "update permission on update:payment:refund",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:payment:receipt",
+    "action": "view",
+    "resource": "payment",
+    "path": "/:paymentId/receipt",
+    "method": "GET",
+    "description": "view permission on view:payment:receipt",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:permission",
+    "action": "create",
+    "resource": "permission",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:permission",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:permission",
+    "action": "view",
+    "resource": "permission",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:permission",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:permission::permissionName",
+    "action": "view",
+    "resource": "permission",
+    "path": "/:permissionName",
+    "method": "GET",
+    "description": "view permission on view:permission::permissionName",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:permission::permissionName",
+    "action": "update",
+    "resource": "permission",
+    "path": "/:permissionName",
+    "method": "PATCH",
+    "description": "update permission on update:permission::permissionName",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:permission::permissionName",
+    "action": "delete",
+    "resource": "permission",
+    "path": "/:permissionName",
+    "method": "DELETE",
+    "description": "delete permission on delete:permission::permissionName",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:permission:bulk",
+    "action": "create",
+    "resource": "permission",
+    "path": "/bulk",
+    "method": "POST",
+    "description": "create permission on create:permission:bulk",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:program",
+    "action": "create",
+    "resource": "program",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:program",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:program",
+    "action": "view",
+    "resource": "program",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:program",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:program:bulk-import",
+    "action": "create",
+    "resource": "program",
+    "path": "/bulk-import",
+    "method": "POST",
+    "description": "create permission on create:program:bulk-import",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:program::programId",
+    "action": "view",
+    "resource": "program",
+    "path": "/:programId",
+    "method": "GET",
+    "description": "view permission on view:program::programId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:program::programId",
+    "action": "update",
+    "resource": "program",
+    "path": "/:programId",
+    "method": "PATCH",
+    "description": "update permission on update:program::programId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:program::programId",
+    "action": "delete",
+    "resource": "program",
+    "path": "/:programId",
+    "method": "DELETE",
+    "description": "delete permission on delete:program::programId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:program:delete-all",
+    "action": "delete",
+    "resource": "program",
+    "path": "/delete-all",
+    "method": "DELETE",
+    "description": "delete permission on delete:program:delete-all",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:program:assign",
+    "action": "update",
+    "resource": "program",
+    "path": "/:programId/assign",
+    "method": "PATCH",
+    "description": "update permission on update:program:assign",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:report",
+    "action": "create",
+    "resource": "report",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:report",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:report",
+    "action": "view",
+    "resource": "report",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:report",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:report:bulk-import",
+    "action": "create",
+    "resource": "report",
+    "path": "/bulk-import",
+    "method": "POST",
+    "description": "create permission on create:report:bulk-import",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:report::reportId",
+    "action": "view",
+    "resource": "report",
+    "path": "/:reportId",
+    "method": "GET",
+    "description": "view permission on view:report::reportId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:report::reportId",
+    "action": "update",
+    "resource": "report",
+    "path": "/:reportId",
+    "method": "PATCH",
+    "description": "update permission on update:report::reportId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:report::reportId",
+    "action": "delete",
+    "resource": "report",
+    "path": "/:reportId",
+    "method": "DELETE",
+    "description": "delete permission on delete:report::reportId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:report:delete-all",
+    "action": "delete",
+    "resource": "report",
+    "path": "/delete-all",
+    "method": "DELETE",
+    "description": "delete permission on delete:report:delete-all",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:role:templates",
+    "action": "view",
+    "resource": "role",
+    "path": "/templates",
+    "method": "GET",
+    "description": "view permission on view:role:templates",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:role",
+    "action": "create",
+    "resource": "role",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:role",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:role",
+    "action": "view",
+    "resource": "role",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:role",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:role::roleId",
+    "action": "view",
+    "resource": "role",
+    "path": "/:roleId",
+    "method": "GET",
+    "description": "view permission on view:role::roleId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:role::roleId",
+    "action": "update",
+    "resource": "role",
+    "path": "/:roleId",
+    "method": "PATCH",
+    "description": "update permission on update:role::roleId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:role::roleId",
+    "action": "delete",
+    "resource": "role",
+    "path": "/:roleId",
+    "method": "DELETE",
+    "description": "delete permission on delete:role::roleId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:role:permissions",
+    "action": "update",
+    "resource": "role",
+    "path": "/:roleId/permissions",
+    "method": "PATCH",
+    "description": "update permission on update:role:permissions",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:role",
+    "action": "delete",
+    "resource": "role",
+    "path": "/",
+    "method": "DELETE",
+    "description": "delete permission on delete:role",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:role:bulk",
+    "action": "create",
+    "resource": "role",
+    "path": "/bulk",
+    "method": "POST",
+    "description": "create permission on create:role:bulk",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:settings",
+    "action": "create",
+    "resource": "settings",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:settings",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:settings",
+    "action": "view",
+    "resource": "settings",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:settings",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:settings::settingId",
+    "action": "view",
+    "resource": "settings",
+    "path": "/:settingId",
+    "method": "GET",
+    "description": "view permission on view:settings::settingId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:settings::settingId",
+    "action": "update",
+    "resource": "settings",
+    "path": "/:settingId",
+    "method": "PATCH",
+    "description": "update permission on update:settings::settingId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:settings::settingId",
+    "action": "delete",
+    "resource": "settings",
+    "path": "/:settingId",
+    "method": "DELETE",
+    "description": "delete permission on delete:settings::settingId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:settings::nodeId",
+    "action": "delete",
+    "resource": "settings",
+    "path": "/node/:nodeId",
+    "method": "DELETE",
+    "description": "delete permission on delete:settings::nodeId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:settings:assign",
+    "action": "create",
+    "resource": "settings",
+    "path": "/assign",
+    "method": "POST",
+    "description": "create permission on create:settings:assign",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:statement",
+    "action": "create",
+    "resource": "statement",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:statement",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:statement",
+    "action": "view",
+    "resource": "statement",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:statement",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:statement::statementId",
+    "action": "view",
+    "resource": "statement",
+    "path": "/:statementId",
+    "method": "GET",
+    "description": "view permission on view:statement::statementId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:statement::statementId",
+    "action": "update",
+    "resource": "statement",
+    "path": "/:statementId",
+    "method": "PATCH",
+    "description": "update permission on update:statement::statementId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:statement::statementId",
+    "action": "delete",
+    "resource": "statement",
+    "path": "/:statementId",
+    "method": "DELETE",
+    "description": "delete permission on delete:statement::statementId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:statement::nodeId",
+    "action": "view",
+    "resource": "statement",
+    "path": "/total-payments/node/:nodeId",
+    "method": "GET",
+    "description": "view permission on view:statement::nodeId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:statement::collectionId",
+    "action": "view",
+    "resource": "statement",
+    "path": "/total-payments/collection/:collectionId",
+    "method": "GET",
+    "description": "view permission on view:statement::collectionId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:structure",
+    "action": "create",
+    "resource": "structure",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:structure",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:structure",
+    "action": "view",
+    "resource": "structure",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:structure",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:structure::structureId",
+    "action": "view",
+    "resource": "structure",
+    "path": "/:structureId",
+    "method": "GET",
+    "description": "view permission on view:structure::structureId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:structure::structureId",
+    "action": "update",
+    "resource": "structure",
+    "path": "/:structureId",
+    "method": "PATCH",
+    "description": "update permission on update:structure::structureId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:structure::structureId",
+    "action": "delete",
+    "resource": "structure",
+    "path": "/:structureId",
+    "method": "DELETE",
+    "description": "delete permission on delete:structure::structureId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:user",
+    "action": "create",
+    "resource": "user",
+    "path": "/",
+    "method": "POST",
+    "description": "create permission on create:user",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:user",
+    "action": "view",
+    "resource": "user",
+    "path": "/",
+    "method": "GET",
+    "description": "view permission on view:user",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "view:user::userId",
+    "action": "view",
+    "resource": "user",
+    "path": "/:userId",
+    "method": "GET",
+    "description": "view permission on view:user::userId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "update:user::userId",
+    "action": "update",
+    "resource": "user",
+    "path": "/:userId",
+    "method": "PATCH",
+    "description": "update permission on update:user::userId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "delete:user::userId",
+    "action": "delete",
+    "resource": "user",
+    "path": "/:userId",
+    "method": "DELETE",
+    "description": "delete permission on delete:user::userId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:user:bulk-create",
+    "action": "create",
+    "resource": "user",
+    "path": "/bulk-create",
+    "method": "POST",
+    "description": "create permission on create:user:bulk-create",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:user:restore",
+    "action": "create",
+    "resource": "user",
+    "path": "/restore",
+    "method": "POST",
+    "description": "create permission on create:user:restore",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:user::userId",
+    "action": "create",
+    "resource": "user",
+    "path": "/restore/:userId",
+    "method": "POST",
+    "description": "create permission on create:user::userId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "create:user::userId",
+    "action": "create",
+    "resource": "user",
+    "path": "/soft-delete/:userId",
+    "method": "POST",
+    "description": "create permission on create:user::userId",
+    "isWildcard": false,
+    "isAdminLevel": false
+  },
+  {
+    "name": "superuser:all-access",
+    "action": "all",
+    "resource": "*",
+    "path": "*",
+    "method": "*",
+    "description": "Superuser has access to all resources and actions",
+    "isWildcard": true,
+    "isAdminLevel": true
+  }
+]

@@ -59,7 +59,7 @@ const captureSchema = mongoose.Schema(
       enum: ['web', 'mobile', 'api', 'sync'],
       default: 'web',
     },
-
+    deletedAt: { type: Date, default: null },
     status: {
       type: String,
       enum: ['active', 'archived', 'pending'],

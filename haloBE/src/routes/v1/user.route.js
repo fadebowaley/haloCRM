@@ -129,6 +129,10 @@ const router = express.Router();
  *         - message
  */
 
+
+// Create a new user (owner only)
+router.post('/', auth('create:user'), validate(userValidation.ownerCreate), userController.ownerCreate);
+
 /**
  * @swagger
  * /users:
@@ -173,12 +177,10 @@ const router = express.Router();
  *       "403":
  *         description: Forbidden
  */
-router.post(
-  '/',
-  auth('manageUsers'),
-  validate(userValidation.ownerCreate),
-  userController.ownerCreate
-);
+
+
+// Get all users
+router.get('/', auth('view:user'), validate(userValidation.getUsers), userController.getUsers);
 
 /**
  * @swagger
@@ -254,7 +256,10 @@ router.post(
  *       "500":
  *         description: Internal Server Error
  */
-router.get('/', auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
+
+// Get user by ID
+router.get('/:userId', auth('view:user::userId'), validate(userValidation.getUser), userController.getUser);
+
 
 /**
  * @swagger
@@ -286,7 +291,11 @@ router.get('/', auth('getUsers'), validate(userValidation.getUsers), userControl
  *       "404":
  *         description: Not Found
  */
-router.get('/:userId', auth('getUsers'), validate(userValidation.getUser), userController.getUser);
+
+
+// Update user
+router.patch('/:userId', auth('update:user::userId'), validate(userValidation.updateUser), userController.updateUser);
+
 
 /**
  * @swagger
@@ -342,7 +351,7 @@ router.get('/:userId', auth('getUsers'), validate(userValidation.getUser), userC
  *       "404":
  *         description: Not Found
  */
-router.patch('/:userId', auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser);
+
 
 /**
  * @swagger
@@ -370,7 +379,6 @@ router.patch('/:userId', auth('manageUsers'), validate(userValidation.updateUser
  *       "404":
  *         description: Not Found
  */
-router.delete('/:userId', auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
 
 /**
  * @swagger
@@ -417,7 +425,6 @@ router.delete('/:userId', auth('manageUsers'), validate(userValidation.deleteUse
  *       "403":
  *         description: Forbidden
  */
-router.post('/bulk-create', auth('manageUsers'), validate(userValidation.bulkCreate), userController.bulkCreate);
 
 /**
  * @swagger
@@ -456,10 +463,16 @@ router.post('/bulk-create', auth('manageUsers'), validate(userValidation.bulkCre
  *       "403":
  *         description: Forbidden
  */
+
+// Delete user
+router.delete('/:userId', auth('delete:user::userId'), validate(userValidation.deleteUser), userController.deleteUser);
+
+router.post('/bulk-create', auth('create:user:bulk-create'), validate(userValidation.bulkCreate), userController.bulkCreate);
+
 router.post(
   '/restore',
-  auth('manageUsers'),
-  validate(userValidation.restoreUsers),
+  auth('create:user:restore'),
+  validate(userValidation.restoreUsers), 
   userController.restoreUsers
 );
 
@@ -495,11 +508,10 @@ router.post(
  *       "404":
  *         description: Not Found
  */
-router.post(
-  '/restore/:userId',
-  auth('manageUsers'),
-  validate(userValidation.restoreUser),
-  userController.restoreUser
+router.post('/restore/:userId', // Expecting userId as URL parameter
+  auth('create:user::userId'),
+  validate(userValidation.restoreUser), // Validation for userId
+  userController.restoreUser // Controller function to restore the user
 );
 
 /**
@@ -534,11 +546,8 @@ router.post(
  *       "404":
  *         description: Not Found
  */
-router.post(
-  '/soft-delete/:userId',
-  auth('manageUsers'),
-  validate(userValidation.softDeleteUser),
-  userController.softDeleteUser
-);
+
+router.post('/soft-delete/:userId', auth('create:user::userId'), userController.softDeleteUser);
+
 
 module.exports = router;

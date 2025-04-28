@@ -67,7 +67,7 @@ const appSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-
+    deletedAt: { type: Date, default: null },
     lastUsedAt: {
       type: Date,
     },
