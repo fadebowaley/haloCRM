@@ -129,6 +129,10 @@ const router = express.Router();
  *         - message
  */
 
+
+// Create a new user (owner only)
+router.post('/', auth('create:user'), validate(userValidation.ownerCreate), userController.ownerCreate);
+
 <<<<<<< HEAD
 /**
  * @swagger
@@ -430,7 +434,7 @@ router.patch('/:userId', auth('update:user::userId'), validate(userValidation.up
  *       "404":
  *         description: Not Found
  */
-router.patch('/:userId', auth('manageUsers'), validate(userValidation.updateUser), userController.updateUser);
+
 
 <<<<<<< HEAD
 /**
@@ -459,7 +463,6 @@ router.patch('/:userId', auth('manageUsers'), validate(userValidation.updateUser
  *       "404":
  *         description: Not Found
  */
-router.delete('/:userId', auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
 
 /**
  * @swagger
@@ -506,7 +509,6 @@ router.delete('/:userId', auth('manageUsers'), validate(userValidation.deleteUse
  *       "403":
  *         description: Forbidden
  */
-router.post('/bulk-create', auth('manageUsers'), validate(userValidation.bulkCreate), userController.bulkCreate);
 
 /**
  * @swagger
@@ -545,6 +547,12 @@ router.post('/bulk-create', auth('manageUsers'), validate(userValidation.bulkCre
  *       "403":
  *         description: Forbidden
  */
+
+// Delete user
+router.delete('/:userId', auth('delete:user::userId'), validate(userValidation.deleteUser), userController.deleteUser);
+
+router.post('/bulk-create', auth('create:user:bulk-create'), validate(userValidation.bulkCreate), userController.bulkCreate);
+
 router.post(
   '/restore',
   auth('manageUsers'),
