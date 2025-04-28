@@ -1,56 +1,3 @@
-/*
-This file handles configuration settings for the application. Let me break it down:
-
-1. Loading Environment Variables:
-- Uses dotenv to load settings from a .env file
-- Example: If .env has PORT=4000, it becomes accessible as process.env.PORT
-
-2. Validation Schema:
-- Uses Joi to validate all environment variables have correct values
-- Example schema rules:
-  * NODE_ENV must be either 'production', 'development', or 'test'
-  * PORT defaults to 3000 if not specified
-  * MONGODB_URL is required for database connection
-  * JWT settings control how long authentication tokens last
-
-3. Configuration Object:
-The exported config object has 4 main sections:
-
-a) Basic settings:
-   env: 'development'
-   port: 3000
-
-b) MongoDB settings:
-   Example:
-   mongoose: {
-     url: 'mongodb://localhost:27017/myapp',
-     options: {...} // Connection options
-   }
-
-c) JWT (JSON Web Token) settings:
-   Example:
-   jwt: {
-     secret: 'mySecretKey',
-     accessExpirationMinutes: 30,  // Token expires in 30 minutes
-     refreshExpirationDays: 30     // Refresh token lasts 30 days
-   }
-
-d) Email settings:
-   Example:
-   email: {
-     smtp: {
-       host: 'smtp.gmail.com',
-       port: 587,
-       auth: {
-         user: 'myapp@gmail.com',
-         pass: 'emailPassword'
-       }
-     },
-     from: 'noreply@myapp.com'
-   }
-
-If any required settings are missing or invalid, the app will fail to start with a clear error message.
-*/
 
 const dotenv = require('dotenv');
 const path = require('path');
@@ -60,7 +7,7 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 const envVarsSchema = Joi.object()
   .keys({
-    NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
+    NODE_ENV: Joi.string().valid('production', 'development', 'test').default('development'), // 👈 add this
     PORT: Joi.number().default(4000),
     HALOFE_URL: Joi.string().description('Front-end Url_base that for communication'),
     MONGODB_URL: Joi.string().required().description('Mongo DB url'),
@@ -99,6 +46,10 @@ module.exports = {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      // 💡 Add these:
+      serverSelectionTimeoutMS: 30000, // wait up to 30s for MongoDB server selection
+      socketTimeoutMS: 45000, // timeout for inactivity on socket
+      bufferCommands: false, // optional: disable buffering if not connected
     },
   },
   jwt: {

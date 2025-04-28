@@ -11,7 +11,7 @@ const ChurchProfileSchema = new mongoose.Schema(
     // Reference to the church
     church: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Church', // Assuming ChurchStructure is the model for churches
+      ref: 'Nodes', // Assuming ChurchStructure is the model for churches
       required: true, // Assuming this reference is mandatory
     },
     // Additional Information

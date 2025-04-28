@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate, tenantPlugin } = require('./plugins');
 
-const ACTIONS = ['view', 'create', 'update', 'delete', 'manage', 'assign', 'approve', 'export', 'import'];
+const ACTIONS = ['view', 'create', 'update', 'delete', 'manage', 'assign', 'approve', 'export', 'import','all'];
 
 const permissionSchema = mongoose.Schema(
   {
@@ -136,5 +136,8 @@ permissionSchema.statics.bulkCreatePermissions = async function (permissionsArra
 /**
  * @typedef Permission
  */
+
 const Permission = mongoose.model('Permission', permissionSchema);
+
 module.exports = Permission;
+

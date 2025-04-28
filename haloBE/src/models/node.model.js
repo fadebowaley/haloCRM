@@ -25,6 +25,7 @@ const nodeSchema = mongoose.Schema(
     country: { type: String, required: true },
     postalCode: { type: String },
     dateOfEstablishment: { type: Date },
+    deletedAt: { type: Date, default: null },
     users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true } // Automatically adds createdAt & updatedAt fields

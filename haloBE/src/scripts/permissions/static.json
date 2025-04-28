@@ -1,0 +1,12 @@
+[
+  {
+    "name": "superuser:all-access",
+    "action": "all",
+    "resource": "*",
+    "path": "*",
+    "method": "*",
+    "description": "Superuser has access to all resources and actions",
+    "isWildcard": true,
+    "isAdminLevel": true
+  }
+]

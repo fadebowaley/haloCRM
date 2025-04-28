@@ -7,6 +7,7 @@ const BasketSchema = mongoose.Schema(
       type: String,
       index: true,
     },
+    deletedAt: { type: Date, default: null },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     offerings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Collections' }],
     totalAmount: { type: Number, default: 0 }, // Total computed value of all offerings

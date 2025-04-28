@@ -16,6 +16,7 @@ const levelSchema = mongoose.Schema(
     rank: { type: Number, required: true },
     // isSpecial flag: If true, this level is considered 'special' and duplicate rank values are allowed
     isSpecial: { type: Boolean, default: false },
+    deletedAt: { type: Date, default: null },
   },
   { timestamps: true }
 );
