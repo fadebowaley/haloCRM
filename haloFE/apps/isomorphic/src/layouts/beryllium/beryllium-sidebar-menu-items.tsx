@@ -315,6 +315,31 @@ export const berylliumSidebarMenuItems = [
     icon: <PiFolderLock />,
   },
   {
+    name: 'Roles Table',
+    href: routes.rolesTable,
+    icon: <PiFolderLock />,
+  },
+  {
+    name: 'Permissions Table',
+    href: routes.permissionsTable,
+    icon: <PiFolderLock />,
+  },
+  {
+    name: 'Users Table',
+    href: routes.usersTable,
+    icon: <PiFolderLock />,
+  },
+  {
+    name: 'Levels Table',
+    href: routes.levelsTable,
+    icon: <PiFolderLock />,
+  },
+  {
+    name: 'Structures Table',
+    href: routes.structuresTable,
+    icon: <PiFolderLock />,
+  },
+  {
     name: 'Point of Sell',
     href: routes.pos.index,
     icon: <PiCreditCard />,

@@ -57,6 +57,7 @@ import {
   PiUser,
   PiUserCircle,
   PiUserGear,
+  PiUserMinus,
   PiUserPlus,
 } from 'react-icons/pi';
 
@@ -338,6 +339,34 @@ export const berylliumMenuItems: MenuItemsType[] = [
           {
             name: 'Manage Files',
             href: routes.file.manager,
+          },
+        ],
+      },
+      {
+        name: 'Tables-new',
+        description:
+          '"View and Control Users and Structures with Ease!"',
+        icon: PiUserMinus,
+        subMenuItems: [
+          {
+            name: 'Roles Table',
+            href: routes.rolesTable,
+          },
+          {
+            name: 'Users Table',
+            href: routes.usersTable,
+          },
+          {
+            name: 'Permissions Table',
+            href: routes.permissionsTable,
+          },
+          {
+            name: 'Structures Table',
+            href: routes.structuresTable,
+          },
+          {
+            name: 'Levels Table',
+            href: routes.levelsTable,
           },
         ],
       },
@@ -640,7 +669,7 @@ export const berylliumMenuItems: MenuItemsType[] = [
           },
           {
             name: 'Vintage Forgot Password',
-            href: routes.auth.forgotPassword2,
+            href: routes.auth.forgotPassword,
           },
           {
             name: 'Trendy Forgot Password',

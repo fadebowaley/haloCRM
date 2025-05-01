@@ -93,6 +93,14 @@ export const routes = {
   },
   eventCalendar: '/event-calendar',
   rolesPermissions: '/roles-permissions',
+  
+  //new tables
+  permissionsTable: '/users/permissions',
+  rolesTable: '/users/roles',
+  usersTable: '/users/list',
+  levelsTable: '/users/level',
+  structuresTable: '/users/structure',
+
   invoice: {
     home: '/invoice',
     create: '/invoice/create',
