@@ -93,6 +93,25 @@ export const routes = {
   },
   eventCalendar: '/event-calendar',
   rolesPermissions: '/roles-permissions',
+
+  
+  users:{
+    permissionsTable: '/users/permissions',
+    rolesTable: '/users/roles',
+    usersTable: '/users/list',
+    levelsTable: '/users/level',
+    structuresTable: '/users/structure',
+  },
+
+  network: {
+    level: '/network/level',
+    structure: '/network/structure',
+  },
+
+  node: {
+    create: '/node/create',
+    manage: '/node/manage',
+
   //new users route declared
   users:{
     users: '/users',
@@ -101,6 +120,7 @@ export const routes = {
     roles:'/users/roles',
     team:'/users/team',
     onboarding:'/users/onboarding'
+
   },
 
   invoice: {
