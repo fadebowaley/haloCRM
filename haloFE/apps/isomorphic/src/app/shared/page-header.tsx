@@ -10,7 +10,7 @@ export type PageHeaderTypes = {
 
 export default function PageHeader({
   title,
-  breadcrumb,
+  breadcrumb = [],
   children,
   className,
 }: React.PropsWithChildren<PageHeaderTypes>) {

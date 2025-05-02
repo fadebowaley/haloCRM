@@ -94,12 +94,23 @@ export const routes = {
   eventCalendar: '/event-calendar',
   rolesPermissions: '/roles-permissions',
   
-  //new tables
-  permissionsTable: '/users/permissions',
-  rolesTable: '/users/roles',
-  usersTable: '/users/list',
-  levelsTable: '/users/level',
-  structuresTable: '/users/structure',
+  users:{
+    permissionsTable: '/users/permissions',
+    rolesTable: '/users/roles',
+    usersTable: '/users/list',
+    levelsTable: '/users/level',
+    structuresTable: '/users/structure',
+  },
+
+  network: {
+    level: '/network/level',
+    structure: '/network/structure',
+  },
+
+  node: {
+    create: '/node/create',
+    manage: '/node/manage',
+  },
 
   invoice: {
     home: '/invoice',

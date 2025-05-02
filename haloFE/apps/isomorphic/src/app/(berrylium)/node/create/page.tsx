@@ -6,14 +6,14 @@ import ImportButton from '@/app/shared/import-button';
 import ExportButton from '@/app/shared/export-button';
 
 const pageHeader = {
-  title: 'Users',
+  title: 'Nodes',
   breadcrumb: [
     {
       href: '/',
       name: 'Dashboard',
     },
     {
-      name: 'Users',
+      name: 'Create Node',
     },
   ],
 };
@@ -34,7 +34,7 @@ export default function ListPage({
       <PageHeader title={pageHeader.title} breadcrumb={pageHeader.breadcrumb}>
         <div className="mt-4 flex items-center gap-3 @lg:mt-0">
           <ExportButton data={data ?? []} fileName={fileName} header={header} />
-          <ImportButton title="Bulk Import User" buttonLabel="Bulk Import User" />
+          <ImportButton title="Bulk Import User" buttonLabel="Bulk Import Nodes" />
         </div>
       </PageHeader>
       <UsersTable />

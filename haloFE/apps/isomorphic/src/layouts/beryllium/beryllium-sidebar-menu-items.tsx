@@ -55,177 +55,262 @@ import {
   PiUserCircle,
   PiUserGear,
   PiUserPlus,
+  PiNetwork,
 } from 'react-icons/pi';
 
 // Note: do not add href in the label object, it is rendering as label
 export const berylliumSidebarMenuItems = [
   // label start
+  // {
+  //   name: 'Overview',
+  // },
+  // // label end
+  // {
+  //   name: 'File Manager',
+  //   href: '/',
+  //   icon: <PiFolder />,
+  // },
+  // {
+  //   name: 'Appointment',
+  //   href: routes.appointment.dashboard,
+  //   icon: <PiCalendar />,
+  // },
+  // {
+  //   name: 'Executive',
+  //   href: routes.executive.dashboard,
+  //   icon: <PiBriefcase />,
+  // },
+  // {
+  //   name: 'Project',
+  //   href: routes.project.dashboard,
+  //   icon: <PiClipboardText />,
+  // },
+  // {
+  //   name: 'CRM',
+  //   href: routes.crm.dashboard,
+  //   icon: <PiFolderUser />,
+  // },
+  // {
+  //   name: 'Affiliate',
+  //   href: routes.affiliate.dashboard,
+  //   icon: <PiChartPieSlice />,
+  // },
+  // {
+  //   name: 'Store Analytics',
+  //   href: routes.storeAnalytics.dashboard,
+  //   icon: <PiPresentationChart />,
+  //   badge: 'NEW',
+  // },
+  // {
+  //   name: 'Bidding',
+  //   href: routes.bidding.dashboard,
+  //   icon: <PiScales />,
+  //   badge: 'NEW',
+  // },
+  // {
+  //   name: 'Social Media',
+  //   href: routes.socialMedia.dashboard,
+  //   icon: <PiSparkle />,
+  // },
+  // {
+  //   name: 'Job Board',
+  //   href: routes.jobBoard.dashboard,
+  //   icon: <PiShapes />,
+  // },
+  // {
+  //   name: 'Financial',
+  //   href: routes.financial.dashboard,
+  //   icon: <PiCurrencyCircleDollar />,
+  // },
+  // {
+  //   name: 'Logistics',
+  //   href: routes.logistics.dashboard,
+  //   icon: <PiPackage />,
+  // },
+  // {
+  //   name: 'Job Feeds',
+  //   href: routes.jobBoard.jobFeed,
+  //   icon: <PiShapes />,
+  // },
+  // {
+  //   name: 'E-Commerce',
+  //   href: routes.eCommerce.dashboard,
+  //   icon: <PiShoppingCart />,
+  // },
+  // {
+  //   name: 'Analytics',
+  //   href: routes.analytics,
+  //   icon: <PiChartBar />,
+  // },
+  // {
+  //   name: 'Support',
+  //   href: routes.support.dashboard,
+  //   icon: <PiHeadset />,
+  // },
+  // {
+  //   name: 'Podcast',
+  //   href: routes.podcast.dashboard,
+  //   icon: <PiApplePodcastsLogo />,
+  //   badge: 'NEW',
+  // },
+
+  // // label start
+  // {
+  //   name: 'Apps Kit',
+  // },
+  // // label end
+  // {
+  //   name: 'E-Commerce',
+  //   href: '#',
+  //   icon: <PiShoppingCart />,
+  //   dropdownItems: [
+  //     {
+  //       name: 'Products',
+  //       href: routes.eCommerce.products,
+  //     },
+  //     {
+  //       name: 'Product Details',
+  //       href: routes.eCommerce.productDetails(DUMMY_ID),
+  //     },
+  //     {
+  //       name: 'Create Product',
+  //       href: routes.eCommerce.createProduct,
+  //       badge: '',
+  //     },
+  //     {
+  //       name: 'Edit Product',
+  //       href: routes.eCommerce.ediProduct(DUMMY_ID),
+  //     },
+  //     {
+  //       name: 'Categories',
+  //       href: routes.eCommerce.categories,
+  //     },
+  //     {
+  //       name: 'Create Category',
+  //       href: routes.eCommerce.createCategory,
+  //     },
+  //     {
+  //       name: 'Edit Category',
+  //       href: routes.eCommerce.editCategory(DUMMY_ID),
+  //     },
+  //     {
+  //       name: 'Orders',
+  //       href: routes.eCommerce.orders,
+  //     },
+  //     {
+  //       name: 'Order Details',
+  //       href: routes.eCommerce.orderDetails(DUMMY_ID),
+  //     },
+  //     {
+  //       name: 'Create Order',
+  //       href: routes.eCommerce.createOrder,
+  //     },
+  //     {
+  //       name: 'Edit Order',
+  //       href: routes.eCommerce.editOrder(DUMMY_ID),
+  //     },
+  //     {
+  //       name: 'Reviews',
+  //       href: routes.eCommerce.reviews,
+  //     },
+  //     {
+  //       name: 'Shop',
+  //       href: routes.eCommerce.shop,
+  //     },
+  //     {
+  //       name: 'Cart',
+  //       href: routes.eCommerce.cart,
+  //     },
+  //     {
+  //       name: 'Checkout & Payment',
+  //       href: routes.eCommerce.checkout,
+  //     },
+  //   ],
+  // },
   {
-    name: 'Overview',
+    name: 'Users',
+    href: '#',
+    icon: <PiUser />,
+    dropdownItems: [
+      {
+        name: 'Users',
+        href: routes.users.usersTable,
+      },
+      {
+        name: 'User Roles',
+        href: routes.users.rolesTable,
+      },
+      {
+        name: 'User Permissions',
+        href: routes.users.permissionsTable,
+      },
+    ],
   },
-  // label end
   {
-    name: 'File Manager',
-    href: '/',
-    icon: <PiFolder />,
+    name: 'Network',
+    href: '#',
+    icon: <PiNetwork />,
+    dropdownItems: [
+      {
+        name: 'Levels',
+        href: routes.network.level,
+      },
+      {
+        name: 'Structures',
+        href: routes.network.structure,
+      },
+    ],
   },
   {
-    name: 'Appointment',
-    href: routes.appointment.dashboard,
+    name: 'Node',
+    href: '#',
+    icon: <PiNetwork />,
+    dropdownItems: [
+      {
+        name: 'Create Node',
+        href: routes.node.create,
+      },
+      {
+        name: 'Manage Node',
+        href: routes.node.manage,
+      },
+    ],
+  },
+  {
+    name: 'Event Calendar',
+    href: routes.eventCalendar,
     icon: <PiCalendar />,
   },
   {
-    name: 'Executive',
-    href: routes.executive.dashboard,
-    icon: <PiBriefcase />,
-  },
-  {
-    name: 'Project',
-    href: routes.project.dashboard,
-    icon: <PiClipboardText />,
-  },
-  {
-    name: 'CRM',
-    href: routes.crm.dashboard,
-    icon: <PiFolderUser />,
-  },
-  {
-    name: 'Affiliate',
-    href: routes.affiliate.dashboard,
-    icon: <PiChartPieSlice />,
+    name: 'File Manager',
+    href: '#',
+    icon: <PiFolder />,
+    dropdownItems: [
+      {
+        name: 'File Manager',
+        href: routes.file.manager,
+      },
+      {
+        name: 'Upload File',
+        href: routes.file.upload,
+      },
+      {
+        name: 'Create File',
+        href: routes.file.create,
+      },
+    ],
   },
   {
     name: 'Store Analytics',
     href: routes.storeAnalytics.dashboard,
-    icon: <PiPresentationChart />,
-    badge: 'NEW',
+    icon: <PiChartLineUp />,
   },
   {
     name: 'Bidding',
     href: routes.bidding.dashboard,
     icon: <PiScales />,
-    badge: 'NEW',
-  },
-  {
-    name: 'Social Media',
-    href: routes.socialMedia.dashboard,
-    icon: <PiSparkle />,
-  },
-  {
-    name: 'Job Board',
-    href: routes.jobBoard.dashboard,
-    icon: <PiShapes />,
-  },
-  {
-    name: 'Financial',
-    href: routes.financial.dashboard,
-    icon: <PiCurrencyCircleDollar />,
-  },
-  {
-    name: 'Logistics',
-    href: routes.logistics.dashboard,
-    icon: <PiPackage />,
-  },
-  {
-    name: 'Job Feeds',
-    href: routes.jobBoard.jobFeed,
-    icon: <PiShapes />,
-  },
-  {
-    name: 'E-Commerce',
-    href: routes.eCommerce.dashboard,
-    icon: <PiShoppingCart />,
-  },
-  {
-    name: 'Analytics',
-    href: routes.analytics,
-    icon: <PiChartBar />,
-  },
-  {
-    name: 'Support',
-    href: routes.support.dashboard,
-    icon: <PiHeadset />,
-  },
-  {
-    name: 'Podcast',
-    href: routes.podcast.dashboard,
-    icon: <PiApplePodcastsLogo />,
-    badge: 'NEW',
   },
 
-  // label start
-  {
-    name: 'Apps Kit',
-  },
-  // label end
-  {
-    name: 'E-Commerce',
-    href: '#',
-    icon: <PiShoppingCart />,
-    dropdownItems: [
-      {
-        name: 'Products',
-        href: routes.eCommerce.products,
-      },
-      {
-        name: 'Product Details',
-        href: routes.eCommerce.productDetails(DUMMY_ID),
-      },
-      {
-        name: 'Create Product',
-        href: routes.eCommerce.createProduct,
-        badge: '',
-      },
-      {
-        name: 'Edit Product',
-        href: routes.eCommerce.ediProduct(DUMMY_ID),
-      },
-      {
-        name: 'Categories',
-        href: routes.eCommerce.categories,
-      },
-      {
-        name: 'Create Category',
-        href: routes.eCommerce.createCategory,
-      },
-      {
-        name: 'Edit Category',
-        href: routes.eCommerce.editCategory(DUMMY_ID),
-      },
-      {
-        name: 'Orders',
-        href: routes.eCommerce.orders,
-      },
-      {
-        name: 'Order Details',
-        href: routes.eCommerce.orderDetails(DUMMY_ID),
-      },
-      {
-        name: 'Create Order',
-        href: routes.eCommerce.createOrder,
-      },
-      {
-        name: 'Edit Order',
-        href: routes.eCommerce.editOrder(DUMMY_ID),
-      },
-      {
-        name: 'Reviews',
-        href: routes.eCommerce.reviews,
-      },
-      {
-        name: 'Shop',
-        href: routes.eCommerce.shop,
-      },
-      {
-        name: 'Cart',
-        href: routes.eCommerce.cart,
-      },
-      {
-        name: 'Checkout & Payment',
-        href: routes.eCommerce.checkout,
-      },
-    ],
-  },
   {
     name: 'Support',
     href: '#',
@@ -312,31 +397,6 @@ export const berylliumSidebarMenuItems = [
   {
     name: 'Roles & Permissions',
     href: routes.rolesPermissions,
-    icon: <PiFolderLock />,
-  },
-  {
-    name: 'Roles Table',
-    href: routes.rolesTable,
-    icon: <PiFolderLock />,
-  },
-  {
-    name: 'Permissions Table',
-    href: routes.permissionsTable,
-    icon: <PiFolderLock />,
-  },
-  {
-    name: 'Users Table',
-    href: routes.usersTable,
-    icon: <PiFolderLock />,
-  },
-  {
-    name: 'Levels Table',
-    href: routes.levelsTable,
-    icon: <PiFolderLock />,
-  },
-  {
-    name: 'Structures Table',
-    href: routes.structuresTable,
     icon: <PiFolderLock />,
   },
   {
