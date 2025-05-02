@@ -8,7 +8,7 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Structure>}
  */
 const createStructure = async (structureBody) => {
-  return Structure.create(structureBody);
+  return Structure.createStructure(structureBody);
 };
 
 /**

@@ -43,6 +43,7 @@ const updateLevelById = {
   body: Joi.object()
     .keys({
       name: Joi.string().trim(),
+      tenantId: Joi.string().trim(),
       description: Joi.string().max(255),
       rank: Joi.number().min(1),
       isSpecial: Joi.boolean(),
