@@ -133,7 +133,6 @@ const router = express.Router();
 // Create a new user (owner only)
 router.post('/', auth('create:user'), validate(userValidation.ownerCreate), userController.ownerCreate);
 
-<<<<<<< HEAD
 /**
  * @swagger
  * /users:
@@ -178,83 +177,7 @@ router.post('/', auth('create:user'), validate(userValidation.ownerCreate), user
  *       "403":
  *         description: Forbidden
  */
-router.post(
-  '/',
-  auth('manageUsers'),
-  validate(userValidation.ownerCreate),
-  userController.ownerCreate
-);
-=======
-// Create a new user (owner only)
-router.post('/', auth('create:user'), validate(userValidation.ownerCreate), userController.ownerCreate);
->>>>>>> upstream/halo
 
-/**
- * @swagger
- * /users:
-<<<<<<< HEAD
-=======
- *   post:
- *     summary: Create a new user (owner only)
- *     tags: [Users]
- *     security:
- *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - firstname
- *               - lastname
- *               - email
- *               - password
- *             properties:
- *               firstname:
- *                 type: string
- *                 example: John
- *               lastname:
- *                 type: string
- *                 example: Doe
- *               email:
- *                 type: string
- *                 format: email
- *                 example: john.doe@example.com
- *               password:
- *                 type: string
- *                 format: password
- *                 minLength: 8
- *                 example: Password123
- *               isOwner:
- *                 type: boolean
- *                 example: false
- *     responses:
- *       "201":
- *         description: User created successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/UserResponse'
- *       "400":
- *         description: Invalid input
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       "401":
- *         description: Not authenticated
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- *       "403":
- *         description: Not authorized
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- */
 
 // Get all users
 router.get('/', auth('view:user'), validate(userValidation.getUsers), userController.getUsers);
@@ -262,7 +185,6 @@ router.get('/', auth('view:user'), validate(userValidation.getUsers), userContro
 /**
  * @swagger
  * /users:
->>>>>>> upstream/halo
  *   get:
  *     summary: Get all users
  *     description: Retrieve a paginated list of users with filtering options.
@@ -334,13 +256,10 @@ router.get('/', auth('view:user'), validate(userValidation.getUsers), userContro
  *       "500":
  *         description: Internal Server Error
  */
-<<<<<<< HEAD
-router.get('/', auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
-=======
 
 // Get user by ID
 router.get('/:userId', auth('view:user::userId'), validate(userValidation.getUser), userController.getUser);
->>>>>>> upstream/halo
+
 
 /**
  * @swagger
@@ -372,13 +291,11 @@ router.get('/:userId', auth('view:user::userId'), validate(userValidation.getUse
  *       "404":
  *         description: Not Found
  */
-<<<<<<< HEAD
-router.get('/:userId', auth('getUsers'), validate(userValidation.getUser), userController.getUser);
-=======
+
 
 // Update user
 router.patch('/:userId', auth('update:user::userId'), validate(userValidation.updateUser), userController.updateUser);
->>>>>>> upstream/halo
+
 
 /**
  * @swagger
@@ -436,7 +353,6 @@ router.patch('/:userId', auth('update:user::userId'), validate(userValidation.up
  */
 
 
-<<<<<<< HEAD
 /**
  * @swagger
  * /users/{userId}:
@@ -555,19 +471,8 @@ router.post('/bulk-create', auth('create:user:bulk-create'), validate(userValida
 
 router.post(
   '/restore',
-  auth('manageUsers'),
-  validate(userValidation.restoreUsers),
-=======
-// Delete user
-router.delete('/:userId', auth('delete:user::userId'), validate(userValidation.deleteUser), userController.deleteUser);
-
-router.post('/bulk-create', auth('create:user:bulk-create'), validate(userValidation.bulkCreate), userController.bulkCreate);
-
-router.post(
-  '/restore',
   auth('create:user:restore'),
-  validate(userValidation.restoreUsers), // Add validation if you decide to use it
->>>>>>> upstream/halo
+  validate(userValidation.restoreUsers), 
   userController.restoreUsers
 );
 
@@ -603,12 +508,10 @@ router.post(
  *       "404":
  *         description: Not Found
  */
-router.post(
-<<<<<<< HEAD
-  '/restore/:userId',
-  auth('manageUsers'),
-  validate(userValidation.restoreUser),
-  userController.restoreUser
+router.post('/restore/:userId', // Expecting userId as URL parameter
+  auth('create:user::userId'),
+  validate(userValidation.restoreUser), // Validation for userId
+  userController.restoreUser // Controller function to restore the user
 );
 
 /**
@@ -643,22 +546,8 @@ router.post(
  *       "404":
  *         description: Not Found
  */
-router.post(
-  '/soft-delete/:userId',
-  auth('manageUsers'),
-  validate(userValidation.softDeleteUser),
-  userController.softDeleteUser
-);
-=======
-  '/restore/:userId', // Expecting userId as URL parameter
-  auth('create:user::userId'),
-  validate(userValidation.restoreUser), // Validation for userId
-  userController.restoreUser // Controller function to restore the user
-);
-
-
 
 router.post('/soft-delete/:userId', auth('create:user::userId'), userController.softDeleteUser);
->>>>>>> upstream/halo
+
 
 module.exports = router;
