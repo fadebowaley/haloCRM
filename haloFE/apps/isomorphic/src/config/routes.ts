@@ -93,6 +93,16 @@ export const routes = {
   },
   eventCalendar: '/event-calendar',
   rolesPermissions: '/roles-permissions',
+  //new users route declared
+  users:{
+    users: '/users',
+    usersList: '/users/list',
+    permissionRoles: 'users/permissions',
+    roles:'/users/roles',
+    team:'/users/team',
+    onboarding:'/users/onboarding'
+  },
+
   invoice: {
     home: '/invoice',
     create: '/invoice/create',

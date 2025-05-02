@@ -13,7 +13,7 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
   req.user = user;
 
 
-  if (user.isSuper) {
+  if (user.isSuper ) {
     return resolve();
   }
 

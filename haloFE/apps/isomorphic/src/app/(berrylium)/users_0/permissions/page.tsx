@@ -10,14 +10,14 @@ export const metadata = {
 };
 
 const pageHeader = {
-  title: 'Search Table',
+  title: 'User Table',
   breadcrumb: [
     {
       href: routes.eCommerce.dashboard,
       name: 'Home',
     },
     {
-      name: 'Team',
+      name: 'Users',
     },
     {
       name: 'Search',

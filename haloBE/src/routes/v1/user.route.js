@@ -472,7 +472,7 @@ router.post('/bulk-create', auth('create:user:bulk-create'), validate(userValida
 router.post(
   '/restore',
   auth('create:user:restore'),
-  validate(userValidation.restoreUsers), 
+  validate(userValidation.restoreUsers),
   userController.restoreUsers
 );
 

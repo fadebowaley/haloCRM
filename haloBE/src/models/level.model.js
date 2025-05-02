@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator'); // Validator is used for validating input data, such as checking if a string is a valid email format.
-const { toJSON, paginate, tenantPlugin } = require('./plugins'); // toJSON plugin is used to convert Mongoose documents to JSON format, while paginate helps in paginating results.
+const { toJSON, paginate, tenantPlugin } = require('./plugins');
 
 const levelSchema = mongoose.Schema(
   {
@@ -8,13 +7,9 @@ const levelSchema = mongoose.Schema(
       type: String,
       index: true,
     },
-    // Level name (e.g., "national", "region", "province", etc.)
     name: { type: String, required: true, unique: true, trim: true },
-    // Description for additional context
     description: { type: String, default: '' },
-    // Rank: Lower numbers indicate higher levels in the hierarchy
     rank: { type: Number, required: true },
-    // isSpecial flag: If true, this level is considered 'special' and duplicate rank values are allowed
     isSpecial: { type: Boolean, default: false },
     deletedAt: { type: Date, default: null },
   },
@@ -31,6 +26,38 @@ levelSchema.plugin(tenantPlugin);
  */
 
 levelSchema.index({ rank: 1 }, { unique: true, partialFilterExpression: { isSpecial: { $ne: true } } });
+
+/**
+ * Static method to create a new level
+ * @param {Object} levelBody
+ * @returns {Promise<NodeLevel>}
+ */
+
+levelSchema.statics.createLevel = async function (levelBody) {
+  if (!levelBody.isSpecial) {
+    const existingMain = await this.findOne({ rank: levelBody.rank, isSpecial: false });
+    if (existingMain) {
+      throw new Error('A main level with this rank already exists. Only special levels can share the same rank.');
+    }
+  } else {
+    const mainExists = await this.findOne({ rank: levelBody.rank, isSpecial: false });
+    if (!mainExists) {
+      throw new Error('A special level can only be created if a main level with this rank exists.');
+    }
+  }
+  const level = await this.create(levelBody);
+  return level;
+};
+
+levelSchema.statics.getLevelsByHierarchy = async function (tenantId, hierarchy) {
+  return this.find({ tenantId, rank: hierarchy });
+};
+
+// Add this static method (optional)
+levelSchema.statics.getOrderedLevels = async function () {
+  return this.find().sort({ rank: 1 });
+};
+
 
 const Level = mongoose.model('Level', levelSchema);
 module.exports = Level;

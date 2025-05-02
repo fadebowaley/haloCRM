@@ -15,7 +15,7 @@ const useFetchTemplates = () => {
     // Replace with your backend API endpoint
     const fetchIndustryTemplates = async () => {
       try {
-        const response = await fetch('http://localhost:3000/v1/roles/templates');  // Example API endpoint
+        const response = await fetch('http://localhost:4000/v1/roles/templates');  // Example API endpoint
         if (!response.ok) {
           throw new Error('Failed to fetch industry templates');
         }

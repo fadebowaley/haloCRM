@@ -21,6 +21,8 @@ export default function OtpForm() {
   const { verifyOtp, resendOtp } = useAuth();
   const [loading, setLoading] = useState(false);
 
+  const [otpValue, setOtpValue] = useState<string>(''.padStart(6, '')); // 👈 6 empty characters
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (!email) return;
 
@@ -48,6 +50,8 @@ export default function OtpForm() {
           <PinCode
             variant="outline"
             setValue={(value) => setValue('otp', String(value))}
+            type="number"
+            length={6}
             size="lg"
             className="lg:justify-start"
           />
