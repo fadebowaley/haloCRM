@@ -8,7 +8,26 @@ import TableFooter from '@core/components/table/footer';
 import TablePagination from '@core/components/table/pagination';
 import Filters from './filters';
 
-export type UsersTableDataType = (typeof usersData)[number];
+// export type UsersTableDataType = (typeof usersData)[number];
+export type UsersTableDataType = {
+  id: string;
+  userId: string; // HaloId
+  firstname: string;
+  lastname: string;
+  email: string;
+  roles: string[];
+  isOwner: boolean;
+  isAgreed: boolean;
+  isSuper: boolean;
+  createdBy: string | null;
+  otpVerified: boolean;
+  isEmailVerified: boolean;
+  deletedAt: string | null;
+  tenantId: string;
+  createdAt?: string; // If you want to include this for sorting later
+};
+
+
 export default function UsersTable() {
   const { table, setData } = useTanStackTable<UsersTableDataType>({
     tableData: usersData,

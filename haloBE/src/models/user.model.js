@@ -80,6 +80,7 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     deletedAt: { type: Date, default: null },
+    createdAt: { type: Date, default: Date.now },
   },
   {
     timestamps: true,
