@@ -1,55 +1,54 @@
-// 'use client';
+'use client';
 
-// import { usersData } from '@/data/users-data';
-// import { useTanStackTable } from '@core/components/table/custom/use-TanStack-Table';
-// import { usersColumns } from './columns';
-// import Table from '@core/components/table';
-// import TableFooter from '@core/components/table/footer';
-// import TablePagination from '@core/components/table/pagination';
-// import Filters from './filters';
+import { usersData } from '@/data/users-data';
+import { useTanStackTable } from '@core/components/table/custom/use-TanStack-Table';
+import { usersColumns } from './columns';
+import Table from '@core/components/table';
+import TableFooter from '@core/components/table/footer';
+import TablePagination from '@core/components/table/pagination';
+import Filters from './filters';
 
-// export type UsersTableDataType = (typeof usersData)[number];
-// export default function UsersTable() {
-//   const { table, setData } = useTanStackTable<UsersTableDataType>({
-//     tableData: usersData,
-//     columnConfig: usersColumns,
-//     options: {
-//       initialState: {
-//         pagination: {
-//           pageIndex: 0,
-//           pageSize: 10,
-//         },
-//       },
-//       meta: {
-//         handleDeleteRow: (row) => {
-//           setData((prev) => prev.filter((r) => r.id !== row.id));
-//           table.resetRowSelection();
-//         },
-//         handleMultipleDelete: (rows) => {
-//           setData((prev) => prev.filter((r) => !rows.includes(r)));
-//           table.resetRowSelection();
-//         },
-//       },
-//       enableColumnResizing: false,
-//     },
-//   });
-//   return (
-//     <div className="mt-14">
-//       <Filters table={table} />
-//       <Table
-//         table={table}
-//         variant="modern"
-//         classNames={{
-//           container: 'border border-muted rounded-md',
-//           rowClassName: 'last:border-0',
-//         }}
-//       />
-//       <TableFooter table={table} />
-//       <TablePagination table={table} className="py-4" />
-//     </div>
-//   );
-// }
-
+export type UsersTableDataType = (typeof usersData)[number];
+export default function UsersTable() {
+  const { table, setData } = useTanStackTable<UsersTableDataType>({
+    tableData: usersData,
+    columnConfig: usersColumns,
+    options: {
+      initialState: {
+        pagination: {
+          pageIndex: 0,
+          pageSize: 10,
+        },
+      },
+      meta: {
+        handleDeleteRow: (row) => {
+          setData((prev) => prev.filter((r) => r.id !== row.id));
+          table.resetRowSelection();
+        },
+        handleMultipleDelete: (rows) => {
+          setData((prev) => prev.filter((r) => !rows.includes(r)));
+          table.resetRowSelection();
+        },
+      },
+      enableColumnResizing: false,
+    },
+  });
+  return (
+    <div className="mt-14">
+      <Filters table={table} />
+      <Table
+        table={table}
+        variant="modern"
+        classNames={{
+          container: 'border border-muted rounded-md',
+          rowClassName: 'last:border-0',
+        }}
+      />
+      <TableFooter table={table} />
+      <TablePagination table={table} className="py-4" />
+    </div>
+  );
+}
 
 
 // User ID -  "HaloId": "0LSv0ITAdG
@@ -58,6 +57,7 @@
 // Created : 
 // Verification - "otpVerified": false,
 // Status - status
+
 /***
  * {
     "results": [
@@ -120,92 +120,92 @@
     "limit": 10,
     "totalPages": 1,
     "totalResults": 3
- * 
- * 
+ *
+ *
  */
 
 
 
-'use client';
+// 'use client';
 
-import { useEffect, useState } from 'react';
-import { useUsers } from '@/app/lib/hooks/useUsers';
-import { usersColumns } from './columns';
-import Table from '@core/components/table';
-import TableFooter from '@core/components/table/footer';
-import TablePagination from '@core/components/table/pagination';
-import Filters from './filters';
-import { useTanStackTable } from '@core/components/table/custom/use-TanStack-Table';
+// import { useEffect, useState } from 'react';
+// import { useUsers } from '@/app/lib/hooks/useUsers';
+// import { usersColumns } from './columns';
+// import Table from '@core/components/table';
+// import TableFooter from '@core/components/table/footer';
+// import TablePagination from '@core/components/table/pagination';
+// import Filters from './filters';
+// import { useTanStackTable } from '@core/components/table/custom/use-TanStack-Table';
 
-export default function UsersTable() {
-  const [usersData, setUsersData] = useState([]);
-  const { getUsers, deleteUser } = useUsers();
+// export default function UsersTable() {
+//   const [usersData, setUsersData] = useState([]);
+//   const { getUsers, deleteUser } = useUsers();
 
-  const { table, setData } = useTanStackTable({
-    tableData: usersData,
-    columnConfig: usersColumns,
-    options: {
-      initialState: {
-        pagination: {
-          pageIndex: 0,
-          pageSize: 10,
-        },
-      },
-      meta: {
-        handleDeleteRow: async (row) => {
-          const confirmed = confirm(
-            'Are you sure you want to delete this user?'
-          );
-          if (!confirmed) return;
+//   const { table, setData } = useTanStackTable({
+//     tableData: usersData,
+//     columnConfig: usersColumns,
+//     options: {
+//       initialState: {
+//         pagination: {
+//           pageIndex: 0,
+//           pageSize: 10,
+//         },
+//       },
+//       meta: {
+//         handleDeleteRow: async (row) => {
+//           const confirmed = confirm(
+//             'Are you sure you want to delete this user?'
+//           );
+//           if (!confirmed) return;
 
-          const result = await deleteUser(row.id);
-          if (result.success) {
-            setData((prev) => prev.filter((r) => r.id !== row.id));
-            table.resetRowSelection();
-          }
-        },
-        handleMultipleDelete: async (rows) => {
-          const confirmed = confirm('Delete selected users?');
-          if (!confirmed) return;
+//           const result = await deleteUser(row.id);
+//           if (result.success) {
+//             setData((prev) => prev.filter((r) => r.id !== row.id));
+//             table.resetRowSelection();
+//           }
+//         },
+//         handleMultipleDelete: async (rows) => {
+//           const confirmed = confirm('Delete selected users?');
+//           if (!confirmed) return;
 
-          for (const row of rows) {
-            await deleteUser(row.id); // optionally debounce or batch this
-          }
+//           for (const row of rows) {
+//             await deleteUser(row.id); // optionally debounce or batch this
+//           }
 
-          setData((prev) => prev.filter((r) => !rows.includes(r)));
-          table.resetRowSelection();
-        },
-      },
-      enableColumnResizing: false,
-    },
-  });
+//           setData((prev) => prev.filter((r) => !rows.includes(r)));
+//           table.resetRowSelection();
+//         },
+//       },
+//       enableColumnResizing: false,
+//     },
+//   });
 
-  // Fetch users on mount
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getUsers();
-      if (response.success) {
-        setUsersData(response.data);
-        setData(response.data);
-      }
-    };
+//   // Fetch users on mount
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const response = await getUsers();
+//       if (response.success) {
+//         setUsersData(response.data);
+//         setData(response.data);
+//       }
+//     };
 
-    fetchData();
-  }, [getUsers, setData]);
+//     fetchData();
+//   }, [getUsers, setData]);
 
-  return (
-    <div className="mt-14">
-      <Filters table={table} />
-      <Table
-        table={table}
-        variant="modern"
-        classNames={{
-          container: 'border border-muted rounded-md',
-          rowClassName: 'last:border-0',
-        }}
-      />
-      <TableFooter table={table} />
-      <TablePagination table={table} className="py-4" />
-    </div>
-  );
-}
+//   return (
+//     <div className="mt-14">
+//       <Filters table={table} />
+//       <Table
+//         table={table}
+//         variant="modern"
+//         classNames={{
+//           container: 'border border-muted rounded-md',
+//           rowClassName: 'last:border-0',
+//         }}
+//       />
+//       <TableFooter table={table} />
+//       <TablePagination table={table} className="py-4" />
+//     </div>
+//   );
+// }
