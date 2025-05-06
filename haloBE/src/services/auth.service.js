@@ -148,6 +148,7 @@ const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString()
 
 const sendUserOtp = async (user) => {
   const otp = generateOtp();
+  console.log('leaked otp', otp);
   const update = {
     otp,
     otpExpires: moment().add(10, 'minutes').toDate(),
@@ -189,6 +190,7 @@ const verifyOtp = async (email, otp) => {
         otpVerified: true,
         otp: null,
         otpExpires: null,
+        status:true
       },
     }
   );

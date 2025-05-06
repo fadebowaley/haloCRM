@@ -5,22 +5,19 @@ import { PiXBold } from 'react-icons/pi';
 import { Controller, SubmitHandler } from 'react-hook-form';
 import { Form } from '@core/ui/form';
 import { Input, Button, ActionIcon, Title, Select } from 'rizzui';
-import {
-  CreateUserInput,
-  createUserSchema,
-} from '@/validators/create-user.schema';
+import {CreateUserInput,createUserSchema,} from '@/validators/create-user.schema';
 import { useModal } from '@/app/shared/modal-views/use-modal';
-import {
-  permissions,
-  roles,
-  statuses,
-} from '../utils';
+import {permissions, roles, statuses,} from '../utils';
+
+
+
 export default function CreateUser() {
+
   const { closeModal } = useModal();
   const [reset, setReset] = useState({});
   const [isLoading, setLoading] = useState(false);
-
   const onSubmit: SubmitHandler<CreateUserInput> = (data) => {
+
     // set timeout ony required to display loading state of the create category button
     const formattedData = {
       ...data,

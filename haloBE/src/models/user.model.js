@@ -3,12 +3,19 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { nanoid } = require('nanoid');
 const { toJSON, paginate, tenantPlugin } = require('./plugins');
+const HaloCounter = require('./haloCounter.model');
 
 const userSchema = mongoose.Schema(
   {
     userId: {
       type: String,
       required: true,
+      unique: true,
+      index: true,
+    },
+
+    haloId: {
+      type: String,
       unique: true,
       index: true,
     },
@@ -68,6 +75,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    status: {
+      type: Boolean,
+      default: false,
+    },
     deletedAt: { type: Date, default: null },
   },
   {
@@ -88,6 +99,19 @@ userSchema.plugin(tenantPlugin);
  */
 userSchema.statics.generateUserId = function () {
   return nanoid(10);
+};
+
+
+/**
+ * Generate a unique Base36 incremental haloId prefixed with 'HL-'
+ * Example: HL-00001, HL-00002, ..., HL-ZZZZZ
+ * @returns {Promise<string>}
+ */
+userSchema.statics.generateHaloId = async function () {
+  const counter = await HaloCounter.findOneAndUpdate({ name: 'halo' }, { $inc: { seq: 1 } }, { new: true, upsert: true });
+
+  const base36 = counter.seq.toString(36).toUpperCase().padStart(5, '0');
+  return `HL-${base36}`;
 };
 
 /**
@@ -157,6 +181,10 @@ userSchema.methods.isPasswordMatch = async function (password) {
 };
 
 userSchema.pre('save', async function (next) {
+   if (!this.haloId) {
+     this.haloId = await this.constructor.generateHaloId();
+   }
+
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 8);
   }

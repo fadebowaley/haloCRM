@@ -1,7 +1,7 @@
 'use client';
 
 import PageHeader from '@/app/shared/page-header';
-import UsersTable from '@/app/shared/roles-permissions/users-table';
+import UsersTable from '@/app/(berrylium)/users/list/users-table';
 import ImportButton from '@/app/shared/import-button';
 import ExportButton from '@/app/shared/export-button';
 

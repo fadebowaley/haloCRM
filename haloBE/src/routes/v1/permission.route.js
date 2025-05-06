@@ -24,7 +24,6 @@ router
   );
 
 
-  // router.route('/').delete(auth('delete:roles'), permissionController.deleteAllRoles);
 
 // Route for bulk creation of permissions
 router

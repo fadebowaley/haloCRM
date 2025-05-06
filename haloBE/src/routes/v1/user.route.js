@@ -546,7 +546,6 @@ router.post('/restore/:userId', // Expecting userId as URL parameter
  *       "404":
  *         description: Not Found
  */
-
 router.post('/soft-delete/:userId', auth('create:user::userId'), userController.softDeleteUser);
 
 

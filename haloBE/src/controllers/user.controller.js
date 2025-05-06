@@ -35,7 +35,6 @@ const bulkCreate = catchAsync(async (req, res) => {
 
 
 
-
 // Function to soft delete users by tenantId and isOwner flag
 const bulkDelete = catchAsync(async (req, res) => {
   const { tenantId } = req.body; // Expecting tenantId in the request body
@@ -111,7 +110,7 @@ const restoreUser = catchAsync(async (req, res) => {
 const getUsers = catchAsync(async (req, res) => {
   //const filter = pick(req.query, ['name', 'role']);
   const filter = pick(req.query, ['firstname', 'lastname', 'userId', 'email']);
-const { q } = req.query;
+  const { q } = req.query;
 
 // If userId is passed (10-digit string), search by that field directly
 if (filter.userId) {
