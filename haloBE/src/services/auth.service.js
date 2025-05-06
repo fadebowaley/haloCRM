@@ -133,11 +133,11 @@ const verifyEmail = async (verifyEmailToken) => {
 };
 
 /**
- * Generate a 4-digit OTP
+ * Generate a 6-digit OTP
  * @returns {string}
  */
 
-const generateOtp = () => Math.floor(1000 + Math.random() * 9000).toString();
+const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
 
 /**
  * Send OTP to user via email and update user model
@@ -148,6 +148,7 @@ const generateOtp = () => Math.floor(1000 + Math.random() * 9000).toString();
 
 const sendUserOtp = async (user) => {
   const otp = generateOtp();
+  console.log('leaked otp', otp);
   const update = {
     otp,
     otpExpires: moment().add(10, 'minutes').toDate(),
@@ -189,6 +190,7 @@ const verifyOtp = async (email, otp) => {
         otpVerified: true,
         otp: null,
         otpExpires: null,
+        status:true
       },
     }
   );

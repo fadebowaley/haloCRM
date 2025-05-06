@@ -1,4 +1,4 @@
-import MultiStepFormOne from '@/app/shared/multi-step/multi-step-1';
+import MultiStepFormPageShell from './page-shell';
 import { metaObject } from '@/config/site.config';
 
 export const metadata = {
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function MultiStepFormPage() {
-  return <MultiStepFormOne />;
+  return <MultiStepFormPageShell />;
 }

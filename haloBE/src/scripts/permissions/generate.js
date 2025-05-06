@@ -48,7 +48,6 @@ const extractResource = ({ filePath, routePath }) => {
 
 
 // MongoDB connection
-// MongoDB connection
 const connectToDB = async () => {
   try {
     await mongoose.connect(config.mongoose.url, config.mongoose.options);
@@ -70,7 +69,7 @@ const generatePermissions = async ({
 }) => {
   // Wait for the DB connection to be established first
   await connectToDB();
-  
+
   const files = glob.sync(`${routesDir}/**/*.js`);
   const permissions = [];
 

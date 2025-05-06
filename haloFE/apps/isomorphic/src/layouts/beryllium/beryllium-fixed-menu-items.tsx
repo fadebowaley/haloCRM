@@ -36,6 +36,7 @@ import {
   PiLockKey,
   PiMagicWand,
   PiMapPinLine,
+  PiNetwork,
   PiNewspaperClipping,
   PiNoteBlank,
   PiNotePencil,
@@ -57,6 +58,7 @@ import {
   PiUser,
   PiUserCircle,
   PiUserGear,
+  PiUserMinus,
   PiUserPlus,
 } from 'react-icons/pi';
 
@@ -85,97 +87,97 @@ export interface MenuItemsType {
 }
 
 export const berylliumMenuItems: MenuItemsType[] = [
-  {
-    id: '1',
-    name: 'Home',
-    title: 'Overview',
-    icon: PiHouse,
-    menuItems: [
-      {
-        name: 'File Manager',
-        href: '/',
-        icon: PiFolder,
-      },
-      {
-        name: 'Appointment',
-        href: routes.appointment.dashboard,
-        icon: PiCalendar,
-      },
-      {
-        name: 'Executive',
-        href: routes.executive.dashboard,
-        icon: PiBriefcase,
-      },
-      {
-        name: 'Project',
-        href: routes.project.dashboard,
-        icon: PiClipboardText,
-      },
-      {
-        name: 'CRM',
-        href: routes.crm.dashboard,
-        icon: PiFolderUser,
-      },
-      {
-        name: 'Affiliate',
-        href: routes.affiliate.dashboard,
-        icon: PiChartPieSlice,
-      },
-      {
-        name: 'Store Analytics',
-        href: routes.storeAnalytics.dashboard,
-        icon: PiPresentationChart,
-        badge: 'NEW',
-      },
-      {
-        name: 'Bidding',
-        href: routes.bidding.dashboard,
-        icon: PiScales,
-        badge: 'NEW',
-      },
-      {
-        name: 'Social Media',
-        href: routes.socialMedia.dashboard,
-        icon: PiSparkle,
-      },
-      {
-        name: 'Job Board',
-        href: routes.jobBoard.dashboard,
-        icon: PiShapes,
-      },
-      {
-        name: 'Financial',
-        href: routes.financial.dashboard,
-        icon: PiCurrencyCircleDollar,
-      },
-      {
-        name: 'Logistics',
-        href: routes.logistics.dashboard,
-        icon: PiPackage,
-      },
-      {
-        name: 'E-Commerce',
-        href: routes.eCommerce.dashboard,
-        icon: PiShoppingCart,
-      },
-      {
-        name: 'Analytics',
-        href: routes.analytics,
-        icon: PiChartBar,
-      },
-      {
-        name: 'Support',
-        href: routes.support.dashboard,
-        icon: PiHeadset,
-      },
-      {
-        name: 'Podcast',
-        href: routes.podcast.dashboard,
-        icon: PiApplePodcastsLogo,
-        badge: 'NEW',
-      },
-    ],
-  },
+  // {
+  //   id: '1',
+  //   name: 'Home',
+  //   title: 'Overview',
+  //   icon: PiHouse,
+  //   menuItems: [
+  //     {
+  //       name: 'File Manager',
+  //       href: '/',
+  //       icon: PiFolder,
+  //     },
+  //     {
+  //       name: 'Appointment',
+  //       href: routes.appointment.dashboard,
+  //       icon: PiCalendar,
+  //     },
+  //     {
+  //       name: 'Executive',
+  //       href: routes.executive.dashboard,
+  //       icon: PiBriefcase,
+  //     },
+  //     {
+  //       name: 'Project',
+  //       href: routes.project.dashboard,
+  //       icon: PiClipboardText,
+  //     },
+  //     {
+  //       name: 'CRM',
+  //       href: routes.crm.dashboard,
+  //       icon: PiFolderUser,
+  //     },
+  //     {
+  //       name: 'Affiliate',
+  //       href: routes.affiliate.dashboard,
+  //       icon: PiChartPieSlice,
+  //     },
+  //     {
+  //       name: 'Store Analytics',
+  //       href: routes.storeAnalytics.dashboard,
+  //       icon: PiPresentationChart,
+  //       badge: 'NEW',
+  //     },
+  //     {
+  //       name: 'Bidding',
+  //       href: routes.bidding.dashboard,
+  //       icon: PiScales,
+  //       badge: 'NEW',
+  //     },
+  //     {
+  //       name: 'Social Media',
+  //       href: routes.socialMedia.dashboard,
+  //       icon: PiSparkle,
+  //     },
+  //     {
+  //       name: 'Job Board',
+  //       href: routes.jobBoard.dashboard,
+  //       icon: PiShapes,
+  //     },
+  //     {
+  //       name: 'Financial',
+  //       href: routes.financial.dashboard,
+  //       icon: PiCurrencyCircleDollar,
+  //     },
+  //     {
+  //       name: 'Logistics',
+  //       href: routes.logistics.dashboard,
+  //       icon: PiPackage,
+  //     },
+  //     {
+  //       name: 'E-Commerce',
+  //       href: routes.eCommerce.dashboard,
+  //       icon: PiShoppingCart,
+  //     },
+  //     {
+  //       name: 'Analytics',
+  //       href: routes.analytics,
+  //       icon: PiChartBar,
+  //     },
+  //     {
+  //       name: 'Support',
+  //       href: routes.support.dashboard,
+  //       icon: PiHeadset,
+  //     },
+  //     {
+  //       name: 'Podcast',
+  //       href: routes.podcast.dashboard,
+  //       icon: PiApplePodcastsLogo,
+  //       badge: 'NEW',
+  //     },
+  //   ],
+  // },
   {
     id: '2',
     name: 'Apps',
@@ -183,161 +185,55 @@ export const berylliumMenuItems: MenuItemsType[] = [
     icon: PiLightning,
     menuItems: [
       {
-        name: 'E-Commerce',
-        description: '"Shop Smart, Click Quick: Your One-Stop Solution!"',
-        icon: PiShoppingCart,
-        subMenuItems: [
-          {
-            name: 'Products',
-            href: routes.eCommerce.products,
-            badge: '',
-          },
-          {
-            name: 'Product Details',
-            href: routes.eCommerce.productDetails(DUMMY_ID),
-            badge: '',
-          },
-          {
-            name: 'Create Product',
-            href: routes.eCommerce.createProduct,
-          },
-          {
-            name: 'Edit Product',
-            href: routes.eCommerce.ediProduct(DUMMY_ID),
-          },
-          {
-            name: 'Categories',
-            href: routes.eCommerce.categories,
-          },
-          {
-            name: 'Create Category',
-            href: routes.eCommerce.createCategory,
-          },
-          {
-            name: 'Edit Category',
-            href: routes.eCommerce.editCategory(DUMMY_ID),
-          },
-          {
-            name: 'Orders',
-            href: routes.eCommerce.orders,
-          },
-          {
-            name: 'Order Details',
-            href: routes.eCommerce.orderDetails(DUMMY_ID),
-          },
-          {
-            name: 'Create Order',
-            href: routes.eCommerce.createOrder,
-          },
-          {
-            name: 'Edit Order',
-            href: routes.eCommerce.editOrder(DUMMY_ID),
-          },
-          {
-            name: 'Reviews',
-            href: routes.eCommerce.reviews,
-          },
-          {
-            name: 'Shop',
-            href: routes.eCommerce.shop,
-          },
-          {
-            name: 'Cart',
-            href: routes.eCommerce.cart,
-          },
-          {
-            name: 'Checkout & Payment',
-            href: routes.eCommerce.checkout,
-          },
-        ],
-      },
-      {
-        name: 'Support',
-        description: '"Effortless Assistance at your Fingertips!"',
-        icon: PiHeadset,
-        subMenuItems: [
-          {
-            name: 'Inbox',
-            href: routes.support.inbox,
-          },
-          {
-            name: 'Snippets',
-            href: routes.support.snippets,
-          },
-          {
-            name: 'Templates',
-            href: routes.support.templates,
-          },
-        ],
-      },
-      {
-        name: 'Invoice',
-        description: 'Professional-looking invoices for each customer order',
-        icon: PiCurrencyDollar,
-        subMenuItems: [
-          {
-            name: 'List',
-            href: routes.invoice.home,
-          },
-          {
-            name: 'Details',
-            href: routes.invoice.details(DUMMY_ID),
-          },
-          {
-            name: 'Create',
-            href: routes.invoice.create,
-          },
-          {
-            name: 'Edit',
-            href: routes.invoice.edit(DUMMY_ID),
-          },
-        ],
-      },
-      {
-        name: 'Logistics',
+        name: 'Users Management',
         description:
-          '"Streamline Shipments: Discover Efficiency with our Logistics!"',
-        icon: PiPackage,
+          '"View and Control Users and Structures with Ease!"',
+        icon: PiUser,
         subMenuItems: [
           {
-            name: 'Shipment List',
-            href: routes.logistics.shipmentList,
+            name: 'Users',
+            href: routes.users.usersTable,
           },
           {
-            name: 'Shipment Details',
-            href: routes.logistics.shipmentDetails(DUMMY_ID),
+            name: 'User Roles',
+            href: routes.users.rolesTable,
           },
+          
           {
-            name: 'Create Shipment',
-            href: routes.logistics.createShipment,
-          },
-          {
-            name: 'Edit Shipment',
-            href: routes.logistics.editShipment(DUMMY_ID),
-          },
-          {
-            name: 'Customer Profile',
-            href: routes.logistics.customerProfile,
-          },
-          {
-            name: 'Tracking',
-            href: routes.logistics.tracking(DUMMY_ID),
+            name: 'User Permissions',
+            href: routes.users.permissionsTable,
           },
         ],
       },
       {
-        name: 'File Manager',
+        name: 'Network',
         description:
-          '"Organize, Access, and Share: Simplify your Digital World with us!"',
-        icon: PiFileImage,
+          '"View and Edit Organisation Structure and Level"',
+        icon: PiNetwork,
         subMenuItems: [
           {
-            name: 'Files',
-            href: routes.file.dashboard,
+            name: 'Levels',
+            href: routes.network.level,
           },
           {
-            name: 'Manage Files',
-            href: routes.file.manager,
+            name: 'Structures',
+            href: routes.network.structure,
+          },
+        ],
+      },
+      {
+        name: 'Node',
+        description:
+          '"View and manage Organisation Structure and Level"',
+        icon: PiNetwork,
+        subMenuItems: [
+          {
+            name: 'Create Node',
+            href: routes.node.create,
+          },
+          {
+            name: 'Manage Node',
+            href: routes.node.manage,
           },
         ],
       },
@@ -640,7 +536,7 @@ export const berylliumMenuItems: MenuItemsType[] = [
           },
           {
             name: 'Vintage Forgot Password',
-            href: routes.auth.forgotPassword2,
+            href: routes.auth.forgotPassword,
           },
           {
             name: 'Trendy Forgot Password',

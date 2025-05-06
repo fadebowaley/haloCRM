@@ -8,7 +8,7 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Level>}
  */
 const createLevel = async (levelBody) => {
-  return Level.create(levelBody);
+  return Level.createLevel(levelBody);
 };
 
 /**
@@ -16,6 +16,7 @@ const createLevel = async (levelBody) => {
  * @param {ObjectId} id
  * @returns {Promise<Level>}
  */
+
 const getLevelById = async (id) => {
   const level = await Level.findById(id);
   if (!level) {
@@ -43,8 +44,38 @@ const getLevelByName = async (name) => {
  * @param {Object} updateBody
  * @returns {Promise<Level>}
  */
+
 const updateLevelById = async (levelId, updateBody) => {
-  const level = await getLevelById(levelId);
+  // Require tenantId in updateBody for this operation
+  const { tenantId } = updateBody;
+  if (!tenantId) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'tenantId is required to update a level');
+  }
+
+  // Find the level by both tenantId and _id (levelId)
+  const level = await Level.findOne({ _id: levelId, tenantId });
+  if (!level) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Level not found for the given tenant');
+  }
+
+  // If updating rank or isSpecial
+  const isSpecial = updateBody.isSpecial !== undefined ? updateBody.isSpecial : level.isSpecial;
+  const rank = updateBody.rank !== undefined ? updateBody.rank : level.rank;
+
+  if (!isSpecial) {
+    const existing = await Level.findOne({
+      _id: { $ne: levelId },
+      tenantId,
+      rank,
+      isSpecial: false,
+      deletedAt: null, // optionally ignore soft-deleted ones
+    });
+
+    if (existing) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Another non-special level with the same rank already exists for this tenant.');
+    }
+  }
+
   Object.assign(level, updateBody);
   await level.save();
   return level;
@@ -70,6 +101,7 @@ const deleteLevelById = async (levelId) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
+
 const queryLevels = async (filter, options) => {
   return Level.paginate(filter, options);
 };
@@ -79,8 +111,8 @@ const queryLevels = async (filter, options) => {
  * @param {number} hierarchy - Hierarchy level
  * @returns {Promise<Array<Level>>}
  */
-const getLevelsByHierarchy = async (hierarchy) => {
-  return Level.find({ hierarchy });
+const getLevelsByHierarchy = async (tenantId, hierarchy) => {
+  return Level.getLevelsByHierarchy(tenantId, hierarchy);
 };
 
 /**

@@ -16,11 +16,24 @@ export default function StepOne() {
   return (
     <>
       <div className="col-span-full flex flex-col justify-center @4xl:col-span-5">
-        <FormSummary
+        {/* <FormSummary
           descriptionClassName="@7xl:me-10"
-          title="Tell us about your place"
-          description="In this step, we'll ask you which type of property you have and if guests will book the entire place or just a room"
-        />
+          title="Welcome to HaloCRM"
+          description="In the next step, we'll ask you the industry you are in  you have and if guests"
+        /> */}
+        <p className="text-4xl text-white">Welcome to 
+          <span className='text-slate-700 font-semibold'> HaloCRM</span>
+        </p>
+        <div className="pt-8 text-white">This guided form will walk you through everything you need to provide. 
+          It’s quick, easy, and you can always go back if you need to make changes.
+            What to expect:
+            <ul className='text-left text-gray-700 list-disc list-inside space-y-2 py-4'>
+              <li>Simple step-by-step process</li>
+              <li>Save progress as you go</li>
+              <li>Go back to review any step</li>
+            </ul>
+          Let's Get Started, Click Next !
+        </div>
       </div>
 
       <form

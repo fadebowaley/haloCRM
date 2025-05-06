@@ -8,7 +8,6 @@ import * as api from '@/app/lib/api/auth';
 import { routes } from '@/config/routes';
 
 
-
 export const authOptions: NextAuthOptions = {
   // debug: true,
   pages: {
@@ -26,6 +25,14 @@ export const authOptions: NextAuthOptions = {
         token.accessToken = user.tokens?.access?.token;
         token.refreshToken = user.tokens?.refresh?.token;
       }
+
+      // 🔁 Optional refresh logic
+      // const isExpired = checkExpiration(token.accessToken)
+      // if (isExpired && token.refreshToken) {
+      //   const refreshed = await refreshAccessToken(token.refreshToken);
+      //   token.accessToken = refreshed.accessToken;
+      // }
+
       return token;
     },
 
@@ -40,6 +47,7 @@ export const authOptions: NextAuthOptions = {
         },
       };
     },
+
 
     async redirect({ url, baseUrl }) {
       const parsedUrl = new URL(url, baseUrl);
@@ -60,60 +68,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
 
-      // async authorize(credentials) {
-      //   try {
-      //     if (!credentials?.email || !credentials?.password) {
-      //       throw new Error('Missing email or password');
-      //     }
-
-      //     // ✅ Reuse your existing login logic
-      //     const data = await api.login(credentials.email, credentials.password);
-
-      //     // ✅ Make sure both tokens and user info exist
-      //     if (!data?.tokens || !data?.user) {
-      //       throw new Error('Invalid response from server');
-      //     }
-
-      //     return {
-      //       id: data.userData.user.id,
-      //       email: data.userData.user.email,
-      //       name: data.userData.user.name,
-      //       tokens: data.userData.tokens, // Include tokens for JWT
-      //     };
-      //   } catch (error: any) {
-      //     console.error('Login failed in authorize():', error);
-      //     throw new Error(error?.response?.data?.message || 'Login failed');
-      //   }
-      // },
-
-      // async authorize(credentials) {
-      //   try {
-      //     if (!credentials?.email || !credentials?.password) {
-      //       throw new Error('Missing email or password');
-      //     }
-
-      //     const data = await api.login(credentials.email, credentials.password);
-
-      //     if (!data?.tokens || !data?.user) {
-      //       throw new Error('Invalid response from server');
-      //     }
-
-      //     return {
-      //       id: data.user.id,
-      //       email: data.user.email,
-      //       name: `${data.user.firstname} ${data.user.lastname}`,
-      //       tokens: data.tokens,
-      //     };
-      //   } catch (error: any) {
-      //     console.error('Login failed in authorize():', error);
-      //     //throw new Error(error?.response?.data?.message || 'Login failed');
-      //     throw new Error(
-      //       `[OtpNotVerified] ${error?.response?.data?.message || 'Login failed'}`
-      //     );
-
-      //   }
-
-      // },
       async authorize(credentials) {
         try {
           if (!credentials?.email || !credentials?.password) {
