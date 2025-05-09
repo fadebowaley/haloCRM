@@ -19,7 +19,9 @@
       "@/*": ["src/*"],
       "@public/*": ["public/*"],
       "@shared/*": ["src/app/shared*"],
-      "@core/*": ["../../packages/isomorphic-core/src/*"]
+      "@core/*": ["../../packages/isomorphic-core/src/*"],
+      "@lib/*": ["src/app/lib/*"],
+      "@hooks/*": ["src/app/lib/hooks/*"]
     },
     "plugins": [
       {

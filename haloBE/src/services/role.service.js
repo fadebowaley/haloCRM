@@ -1,5 +1,6 @@
+const mongoose = require('mongoose');
 const httpStatus = require('http-status');
-const { Role } = require('../models');
+const { Role, Permission } = require('../models');
 const ApiError = require('../utils/ApiError');
 const roleTemplates = require('../utils/role');
 
@@ -37,6 +38,7 @@ const createRole = async (roleBody, user) => {
   if (existing) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Role name already exists for this tenant');
   }
+  console.log('looking up data', user )
   return Role.createRole(roleBody, user);
 };
 
@@ -167,15 +169,35 @@ const deleteAllRoles = async (tenantId) => {
  * @returns {Promise<Role>}
  */
 
-const assignPermissions = async (roleId, permissions) => {
-  const role = await getRoleById(roleId);
+const assignPermissions = async (roleId, inputPermissions) => {
+  const role = await Role.findById(roleId);
   if (!role) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Role not found');
   }
-  role.permissions = permissions;
-  await role.save();
+
+  // Normalize input to array
+  const incoming = Array.isArray(inputPermissions) ? inputPermissions : [inputPermissions];
+
+  // Ensure all are valid ObjectIds
+  const validObjectIds = incoming.filter((id) => mongoose.Types.ObjectId.isValid(id));
+  if (validObjectIds.length === 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'No valid permission IDs provided');
+  }
+  // Get valid permission IDs from DB
+  const validPermissions = await Permission.find({ _id: { $in: validObjectIds } }, '_id');
+  const validIds = validPermissions.map((p) => p._id.toString());
+  // Merge with existing, remove duplicates
+  const current = role.permissions.map((p) => p.toString());
+  const merged = Array.from(new Set([...current, ...validIds]));
+  // Only update if there are new additions
+  if (merged.length !== current.length) {
+    role.permissions = merged;
+    await role.save();
+  }
+
   return role;
 };
+
 
 module.exports = {
   createRole,

@@ -5,37 +5,49 @@ import { PiXBold } from 'react-icons/pi';
 import { Controller, SubmitHandler } from 'react-hook-form';
 import { Form } from '@core/ui/form';
 import { Input, Button, ActionIcon, Title, Select } from 'rizzui';
-import {CreateUserInput,createUserSchema,} from '@/validators/create-user.schema';
+import {
+  CreateUserInput,
+  createUserSchema,
+} from '@/validators/create-user.schema';
 import { useModal } from '@/app/shared/modal-views/use-modal';
-import {permissions, roles, statuses,} from '../utils';
-
-
+import { permissions, roles, statuses } from '../utils';
+import { useUsers } from '@lib/hooks/useUsers';
 
 export default function CreateUser() {
-
   const { closeModal } = useModal();
   const [reset, setReset] = useState({});
   const [isLoading, setLoading] = useState(false);
-  const onSubmit: SubmitHandler<CreateUserInput> = (data) => {
+  const { createUser } = useUsers();
 
+  const onSubmit: SubmitHandler<CreateUserInput> = async (data) => {
     // set timeout ony required to display loading state of the create category button
     const formattedData = {
       ...data,
       createdAt: new Date(),
     };
-    setLoading(true);
-    setTimeout(() => {
-      console.log('formattedData', formattedData);
+    try {
+      setLoading(true);
+      const response = await createUser(formattedData);
+      if (response?.status === 'success') {
+        // Handle success: reset form and close modal
+        setReset({
+          fullName: '',
+          email: '',
+          role: '',
+          permissions: '',
+          status: '',
+        });
+        closeModal();
+      } else {
+        // Handle error (optional: show a toast/alert)
+        console.error('User creation failed:', response.message);
+      }
+    } catch (error) {
+      console.error('Error creating user:', error);
+      // Optionally show a toast or error message
+    } finally {
       setLoading(false);
-      setReset({
-        fullName: '',
-        email: '',
-        role: '',
-        permissions: '',
-        status: '',
-      });
-      closeModal();
-    }, 600);
+    }
   };
 
   return (

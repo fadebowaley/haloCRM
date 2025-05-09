@@ -2,11 +2,9 @@ import { type NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import { env } from '@/env.mjs';
-import isEqual from 'lodash/isEqual';
 import { pagesOptions } from './pages-options';
 import * as api from '@/app/lib/api/auth';
-import { routes } from '@/config/routes';
-
+import { checkExpiration, refreshAccessToken } from '@lib/api/token';
 
 export const authOptions: NextAuthOptions = {
   // debug: true,
@@ -27,12 +25,29 @@ export const authOptions: NextAuthOptions = {
       }
 
       // 🔁 Optional refresh logic
-      // const isExpired = checkExpiration(token.accessToken)
-      // if (isExpired && token.refreshToken) {
-      //   const refreshed = await refreshAccessToken(token.refreshToken);
-      //   token.accessToken = refreshed.accessToken;
-      // }
+      const isExpired = checkExpiration(token.accessToken);
 
+      if (isExpired && token.refreshToken) {
+        console.info('planning to  refreshed token.....');
+
+        console.log('Using refresh token:', token.refreshToken);
+
+        const refreshed = await refreshAccessToken(token.refreshToken);
+        if (refreshed) {
+          console.info('Token is refreshed successfully.....');
+
+          token.accessToken = refreshed.accessToken;
+          token.refreshToken = refreshed.refreshToken ?? token.refreshToken;
+        } else {
+          console.warn('Failed to refresh access token. Keeping old token.');
+          token = {
+            name: null,
+            email: null,
+            picture: null,
+            sub: null,
+          };
+        }
+      }
       return token;
     },
 

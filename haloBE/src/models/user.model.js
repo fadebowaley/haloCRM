@@ -4,14 +4,13 @@ const bcrypt = require('bcryptjs');
 const { nanoid } = require('nanoid');
 const { toJSON, paginate, tenantPlugin } = require('./plugins');
 const HaloCounter = require('./haloCounter.model');
+const AVATAR_BASE_URL = 'https://halocrm.s3.us-east-1.amazonaws.com/user';
 
 const userSchema = mongoose.Schema(
   {
     userId: {
       type: String,
-      required: true,
       unique: true,
-      index: true,
     },
 
     haloId: {
@@ -74,6 +73,10 @@ const userSchema = mongoose.Schema(
     isEmailVerified: {
       type: Boolean,
       default: false,
+    },
+    avatar: {
+      type: String,
+      default: null,
     },
     status: {
       type: Boolean,
@@ -182,12 +185,19 @@ userSchema.methods.isPasswordMatch = async function (password) {
 };
 
 userSchema.pre('save', async function (next) {
-   if (!this.haloId) {
-     this.haloId = await this.constructor.generateHaloId();
-   }
+  if (!this.haloId) {
+    this.haloId = await this.constructor.generateHaloId();
+  }
 
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 8);
+  }
+
+  //Add avatar only if not already set
+  if (!this.avatar) {
+    const randomNum = Math.floor(Math.random() * 15) + 1; // 1 to 15
+    const paddedNum = String(randomNum).padStart(2, '0'); // e.g., 01, 02, ...
+    this.avatar = `${AVATAR_BASE_URL}/avatar-${paddedNum}.webp`;
   }
   next();
 });
@@ -206,12 +216,10 @@ userSchema.statics.resetPassword = async function (userId, newPassword) {
 userSchema.statics.createBulk = async function (usersBody, createdBy, tenantId) {
   const success = [];
   const errors = [];
-
   if (!createdBy || !mongoose.Types.ObjectId.isValid(createdBy)) {
     throw new Error('A valid creator ID (createdBy) must be provided');
   }
   for (const userBody of usersBody) {
-
     try {
       if (await this.isEmailTaken(userBody.email)) {
         errors.push({

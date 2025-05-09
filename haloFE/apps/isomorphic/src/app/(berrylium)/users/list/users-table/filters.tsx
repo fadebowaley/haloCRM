@@ -1,43 +1,36 @@
 'use client';
 
-import { STATUSES } from '@/data/users-data';
 import { Badge, Box, Button, Flex, Input, Text, Title } from 'rizzui';
 import StatusField from '@core/components/controlled-table/status-field';
 import { type Table as ReactTableType } from '@tanstack/react-table';
 import { PiMagnifyingGlassBold, PiTrashDuotone } from 'react-icons/pi';
-import { rolesList } from '@/data/roles-permissions';
 import ModalButton from '@/app/shared/modal-button';
 import CreateUser from '../create-user';
 
-const statusOptions = [
-  {
-    value: STATUSES.Active,
-    label: STATUSES.Active,
-  },
-  {
-    value: STATUSES.Deactivated,
-    label: STATUSES.Deactivated,
-  },
-  {
-    value: STATUSES.Pending,
-    label: STATUSES.Pending,
-  },
-];
-
-const roles = rolesList.map((role) => ({
-  label: role.name,
-  value: role.name,
-}));
-
 interface TableToolbarProps<T extends Record<string, any>> {
   table: ReactTableType<T>;
+  dynamicStatuses: string[];
+  dynamicRoles: string[];
 }
 
 export default function Filters<TData extends Record<string, any>>({
   table,
+  dynamicStatuses,
+  dynamicRoles,
 }: TableToolbarProps<TData>) {
   const isFiltered =
     table.getState().globalFilter || table.getState().columnFilters.length > 0;
+
+  const statusOptions = dynamicStatuses.map((status) => ({
+    label: status,
+    value: status,
+  }));
+
+  const rolesOptions = dynamicRoles.map((role) => ({
+    label: role,
+    value: role,
+  }));
+
   return (
     <Box className="mb-4 @container">
       <Flex
@@ -52,6 +45,7 @@ export default function Filters<TData extends Record<string, any>>({
         >
           All Users
         </Title>
+
         <Flex
           align="center"
           direction="col"
@@ -75,13 +69,14 @@ export default function Filters<TData extends Record<string, any>>({
           />
           <StatusField
             placeholder="Filter by Role"
-            options={roles}
+            options={rolesOptions}
             value={table.getColumn('role')?.getFilterValue() ?? []}
             onChange={(e) => table.getColumn('role')?.setFilterValue(e)}
             getOptionValue={(option) => option.label}
             dropdownClassName="!z-10"
             className="@4xl:w-40"
           />
+
           {isFiltered && (
             <Button
               size="sm"
@@ -96,6 +91,7 @@ export default function Filters<TData extends Record<string, any>>({
             </Button>
           )}
         </Flex>
+
         <Input
           type="search"
           clearable={true}
@@ -106,6 +102,7 @@ export default function Filters<TData extends Record<string, any>>({
           prefix={<PiMagnifyingGlassBold className="size-4" />}
           className="order-3 h-9 w-full @2xl:order-2 @2xl:ms-auto @2xl:h-auto @2xl:max-w-60 @4xl:order-3"
         />
+
         <Box className="order-2 ms-4 @2xl:order-3 @2xl:ms-0 @4xl:order-4 @4xl:shrink-0">
           <ModalButton
             label="Add New User"
@@ -120,33 +117,22 @@ export default function Filters<TData extends Record<string, any>>({
 }
 
 function renderOptionDisplayValue(value: string) {
-  switch (value) {
-    case STATUSES.Active:
-      return (
-        <div className="flex items-center">
-          <Badge color="success" renderAsDot />
-          <Text className="ms-2 font-medium capitalize text-green-dark">
-            {value}
-          </Text>
-        </div>
-      );
-    case STATUSES.Deactivated:
-      return (
-        <div className="flex items-center">
-          <Badge color="danger" renderAsDot />
-          <Text className="ms-2 font-medium capitalize text-red-dark">
-            {value}
-          </Text>
-        </div>
-      );
-    default:
-      return (
-        <div className="flex items-center">
-          <Badge renderAsDot className="bg-orange-dark" />
-          <Text className="ms-2 font-medium capitalize text-orange-dark">
-            {value}
-          </Text>
-        </div>
-      );
-  }
+  if (!value) return null;
+
+  const colorMap: Record<string, string> = {
+    Active: 'green-dark',
+    Deactivated: 'red-dark',
+    Pending: 'orange-dark',
+  };
+
+  const color = colorMap[value] || 'gray-dark';
+
+  return (
+    <div className="flex items-center">
+      <Badge renderAsDot className={`bg-${color}`} />
+      <Text className={`ms-2 font-medium capitalize text-${color}`}>
+        {value}
+      </Text>
+    </div>
+  );
 }

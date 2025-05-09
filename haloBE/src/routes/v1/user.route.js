@@ -292,6 +292,7 @@ router.get('/:userId', auth('view:user::userId'), validate(userValidation.getUse
  *         description: Not Found
  */
 
+router.post('/bulk-create', auth('create:user:bulk-create'), validate(userValidation.bulkCreate), userController.bulkCreate);
 
 // Update user
 router.patch('/:userId', auth('update:user::userId'), validate(userValidation.updateUser), userController.updateUser);
@@ -467,7 +468,6 @@ router.patch('/:userId', auth('update:user::userId'), validate(userValidation.up
 // Delete user
 router.delete('/:userId', auth('delete:user::userId'), validate(userValidation.deleteUser), userController.deleteUser);
 
-router.post('/bulk-create', auth('create:user:bulk-create'), validate(userValidation.bulkCreate), userController.bulkCreate);
 
 router.post(
   '/restore',
@@ -547,6 +547,10 @@ router.post('/restore/:userId', // Expecting userId as URL parameter
  *         description: Not Found
  */
 router.post('/soft-delete/:userId', auth('create:user::userId'), userController.softDeleteUser);
+
+router
+  .route('/:id/assign-roles')
+  .patch(auth('assign:roles'), validate(userValidation.assignRoles), userController.assignRoles);
 
 
 module.exports = router;

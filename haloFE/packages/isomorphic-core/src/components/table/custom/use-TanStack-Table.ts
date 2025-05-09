@@ -37,7 +37,9 @@ export function useTanStackTable<T extends Record<string, any>>({
   columnConfig,
 }: {
   tableData: T[];
-  options?: ExtendTableOptions<T>;
+  options?: ExtendTableOptions<T> & {
+    totalCount?: number;
+  };
   columnConfig: ColumnDef<T, any>[];
 }) {
   const [data, setData] = React.useState<T[]>([...tableData]);
@@ -45,9 +47,17 @@ export function useTanStackTable<T extends Record<string, any>>({
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
-  const [columnOrder, setColumnOrder] = React.useState<string[]>(() => columns.map((c) => c.id!));
-  const dataIds = React.useMemo<UniqueIdentifier[]>(() => data?.map(({ id }) => id), [data]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnOrder, setColumnOrder] = React.useState<string[]>(() =>
+    columns.map((c) => c.id!)
+  );
+  const dataIds = React.useMemo<UniqueIdentifier[]>(
+    () => data?.map(({ id }) => id),
+    [data]
+  );
+  
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
   const [rowPinning, setRowPinning] = React.useState<RowPinningState>({
     top: [],
     bottom: [],
@@ -85,8 +95,19 @@ export function useTanStackTable<T extends Record<string, any>>({
   // these are custom functions dependent on dnd kit and react-table to handle Drag and Drop events
   // =================================================================================================
 
+const pagination = options?.state?.pagination ?? { pageIndex: 0, pageSize: 10 };
+const totalCount = options?.totalCount ?? data.length;
+
+const paginatedData = React.useMemo(() => {
+  const start = pagination.pageIndex * pagination.pageSize;
+  return data.slice(start, start + pagination.pageSize);
+}, [data, pagination.pageIndex, pagination.pageSize]);
+
+const pageCount = Math.ceil(totalCount / pagination.pageSize);
+
   const table = useReactTable({
-    data,
+    // data,
+    data: paginatedData,
     columns,
     state: {
       sorting,
@@ -95,7 +116,10 @@ export function useTanStackTable<T extends Record<string, any>>({
       columnOrder,
       globalFilter,
       columnFilters,
+      pagination,
     },
+    manualPagination: true,
+    pageCount,
     ...options,
     getRowCanExpand: () => true,
     onSortingChange: setSorting,

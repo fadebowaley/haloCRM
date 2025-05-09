@@ -31,6 +31,7 @@ const bulkCreate = {
         email: Joi.string().required().email(),
         password: Joi.string().required().custom(password),
         isOwner: Joi.boolean().valid(false).default(false),
+      status: Joi.boolean().default(false),
       })
     )
     .required(),
@@ -61,13 +62,13 @@ const getUsers = {
 
 const getUser = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+    userId: Joi.string().required(),
   }),
 };
 
 const updateUser = {
   params: Joi.object().keys({
-    userId: Joi.required().custom(objectId),
+    userId: Joi.string().required(),
   }),
   body: Joi.object()
     .keys({
@@ -83,7 +84,7 @@ const updateUser = {
 
 const deleteUser = {
   params: Joi.object().keys({
-    userId: Joi.string().custom(objectId),
+     userId: Joi.string().required(),
   }),
 };
 
@@ -106,6 +107,19 @@ const softDeleteUser = {
   }),
 };
 
+
+const assignRoles = {
+  params: Joi.object().keys({
+    id: Joi.string().required().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    roles: Joi.alternatives()
+      .try(Joi.string().custom(objectId), Joi.array().items(Joi.string().custom(objectId)).min(1))
+      .required(),
+  }),
+};
+
+
 module.exports = {
   createUser,
   getUsers,
@@ -118,4 +132,5 @@ module.exports = {
   restoreUser,
   restoreUsers,
   softDeleteUser,
+  assignRoles,
 };

@@ -1,5 +1,6 @@
+const mongoose = require('mongoose');
 const httpStatus = require('http-status');
-const { User } = require('../models');
+const { User, Role } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -8,7 +9,6 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 
-
 const createUser = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
@@ -16,14 +16,12 @@ const createUser = async (userBody) => {
   return User.createUser(userBody);
 };
 
-
 const ownerCreate = async (userBody) => {
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User Email is already registered');
   }
   return User.createUser(userBody);
 };
-
 
 // const bulkCreate = async (usersBody) => {
 //   const createdUsers = []; // To hold successfully created users
@@ -59,6 +57,7 @@ const ownerCreate = async (userBody) => {
 //     errors,
 //   };
 // };
+
 
 const bulkCreate = async (usersBody, createdBy, tenantId) => {
   return await User.createBulk(usersBody, createdBy, tenantId);
@@ -98,7 +97,7 @@ const bulkSoftDeleteByTenantId = async (tenantId) => {
 const restoreUsersByTenantId = async (tenantId) => {
   try {
     // Find soft-deleted users with the provided tenantId
-    const usersToRestore = await User.find({tenantId: tenantId, deletedAt: { $ne: null } });
+    const usersToRestore = await User.find({ tenantId: tenantId, deletedAt: { $ne: null } });
     const restoredUsers = [];
     const failedUsers = [];
 
@@ -142,7 +141,6 @@ const restoreUserByUserId = async (userId) => {
   }
 };
 
-
 /**
  * Query for users
  * @param {Object} filter - Mongo filter
@@ -153,12 +151,10 @@ const restoreUserByUserId = async (userId) => {
  * @returns {Promise<QueryResult>}
  */
 
-
 const queryUsers = async (filter, options) => {
   const users = await User.paginate(filter, options);
   return users;
 };
-
 
 /**
  * Get user by id
@@ -187,7 +183,6 @@ const getUserByEmail = async (email) => {
  * @returns {Promise<User>}
  */
 
-
 const updateUserById = async (userId, updateBody) => {
   const user = await User.findByIdAndUpdate(userId, updateBody, {
     new: true,
@@ -201,7 +196,6 @@ const updateUserById = async (userId, updateBody) => {
 
   return user;
 };
-
 
 /**
  * Delete user by id
@@ -217,7 +211,6 @@ const deleteUserById = async (userId) => {
   await user.remove();
   return user;
 };
-
 
 const softDeleteUserById = async (userId) => {
   try {
@@ -247,6 +240,37 @@ const softDeleteUserById = async (userId) => {
   }
 };
 
+const assignRoles = async (userId, inputRoles) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  // Normalize input to array
+  const incoming = Array.isArray(inputRoles) ? inputRoles : [inputRoles];
+
+  // Validate ObjectIds
+  const validObjectIds = incoming.filter((id) => mongoose.Types.ObjectId.isValid(id));
+  if (validObjectIds.length === 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'No valid Role IDs provided');
+  }
+
+  // Check which ones actually exist in the Role collection
+  const rolesInDb = await Role.find({ _id: { $in: validObjectIds } }, '_id');
+  const validRoleIds = rolesInDb.map((r) => r._id.toString());
+
+  // Merge with existing user roles (assumes user.roles exists as an array of ObjectIds)
+  const existingRoles = (user.roles || []).map((r) => r.toString());
+  const mergedRoles = Array.from(new Set([...existingRoles, ...validRoleIds]));
+
+  // Only update if there are new additions
+  if (mergedRoles.length !== existingRoles.length) {
+    user.roles = mergedRoles;
+    await user.save();
+  }
+
+  return user;
+};
 
 module.exports = {
   createUser,
@@ -261,4 +285,5 @@ module.exports = {
   restoreUserByUserId,
   restoreUsersByTenantId,
   softDeleteUserById,
+  assignRoles,
 };

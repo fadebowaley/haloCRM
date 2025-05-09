@@ -55,7 +55,6 @@ roleSchema.statics.createRole = async function (roleData, currentUser) {
     tenantId: currentUser.tenantId,
     userId: currentUser.userId,
   };
-
   const role = new this(completeData);
   await role.save();
   return role;
@@ -99,7 +98,6 @@ roleSchema.statics.bulkCreateRoles = async function (rolesArray, user) {
 };
 
 
-
 roleSchema.statics.deleteAllRoles = async function (tenantId) {
   if (!tenantId) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Tenant ID is required to delete all roles');
@@ -121,9 +119,6 @@ roleSchema.statics.deleteAllRoles = async function (tenantId) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Error deleting roles', error);
   }
 };
-
-
-
 
 const Role = mongoose.model('Role', roleSchema);
 module.exports = Role;

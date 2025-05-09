@@ -1,12 +1,5 @@
 import { api } from '../axios';
 
-
-
-// export const getUsers = async (query?: Record<string, any>) => {
-//   const { data } = await api.get('/users', { params: query });
-//   return data;
-// };
-
 export const getUsers = async (query?: Record<string, any>, token?: string) => {
   const options = {
     params: query,
@@ -16,14 +9,19 @@ export const getUsers = async (query?: Record<string, any>, token?: string) => {
   return data;
 };
 
-
-export const getUser = async (userId: string) => {
-  const { data } = await api.get(`/users/${userId}`);
+export const getUser = async (userId: string, token?: string) => {
+  const options = {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  };
+  const { data } = await api.get(`/users/${userId}`, options);
   return data;
 };
 
-export const createUser = async (payload: any) => {
-  const { data } = await api.post('/users', payload);
+export const createUser = async (payload: any, token?: string) => {
+  const options = {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  };
+  const { data } = await api.post('/users', payload, options);
   return data;
 };
 
@@ -35,28 +33,44 @@ export const updateUser = async (
     email: string;
     role: string;
     isActive: boolean;
-  }>
+  }>,
+  token?: string
 ) => {
-  const { data } = await api.patch(`/users/${userId}`, payload);
+  const options = {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  };
+  const { data } = await api.patch(`/users/${userId}`, payload, options);
   return data;
 };
 
-export const deleteUser = async (userId: string) => {
-  const { data } = await api.delete(`/users/${userId}`);
+export const deleteUser = async (userId: string, token?: string) => {
+  const options = {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  };
+  const { data } = await api.delete(`/users/${userId}`, options);
   return data;
 };
 
-export const bulkCreateUsers = async (payload: any[]) => {
-  const { data } = await api.post('/users/bulk-create', payload);
+export const bulkCreateUsers = async (payload: any[], token?: string) => {
+  const options = {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  };
+  const { data } = await api.post('/users/bulk-create', payload, options);
   return data;
 };
 
-export const restoreUser = async (userId: string) => {
-  const { data } = await api.post(`/users/restore/${userId}`);
+export const restoreUser = async (userId: string, token?: string) => {
+  const options = {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  };
+  const { data } = await api.post(`/users/restore/${userId}`, {}, options);
   return data;
 };
 
-export const softDeleteUser = async (userId: string) => {
-  const { data } = await api.post(`/users/soft-delete/${userId}`);
+export const softDeleteUser = async (userId: string, token?: string) => {
+  const options = {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  };
+  const { data } = await api.post(`/users/soft-delete/${userId}`, {}, options);
   return data;
 };

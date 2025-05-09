@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import * as api from '@/app/lib/api/users';
 import toast from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
@@ -12,123 +12,88 @@ type ApiResponse = {
 export const useUsers = () => {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-  const accessToken = session?.user?.accessToken;
-  const createUser = async (payload: any): Promise<ApiResponse> => {
-    setLoading(true);
-    try {
-      const { data } = await api.createUser(payload);
-      toast.success('User created successfully');
-      return { success: true, data };
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'Error creating user');
-      return { success: false, error: err?.response?.data?.message };
-    } finally {
-      setLoading(false);
-    }
-  };
+  const token = session?.user?.accessToken;
 
-  const getUsers = async (
-    query?: Record<string, any>
-  ): Promise<ApiResponse> => {
-    setLoading(true);
-    try {
-      const data = await api.getUsers(query, accessToken);
-      console.log('data:::', data);
+  //Utility functions for Api Requests
+  const apiRequest = useCallback(
+    async (apiFunc: Function, params: any[] = []): Promise<ApiResponse> => {
+      setLoading(true);
+      try {
+        const result = await apiFunc(...params, token);
+        return { success: true, data: result };
+      } catch (err: any) {
+        const errorMessage =
+          err?.response?.data?.message || 'An error occurred';
+        toast.error(errorMessage);
+        return { success: false, error: errorMessage };
+      } finally {
+        setLoading(false);
+      }
+    },
+    [token]
+  );
 
-      return { success: true, data };
-    } catch (err: any) {
-      toast.error('Failed to fetch users');
-      return { success: false, error: err?.response?.data?.message };
-    } finally {
-      setLoading(false);
-    }
-  };
+  const getUsers = useCallback(
+    async (query?: Record<string, any>): Promise<ApiResponse> => {
+      return apiRequest(api.getUsers, [query]);
+    },
+    [apiRequest]
+  );
 
-  const getUser = async (userId: string): Promise<ApiResponse> => {
-    setLoading(true);
-    try {
-      const { data } = await api.getUser(userId);
-      return { success: true, data };
-    } catch (err: any) {
-      toast.error('Failed to fetch user');
-      return { success: false, error: err?.response?.data?.message };
-    } finally {
-      setLoading(false);
-    }
-  };
+  const createUser = useCallback(
+    async (payload: any): Promise<ApiResponse> => {
+      return apiRequest(api.createUser, [payload]);
+    },
+    [apiRequest]
+  );
 
-  const updateUser = async (
-    userId: string,
-    payload: any
-  ): Promise<ApiResponse> => {
-    setLoading(true);
-    try {
-      const { data } = await api.updateUser(userId, payload);
-      toast.success('User updated successfully');
-      return { success: true, data };
-    } catch (err: any) {
-      toast.error('Failed to update user');
-      return { success: false, error: err?.response?.data?.message };
-    } finally {
-      setLoading(false);
-    }
-  };
+  const getUser = useCallback(
+    async (userId: string): Promise<ApiResponse> => {
+      return apiRequest(api.getUser, [userId]);
+    },
+    [apiRequest]
+  );
 
-  const deleteUser = async (userId: string): Promise<ApiResponse> => {
-    setLoading(true);
-    try {
-      await api.deleteUser(userId);
-      toast.success('User deleted successfully');
-      return { success: true };
-    } catch (err: any) {
-      toast.error('Failed to delete user');
-      return { success: false, error: err?.response?.data?.message };
-    } finally {
-      setLoading(false);
-    }
-  };
+  const updateUser = useCallback(
+    async (userId: string, payload: any): Promise<ApiResponse> => {
+      return apiRequest(
+        api.updateUser,
+        [userId, payload],
+        'User updated successfully',
+        'Failed to update user'
+      );
+    },
+    [apiRequest]
+  );
 
-  const bulkCreateUsers = async (payload: any[]): Promise<ApiResponse> => {
-    setLoading(true);
-    try {
-      const { data } = await api.bulkCreateUsers(payload);
-      toast.success('Bulk user creation successful');
-      return { success: true, data };
-    } catch (err: any) {
-      toast.error('Failed to create users in bulk');
-      return { success: false, error: err?.response?.data?.message };
-    } finally {
-      setLoading(false);
-    }
-  };
+  const deleteUser = useCallback(
+    async (userId: string): Promise<ApiResponse> => {
+      console.log('look-up', userId);
+      return apiRequest(api.deleteUser, [userId]);
+    },
+    [apiRequest]
+  );
 
-  const restoreUser = async (userId: string): Promise<ApiResponse> => {
-    setLoading(true);
-    try {
-      const { data } = await api.restoreUser(userId);
-      toast.success('User restored successfully');
-      return { success: true, data };
-    } catch (err: any) {
-      toast.error('Failed to restore user');
-      return { success: false, error: err?.response?.data?.message };
-    } finally {
-      setLoading(false);
-    }
-  };
+  const bulkCreateUsers = useCallback(
+    async (payload: any[]): Promise<ApiResponse> => {
+      return apiRequest(api.bulkCreateUsers, [payload]);
+    },
+    [apiRequest]
+  );
 
-  const softDeleteUser = async (userId: string): Promise<ApiResponse> => {
-    setLoading(true);
-    try {
-      const { data } = await api.softDeleteUser(userId);
-      toast.success('User soft-deleted successfully');
-      return { success: true, data };
-    } catch (err: any) {
-      toast.error('Failed to soft-delete user');
-      return { success: false, error: err?.response?.data?.message };
-    } finally {
-      setLoading(false);
-    }
-  };
+  const restoreUser = useCallback(
+    async (userId: string): Promise<ApiResponse> => {
+      return apiRequest(api.restoreUser, [userId]);
+    },
+    [apiRequest]
+  );
+
+  const softDeleteUser = useCallback(
+    async (userId: string): Promise<ApiResponse> => {
+      return apiRequest(api.softDeleteUser, [userId]);
+    },
+    [apiRequest]
+  );
 
   return {
     loading,

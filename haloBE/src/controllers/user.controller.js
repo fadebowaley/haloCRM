@@ -14,8 +14,11 @@ const ownerCreate = catchAsync(async (req, res) => {
 
 // Function to bulk create users
 const bulkCreate = catchAsync(async (req, res) => {
-  const createdBy = req.user._id;
+  const createdBy = req.user.id;
   const tenantId = req.user.tenantId;
+   console.log(req.user)
+  // Validate that createdBy is a valid ObjectId if required
+
   // Call the bulkCreate method from the user service
   const { success: createdUsers, errors, summary } = await userService.bulkCreate(req.body, createdBy, tenantId);
 
@@ -25,14 +28,12 @@ const bulkCreate = catchAsync(async (req, res) => {
       message: 'Bulk user creation completed',
       createdUsers,
       errors,
-      summary
+      summary,
     });
   }
   // If no users were created or errors exist
   res.status(httpStatus.BAD_REQUEST).send({ message: 'No users were created or all had errors', errors });
 });
-
-
 
 
 // Function to soft delete users by tenantId and isOwner flag
@@ -124,10 +125,40 @@ if (q) {
   };
 }
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  options.populate = 'roles'
   options.user = req.user; // Add the user object to options
   const result = await userService.queryUsers(filter, options);
   res.send(result);
 });
+// const getUsers = catchAsync(async (req, res) => {
+//   let filter = pick(req.query, ['firstname', 'lastname', 'userId', 'email']);
+//   const { q } = req.query;
+
+//   // If userId is passed (10-digit string), search by that field directly
+//   if (filter.userId) {
+//     filter.userId = filter.userId;
+//   }
+
+//   // If 'q' is present, override filters with regex OR search
+//   if (q) {
+//     const regex = new RegExp(q, 'i'); // case-insensitive
+//     filter = {
+//       $or: [{ firstname: regex }, { lastname: regex }, { email: regex }, { userId: regex }],
+//     };
+//   }
+
+//   const options = pick(req.query, ['sortBy', 'limit', 'page']);
+//   options.populate = 'roles';
+//   options.user = req.user;
+
+//   const result = await userService.queryUsers(filter, options);
+//   res.send(result);
+// });
+
+
+
+
+
 
 //Function to get a particular user
 const getUser = catchAsync(async (req, res) => {
@@ -166,6 +197,11 @@ const softDeleteUser = catchAsync(async (req, res) => {
 });
 
 
+const assignRoles = catchAsync(async (req, res) => {
+  const userRole = await userService.assignRoles(req.params.id, req.body.roles);
+  res.send(userRole);
+});
+
 module.exports = {
   ownerCreate,
   getUsers,
@@ -176,6 +212,7 @@ module.exports = {
   bulkDelete,
   restoreUser,
   restoreUsers,
-  softDeleteUser
+  softDeleteUser,
+  assignRoles
   // bulk create
 };

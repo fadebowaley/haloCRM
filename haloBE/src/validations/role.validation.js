@@ -50,17 +50,15 @@ const deleteRole = {
 };
 
 
-
-
 const assignPermissions = {
   params: Joi.object().keys({
     roleId: Joi.string().required().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      permissions: Joi.array().items(Joi.string().required().custom(objectId)).min(1),
-    })
-    .required(),
+  body: Joi.object().keys({
+    permissions: Joi.alternatives()
+      .try(Joi.string().custom(objectId), Joi.array().items(Joi.string().custom(objectId)).min(1))
+      .required(),
+  }),
 };
 
 
