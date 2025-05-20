@@ -238,6 +238,22 @@ export const berylliumMenuItems: MenuItemsType[] = [
         ],
       },
       {
+        name: 'Forms',
+        description:
+          '"View and manage Forms"',
+        icon: PiNetwork,
+        subMenuItems: [
+          {
+            name: 'Create Form',
+            href: routes.form.create,
+          },
+          {
+            name: 'Manage Form',
+            href: routes.form.manage,
+          },
+        ],
+      },
+      {
         name: 'Job Feeds',
         href: routes.jobBoard.jobFeed,
         icon: PiShapes,
@@ -483,18 +499,18 @@ export const berylliumMenuItems: MenuItemsType[] = [
             name: 'Vintage Sign Up',
             href: routes.auth.signUp2,
           },
-          {
-            name: 'Trendy Sign Up',
-            href: routes.auth.signUp3,
-          },
-          {
-            name: 'Elegant Sign Up',
-            href: routes.auth.signUp4,
-          },
-          {
-            name: 'Classic Sign Up',
-            href: routes.auth.signUp5,
-          },
+          // {
+          //   name: 'Trendy Sign Up',
+          //   href: routes.auth.signUp3,
+          // },
+          // {
+          //   name: 'Elegant Sign Up',
+          //   href: routes.auth.signUp4,
+          // },
+          // {
+          //   name: 'Classic Sign Up',
+          //   href: routes.auth.signUp5,
+          // },
         ],
       },
       {
@@ -510,18 +526,18 @@ export const berylliumMenuItems: MenuItemsType[] = [
             name: 'Vintage Sign In',
             href: routes.auth.signIn2,
           },
-          {
-            name: 'Trendy Sign In',
-            href: routes.auth.signIn3,
-          },
-          {
-            name: 'Elegant Sign In',
-            href: routes.auth.signIn4,
-          },
-          {
-            name: 'Classic Sign In',
-            href: routes.auth.signIn5,
-          },
+          // {
+          //   name: 'Trendy Sign In',
+          //   href: routes.auth.signIn3,
+          // },
+          // {
+          //   name: 'Elegant Sign In',
+          //   href: routes.auth.signIn4,
+          // },
+          // {
+          //   name: 'Classic Sign In',
+          //   href: routes.auth.signIn5,
+          // },
         ],
       },
       {
@@ -538,18 +554,18 @@ export const berylliumMenuItems: MenuItemsType[] = [
             name: 'Vintage Forgot Password',
             href: routes.auth.forgotPassword,
           },
-          {
-            name: 'Trendy Forgot Password',
-            href: routes.auth.forgotPassword3,
-          },
-          {
-            name: 'Elegant Forgot Password',
-            href: routes.auth.forgotPassword4,
-          },
-          {
-            name: 'Classic Forgot Password',
-            href: routes.auth.forgotPassword5,
-          },
+          // {
+          //   name: 'Trendy Forgot Password',
+          //   href: routes.auth.forgotPassword3,
+          // },
+          // {
+          //   name: 'Elegant Forgot Password',
+          //   href: routes.auth.forgotPassword4,
+          // },
+          // {
+          //   name: 'Classic Forgot Password',
+          //   href: routes.auth.forgotPassword5,
+          // },
         ],
       },
       {
@@ -574,10 +590,10 @@ export const berylliumMenuItems: MenuItemsType[] = [
             name: 'Elegant OTP Page',
             href: routes.auth.otp4,
           },
-          {
-            name: 'Classic OTP Page',
-            href: routes.auth.otp5,
-          },
+          // {
+          //   name: 'Classic OTP Page',
+          //   href: routes.auth.otp5,
+          // },
         ],
       },
     ],
