@@ -16,7 +16,6 @@ import {
   PiChartLineUp,
   PiChartPieSlice,
   PiChatCenteredDots,
-  PiClipboardText,
   PiCodesandboxLogo,
   PiCreditCard,
   PiCurrencyCircleDollar,
@@ -60,6 +59,7 @@ import {
   PiUserGear,
   PiUserMinus,
   PiUserPlus,
+  PiClipboardText
 } from 'react-icons/pi';
 
 export interface SubMenuItemType {
@@ -250,6 +250,18 @@ export const berylliumMenuItems: MenuItemsType[] = [
           {
             name: 'Manage Form',
             href: routes.form.manage,
+          },
+        ],
+      },
+      {
+        name: 'Projects',
+        description:
+          '"View and manage Projects"',
+        icon: PiClipboardText,
+        subMenuItems: [
+          {
+            name: 'View Projects',
+            href: routes.projects.view,
           },
         ],
       },

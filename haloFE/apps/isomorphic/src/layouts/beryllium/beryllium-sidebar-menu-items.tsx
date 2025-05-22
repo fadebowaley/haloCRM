@@ -276,6 +276,17 @@ export const berylliumSidebarMenuItems = [
       },
     ],
   },
+    {
+    name: 'Projects',
+    href: '#',
+    icon: <PiClipboardText />,
+    dropdownItems: [
+      {
+        name: 'View Projects',
+        href: routes.projects.view,
+      },
+    ],
+  },
   {
     name: 'Event Calendar',
     href: routes.eventCalendar,
