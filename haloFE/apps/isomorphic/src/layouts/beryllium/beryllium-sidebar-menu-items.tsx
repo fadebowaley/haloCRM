@@ -276,6 +276,17 @@ export const berylliumSidebarMenuItems = [
       },
     ],
   },
+    {
+    name: 'Projects',
+    href: '#',
+    icon: <PiClipboardText />,
+    dropdownItems: [
+      {
+        name: 'View Projects',
+        href: routes.projects.view,
+      },
+    ],
+  },
   {
     name: 'Event Calendar',
     href: routes.eventCalendar,
@@ -608,18 +619,18 @@ export const berylliumSidebarMenuItems = [
         name: 'Vintage Sign up',
         href: routes.auth.signUp2,
       },
-      {
-        name: 'Trendy Sign up',
-        href: routes.auth.signUp3,
-      },
-      {
-        name: 'Elegant Sign up',
-        href: routes.auth.signUp4,
-      },
-      {
-        name: 'Classic Sign up',
-        href: routes.auth.signUp5,
-      },
+      // {
+      //   name: 'Trendy Sign up',
+      //   href: routes.auth.signUp3,
+      // },
+      // {
+      //   name: 'Elegant Sign up',
+      //   href: routes.auth.signUp4,
+      // },
+      // {
+      //   name: 'Classic Sign up',
+      //   href: routes.auth.signUp5,
+      // },
     ],
   },
   {
@@ -635,18 +646,18 @@ export const berylliumSidebarMenuItems = [
         name: 'Vintage Sign in',
         href: routes.auth.signIn2,
       },
-      {
-        name: 'Trendy Sign in',
-        href: routes.auth.signIn3,
-      },
-      {
-        name: 'Elegant Sign in',
-        href: routes.auth.signIn4,
-      },
-      {
-        name: 'Classic Sign in',
-        href: routes.auth.signIn5,
-      },
+      // {
+      //   name: 'Trendy Sign in',
+      //   href: routes.auth.signIn3,
+      // },
+      // {
+      //   name: 'Elegant Sign in',
+      //   href: routes.auth.signIn4,
+      // },
+      // {
+      //   name: 'Classic Sign in',
+      //   href: routes.auth.signIn5,
+      // },
     ],
   },
   {
@@ -662,18 +673,18 @@ export const berylliumSidebarMenuItems = [
         name: 'Vintage Forgot password',
         href: routes.auth.forgotPassword,
       },
-      {
-        name: 'Trendy Forgot password',
-        href: routes.auth.forgotPassword3,
-      },
-      {
-        name: 'Elegant Forgot password',
-        href: routes.auth.forgotPassword4,
-      },
-      {
-        name: 'Classic Forgot password',
-        href: routes.auth.forgotPassword5,
-      },
+      // {
+      //   name: 'Trendy Forgot password',
+      //   href: routes.auth.forgotPassword3,
+      // },
+      // {
+      //   name: 'Elegant Forgot password',
+      //   href: routes.auth.forgotPassword4,
+      // },
+      // {
+      //   name: 'Classic Forgot password',
+      //   href: routes.auth.forgotPassword5,
+      // },
     ],
   },
   {
@@ -697,10 +708,10 @@ export const berylliumSidebarMenuItems = [
         name: 'Elegant OTP page',
         href: routes.auth.otp4,
       },
-      {
-        name: 'Classic OTP page',
-        href: routes.auth.otp5,
-      },
+      // {
+      //   name: 'Classic OTP page',
+      //   href: routes.auth.otp5,
+      // },
     ],
   },
 ];

@@ -111,6 +111,15 @@ export const routes = {
     create: '/node/create',
     manage: '/node/manage',
   },
+
+  form: {
+    create: '/form-builder/create',
+    manage: '/form-builder/manage',
+  },
+
+  projects: {
+    view: '/projects/view',
+  },
   
   invoice: {
     home: '/invoice',
